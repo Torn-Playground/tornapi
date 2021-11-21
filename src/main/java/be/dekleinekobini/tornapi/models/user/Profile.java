@@ -1,6 +1,5 @@
 package be.dekleinekobini.tornapi.models.user;
 
-import be.dekleinekobini.tornapi.models.Model;
 import be.dekleinekobini.tornapi.models.converters.DayDurationConverter;
 import be.dekleinekobini.tornapi.models.converters.EpochLocalDateTimeConverter;
 import be.dekleinekobini.tornapi.models.converters.SignupLocalDateTimeConverter;
@@ -11,12 +10,11 @@ import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import java.time.Duration;
 import java.time.LocalDateTime;
 import java.util.Map;
+import java.util.Objects;
 
-public class Profile extends Model {
+public class Profile extends Basic {
 
     private String rank;
-    private int level;
-    private Gender gender;
     private String property;
     @JsonDeserialize(converter = SignupLocalDateTimeConverter.class)
     private LocalDateTime signup;
@@ -29,13 +27,9 @@ public class Profile extends Model {
     private int age;
     private String role;
     private boolean donator;
-    @JsonProperty("player_id")
-    private long playerId;
-    private String name;
     @JsonProperty("property_id")
     private long propertyId;
     private Life life;
-    private Status status;
     private Job job;
     private Faction faction;
     @JsonProperty("married")
@@ -50,29 +44,12 @@ public class Profile extends Model {
         return OBJECT_MAPPER.convertValue(json, Profile.class);
     }
 
-
     public String getRank() {
         return rank;
     }
 
     public void setRank(String rank) {
         this.rank = rank;
-    }
-
-    public int getLevel() {
-        return level;
-    }
-
-    public void setLevel(int level) {
-        this.level = level;
-    }
-
-    public Gender getGender() {
-        return gender;
-    }
-
-    public void setGender(Gender gender) {
-        this.gender = gender;
     }
 
     public String getProperty() {
@@ -155,22 +132,6 @@ public class Profile extends Model {
         this.donator = donator;
     }
 
-    public long getPlayerId() {
-        return playerId;
-    }
-
-    public void setPlayerId(long playerId) {
-        this.playerId = playerId;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
     public long getPropertyId() {
         return propertyId;
     }
@@ -185,14 +146,6 @@ public class Profile extends Model {
 
     public void setLife(Life life) {
         this.life = life;
-    }
-
-    public Status getStatus() {
-        return status;
-    }
-
-    public void setStatus(Status status) {
-        this.status = status;
     }
 
     public Job getJob() {
@@ -241,10 +194,6 @@ public class Profile extends Model {
 
     public void setLastAction(LastAction lastAction) {
         this.lastAction = lastAction;
-    }
-
-    enum Gender {
-        Male, Female;
     }
 
     static class Life {
@@ -303,60 +252,18 @@ public class Profile extends Model {
         public void setFulltime(Duration fulltime) {
             this.fulltime = fulltime;
         }
-    }
 
-    static class Status {
-
-        private String description;
-        private String details;
-        private State state;
-        private String color;
-        @JsonDeserialize(converter = EpochLocalDateTimeConverter.class)
-        private LocalDateTime until;
-
-        public String getDescription() {
-            return description;
+        @Override
+        public boolean equals(Object o) {
+            if (this == o) return true;
+            if (o == null || getClass() != o.getClass()) return false;
+            Life life = (Life) o;
+            return current == life.current && maximum == life.maximum && increment == life.increment && Objects.equals(interval, life.interval) && Objects.equals(ticktime, life.ticktime) && Objects.equals(fulltime, life.fulltime);
         }
 
-        public void setDescription(String description) {
-            this.description = description;
-        }
-
-        public String getDetails() {
-            return details;
-        }
-
-        public void setDetails(String details) {
-            this.details = details;
-        }
-
-        public State getState() {
-            return state;
-        }
-
-        public void setState(State state) {
-            this.state = state;
-        }
-
-        public String getColor() {
-            return color;
-        }
-
-        public void setColor(String color) {
-            this.color = color;
-        }
-
-        public LocalDateTime getUntil() {
-            return until;
-        }
-
-        public void setUntil(LocalDateTime until) {
-            this.until = until;
-        }
-
-        enum State {
-            // FIXME - Implement more states.
-            Okay
+        @Override
+        public int hashCode() {
+            return Objects.hash(current, maximum, increment, interval, ticktime, fulltime);
         }
     }
 
@@ -400,6 +307,19 @@ public class Profile extends Model {
 
         public void setCompanyType(long companyType) {
             this.companyType = companyType;
+        }
+
+        @Override
+        public boolean equals(Object o) {
+            if (this == o) return true;
+            if (o == null || getClass() != o.getClass()) return false;
+            Job job = (Job) o;
+            return companyId == job.companyId && companyType == job.companyType && Objects.equals(position, job.position) && Objects.equals(companyName, job.companyName);
+        }
+
+        @Override
+        public int hashCode() {
+            return Objects.hash(position, companyId, companyName, companyType);
         }
     }
 
@@ -455,6 +375,19 @@ public class Profile extends Model {
         public void setFactionTag(String factionTag) {
             this.factionTag = factionTag;
         }
+
+        @Override
+        public boolean equals(Object o) {
+            if (this == o) return true;
+            if (o == null || getClass() != o.getClass()) return false;
+            Faction faction = (Faction) o;
+            return factionId == faction.factionId && Objects.equals(position, faction.position) && Objects.equals(daysInFaction, faction.daysInFaction) && Objects.equals(factionName, faction.factionName) && Objects.equals(factionTag, faction.factionTag);
+        }
+
+        @Override
+        public int hashCode() {
+            return Objects.hash(position, factionId, daysInFaction, factionName, factionTag);
+        }
     }
 
     static class Marriage {
@@ -489,6 +422,19 @@ public class Profile extends Model {
         public void setDuration(Duration duration) {
             this.duration = duration;
         }
+
+        @Override
+        public boolean equals(Object o) {
+            if (this == o) return true;
+            if (o == null || getClass() != o.getClass()) return false;
+            Marriage marriage = (Marriage) o;
+            return spouseId == marriage.spouseId && Objects.equals(spouseName, marriage.spouseName) && Objects.equals(duration, marriage.duration);
+        }
+
+        @Override
+        public int hashCode() {
+            return Objects.hash(spouseId, spouseName, duration);
+        }
     }
 
     static class States {
@@ -512,6 +458,19 @@ public class Profile extends Model {
 
         public void setJailTimestamp(long jailTimestamp) {
             this.jailTimestamp = jailTimestamp;
+        }
+
+        @Override
+        public boolean equals(Object o) {
+            if (this == o) return true;
+            if (o == null || getClass() != o.getClass()) return false;
+            States states = (States) o;
+            return hospitalTimestamp == states.hospitalTimestamp && jailTimestamp == states.jailTimestamp;
+        }
+
+        @Override
+        public int hashCode() {
+            return Objects.hash(hospitalTimestamp, jailTimestamp);
         }
     }
 
@@ -547,10 +506,36 @@ public class Profile extends Model {
         }
 
         enum Status {
-            // FIXME - Implement more statuses.
-            Idle
+
+            Online, Idle, Offline
+
         }
 
+        @Override
+        public boolean equals(Object o) {
+            if (this == o) return true;
+            if (o == null || getClass() != o.getClass()) return false;
+            LastAction that = (LastAction) o;
+            return status == that.status && Objects.equals(timestamp, that.timestamp) && Objects.equals(relative, that.relative);
+        }
+
+        @Override
+        public int hashCode() {
+            return Objects.hash(status, timestamp, relative);
+        }
     }
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        if (!super.equals(o)) return false;
+        Profile profile = (Profile) o;
+        return awards == profile.awards && friends == profile.friends && enemies == profile.enemies && forumPosts == profile.forumPosts && karma == profile.karma && age == profile.age && donator == profile.donator && propertyId == profile.propertyId && Objects.equals(rank, profile.rank) && Objects.equals(property, profile.property) && Objects.equals(signup, profile.signup) && Objects.equals(role, profile.role) && Objects.equals(life, profile.life) && Objects.equals(job, profile.job) && Objects.equals(faction, profile.faction) && Objects.equals(marriage, profile.marriage) && Objects.equals(basicIcons, profile.basicIcons) && Objects.equals(states, profile.states) && Objects.equals(lastAction, profile.lastAction);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(super.hashCode(), rank, property, signup, awards, friends, enemies, forumPosts, karma, age, role, donator, propertyId, life, job, faction, marriage, basicIcons, states, lastAction);
+    }
 }
