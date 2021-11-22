@@ -2,13 +2,9 @@
 
 - attacks
 - attacksfull
-- bazaar
-- cooldowns
-- crimes
 - display
 - events
 - hof
-- honors
 - icons
 - inventory
 - jobpoints
