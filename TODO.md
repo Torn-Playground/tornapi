@@ -4,16 +4,12 @@
 - attacksfull
 - display
 - events
-- hof
 - icons
 - inventory
-- jobpoints
 - log
 - medals
 - merits
 - messages
-- money
-- networth
 - newevents
 - newmessages
 - notifications
@@ -25,9 +21,7 @@
 - reports
 - revives
 - revivesfull
-- skills
 - stocks
-- weaponexp
 
 ## Properties
 
