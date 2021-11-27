@@ -37,9 +37,9 @@ class JobPointsTest {
 
         assertThat(result.getCompanies())
                 .hasSize(8)
-                .containsEntry("1", hairSalon)
-                .containsEntry("10", adultNovelties)
-                .containsEntry("16", televisionNetwork);
+                .containsEntry(1L, hairSalon)
+                .containsEntry(10L, adultNovelties)
+                .containsEntry(16L, televisionNetwork);
     }
 
 }
