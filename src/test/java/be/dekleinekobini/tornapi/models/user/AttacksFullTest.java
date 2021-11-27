@@ -30,7 +30,7 @@ class AttacksFullTest {
         attack1.setAttackerFaction(20747);
         attack1.setDefenderId(2084369);
         attack1.setDefenderFaction(17001);
-        attack1.setResult(Attacks.AttackResult.Attacked);
+        attack1.setResult(Attacks.AttackResult.ATTACKED);
         attack1.setStealthed(false);
         attack1.setRespect(3.39);
 

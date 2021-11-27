@@ -26,14 +26,14 @@ class BasicTest {
         SoftAssertions softly = new SoftAssertions();
 
         softly.assertThat(basic.getLevel()).isEqualTo(94);
-        softly.assertThat(basic.getGender()).isEqualTo(Gender.Male);
+        softly.assertThat(basic.getGender()).isEqualTo(Gender.MALE);
         softly.assertThat(basic.getPlayerId()).isEqualTo(2114440);
         softly.assertThat(basic.getName()).isEqualTo("DeKleineKobini");
 
         softly.assertThat(basic.getStatus()).isNotNull();
         softly.assertThat(basic.getStatus().getDescription()).isEqualTo("Okay");
         softly.assertThat(basic.getStatus().getDetails()).isEqualTo("");
-        softly.assertThat(basic.getStatus().getState()).isEqualTo(Status.State.Okay);
+        softly.assertThat(basic.getStatus().getState()).isEqualTo(Status.State.OKAY);
         softly.assertThat(basic.getStatus().getColor()).isEqualTo("green");
         softly.assertThat(basic.getStatus().getUntil()).isEqualTo(Instant.ofEpochSecond(0).atOffset(ZoneOffset.UTC).toLocalDateTime());
 

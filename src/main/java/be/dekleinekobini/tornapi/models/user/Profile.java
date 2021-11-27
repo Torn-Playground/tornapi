@@ -3,6 +3,7 @@ package be.dekleinekobini.tornapi.models.user;
 import be.dekleinekobini.tornapi.models.converters.DayDurationConverter;
 import be.dekleinekobini.tornapi.models.converters.EpochLocalDateTimeConverter;
 import be.dekleinekobini.tornapi.models.converters.SignupLocalDateTimeConverter;
+import be.dekleinekobini.tornapi.models.user.partial.LastActionStatus;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
@@ -476,16 +477,16 @@ public class Profile extends Basic {
 
     static class LastAction {
 
-        private Status status;
+        private LastActionStatus status;
         @JsonDeserialize(converter = EpochLocalDateTimeConverter.class)
         private LocalDateTime timestamp;
         private String relative;
 
-        public Status getStatus() {
+        public LastActionStatus getStatus() {
             return status;
         }
 
-        public void setStatus(Status status) {
+        public void setStatus(LastActionStatus status) {
             this.status = status;
         }
 
@@ -505,12 +506,6 @@ public class Profile extends Basic {
             this.relative = relative;
         }
 
-        enum Status {
-
-            Online, Idle, Offline
-
-        }
-
         @Override
         public boolean equals(Object o) {
             if (this == o) return true;
@@ -523,6 +518,7 @@ public class Profile extends Basic {
         public int hashCode() {
             return Objects.hash(status, timestamp, relative);
         }
+        
     }
 
     @Override

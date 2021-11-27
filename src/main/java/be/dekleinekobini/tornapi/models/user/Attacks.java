@@ -219,7 +219,7 @@ public class Attacks extends Model {
 
     public enum AttackResult {
 
-        Attacked, Hospitalized, Mugged, Lost, Special, Arrested, Assist, Stalemate
+        ATTACKED, HOSPITALIZED, MUGGED, LOST, SPECIAL, ARRESTED, ASSIST, STALEMATE
         // TODO - Verify 'Arrested'.
 
     }

@@ -23,7 +23,7 @@ class TravelTest {
         SoftAssertions softly = new SoftAssertions();
 
         softly.assertThat(travel.getDestination()).isEqualTo("Switzerland");
-        softly.assertThat(travel.getMethod()).isEqualTo(Travel.TravelMethod.Airstrip);
+        softly.assertThat(travel.getMethod()).isEqualTo(Travel.TravelMethod.AIRSTRIP);
         softly.assertThat(travel.getTimestamp()).isEqualTo(LocalDateTime.of(2021, 11, 20, 22, 51, 32));
         softly.assertThat(travel.getDeparted()).isEqualTo(LocalDateTime.of(2021, 11, 20, 20, 51, 32));
         softly.assertThat(travel.getTimeLeft()).hasMinutes(119);

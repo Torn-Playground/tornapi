@@ -56,7 +56,7 @@ public class Status {
     }
 
     public enum State {
-        Okay, Jail, Hospital, Traveling, Federal
+        OKAY, JAIL, HOSPITAL, TRAVELING, FEDERAL
     }
 
     @Override

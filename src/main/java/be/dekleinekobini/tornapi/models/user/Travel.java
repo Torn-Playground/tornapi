@@ -66,9 +66,9 @@ public class Travel extends Model {
     }
 
     enum TravelMethod {
-        Standard, Airstrip,
-        Private, // TODO - Verify, should be name of WLT
-        Business // TODO - Verify, should be name of business
+        STANDARD, AIRSTRIP,
+        PRIVATE, // TODO - Verify, should be name of WLT
+        BUSINESS // TODO - Verify, should be name of business
     }
 
     @Override

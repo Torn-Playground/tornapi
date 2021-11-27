@@ -1,6 +1,7 @@
 package be.dekleinekobini.tornapi.models.user;
 
 import be.dekleinekobini.tornapi.models.user.partial.Gender;
+import be.dekleinekobini.tornapi.models.user.partial.LastActionStatus;
 import be.dekleinekobini.tornapi.models.user.partial.Status;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonNode;
@@ -31,7 +32,7 @@ class ProfileTest {
 
         softly.assertThat(profile.getRank()).isEqualTo("Heroic Trader");
         softly.assertThat(profile.getLevel()).isEqualTo(94);
-        softly.assertThat(profile.getGender()).isEqualTo(Gender.Male);
+        softly.assertThat(profile.getGender()).isEqualTo(Gender.MALE);
         softly.assertThat(profile.getProperty()).isEqualTo("Private Island");
         softly.assertThat(profile.getSignup()).isEqualTo(LocalDateTime.of(2018, 4, 18, 16, 26, 12));
         softly.assertThat(profile.getAwards()).isEqualTo(442);
@@ -57,7 +58,7 @@ class ProfileTest {
         softly.assertThat(profile.getStatus()).isNotNull();
         softly.assertThat(profile.getStatus().getDescription()).isEqualTo("Okay");
         softly.assertThat(profile.getStatus().getDetails()).isEqualTo("");
-        softly.assertThat(profile.getStatus().getState()).isEqualTo(Status.State.Okay);
+        softly.assertThat(profile.getStatus().getState()).isEqualTo(Status.State.OKAY);
         softly.assertThat(profile.getStatus().getColor()).isEqualTo("green");
         softly.assertThat(profile.getStatus().getUntil()).isEqualTo(Instant.ofEpochSecond(0).atOffset(ZoneOffset.UTC).toLocalDateTime());
 
@@ -96,7 +97,7 @@ class ProfileTest {
         softly.assertThat(profile.getStates().getJailTimestamp()).isEqualTo(0);
 
         softly.assertThat(profile.getLastAction()).isNotNull();
-        softly.assertThat(profile.getLastAction().getStatus()).isEqualTo(Profile.LastAction.Status.Idle);
+        softly.assertThat(profile.getLastAction().getStatus()).isEqualTo(LastActionStatus.IDLE);
         softly.assertThat(profile.getLastAction().getTimestamp()).isEqualTo(LocalDateTime.of(2021, 11, 19, 22, 49, 40));
         softly.assertThat(profile.getLastAction().getRelative()).isEqualTo("1 hour ago");
 
@@ -117,7 +118,7 @@ class ProfileTest {
 
         softly.assertThat(profile.getRank()).isEqualTo("Heroic Trader");
         softly.assertThat(profile.getLevel()).isEqualTo(94);
-        softly.assertThat(profile.getGender()).isEqualTo(Gender.Male);
+        softly.assertThat(profile.getGender()).isEqualTo(Gender.MALE);
         softly.assertThat(profile.getProperty()).isEqualTo("Private Island");
         softly.assertThat(profile.getSignup()).isEqualTo(LocalDateTime.of(2018, 4, 18, 16, 26, 12));
         softly.assertThat(profile.getAwards()).isEqualTo(442);
@@ -143,7 +144,7 @@ class ProfileTest {
         softly.assertThat(profile.getStatus()).isNotNull();
         softly.assertThat(profile.getStatus().getDescription()).isEqualTo("In jail for 2 hrs 5 mins ");
         softly.assertThat(profile.getStatus().getDetails()).isEqualTo("Was caught trying to break out <a class='t-blue' href = http://www.torn.com/profiles.php?XID=1043531>Warrior</a>.");
-        softly.assertThat(profile.getStatus().getState()).isEqualTo(Status.State.Jail);
+        softly.assertThat(profile.getStatus().getState()).isEqualTo(Status.State.JAIL);
         softly.assertThat(profile.getStatus().getColor()).isEqualTo("red");
         softly.assertThat(profile.getStatus().getUntil()).isEqualTo(LocalDateTime.of(2021, 11, 20, 22, 18, 15));
 
@@ -182,7 +183,7 @@ class ProfileTest {
         softly.assertThat(profile.getStates().getJailTimestamp()).isEqualTo(0);
 
         softly.assertThat(profile.getLastAction()).isNotNull();
-        softly.assertThat(profile.getLastAction().getStatus()).isEqualTo(Profile.LastAction.Status.Idle);
+        softly.assertThat(profile.getLastAction().getStatus()).isEqualTo(LastActionStatus.IDLE);
         softly.assertThat(profile.getLastAction().getTimestamp()).isEqualTo(LocalDateTime.of(2021, 11, 19, 22, 49, 40));
         softly.assertThat(profile.getLastAction().getRelative()).isEqualTo("1 hour ago");
 

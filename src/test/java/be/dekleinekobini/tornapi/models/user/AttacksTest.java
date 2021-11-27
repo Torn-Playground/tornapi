@@ -42,7 +42,7 @@ class AttacksTest {
         attack1.setDefenderName("DeKleineKobini");
         attack1.setDefenderFaction(33007);
         attack1.setDefenderFactionName("HAKA");
-        attack1.setResult(Attacks.AttackResult.Hospitalized);
+        attack1.setResult(Attacks.AttackResult.HOSPITALIZED);
         attack1.setStealthed(false);
         attack1.setRespect(0);
         attack1.setChain(34);
@@ -71,7 +71,7 @@ class AttacksTest {
         attack2.setDefenderName("B1ade");
         attack2.setDefenderFaction(0);
         attack2.setDefenderFactionName("");
-        attack2.setResult(Attacks.AttackResult.Attacked);
+        attack2.setResult(Attacks.AttackResult.ATTACKED);
         attack2.setStealthed(false);
         attack2.setRespect(3.81);
         attack2.setChain(9);
