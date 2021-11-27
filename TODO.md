@@ -1,11 +1,5 @@
 ## User
 
-- attacks
-- attacksfull
-- display
-- events
-- icons
-- inventory
 - log
 - medals
 - merits
@@ -17,11 +11,9 @@
 - personalstats
 - properties
 - receivedevents
-- refills
 - reports
 - revives
 - revivesfull
-- stocks
 
 ## Properties
 
