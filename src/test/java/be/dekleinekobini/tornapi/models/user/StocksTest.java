@@ -10,7 +10,6 @@ import java.util.HashMap;
 import java.util.Map;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.junit.jupiter.api.Assertions.fail;
 
 class StocksTest {
 
@@ -33,13 +32,13 @@ class StocksTest {
         Stocks.Transaction tsbTransaction = new Stocks.Transaction();
         tsbTransaction.setShares(3000000);
         tsbTransaction.setBoughtPrice(885.61f);
-        tsbTransaction.setTimeBought(LocalDateTime.of(2021,10,2,13,28,41));
+        tsbTransaction.setTimeBought(LocalDateTime.of(2021, 10, 2, 13, 28, 41));
 
         Stocks tsb = new Stocks();
         tsb.setStockId(1);
         tsb.setTotalShares(3000000);
         tsb.setDividend(tsbDividend);
-        tsb.setTransactions(new HashMap<>(){{
+        tsb.setTransactions(new HashMap<>() {{
             put(1680534L, tsbTransaction);
         }});
 
@@ -52,13 +51,13 @@ class StocksTest {
         Stocks.Transaction tmiTransaction = new Stocks.Transaction();
         tmiTransaction.setShares(6000000);
         tmiTransaction.setBoughtPrice(150.36f);
-        tmiTransaction.setTimeBought(LocalDateTime.of(2021,5,7,12,28,49));
+        tmiTransaction.setTimeBought(LocalDateTime.of(2021, 5, 7, 12, 28, 49));
 
         Stocks tmi = new Stocks();
         tmi.setStockId(12);
         tmi.setTotalShares(6000000);
         tmi.setDividend(tmiDividend);
-        tmi.setTransactions(new HashMap<>(){{
+        tmi.setTransactions(new HashMap<>() {{
             put(682860L, tmiTransaction);
         }});
 

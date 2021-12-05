@@ -3,9 +3,8 @@ package be.dekleinekobini.tornapi.models.user;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import org.assertj.core.api.SoftAssertions;
 import org.junit.jupiter.api.Test;
-
-import static org.assertj.core.api.Assertions.assertThat;
 
 class RefillsTest {
 
@@ -19,10 +18,14 @@ class RefillsTest {
         Refills result = Refills.of(json);
 
         // Assert
-        assertThat(result.isEnergyRefillUsed()).isEqualTo(true);
-        assertThat(result.isNerveRefillUsed()).isEqualTo(false);
-        assertThat(result.isTokenRefillUsed()).isEqualTo(false);
-        assertThat(result.getSpecialRefillsAvailable()).isEqualTo(0);
+        SoftAssertions softly = new SoftAssertions();
+
+        softly.assertThat(result.isEnergyRefillUsed()).isEqualTo(true);
+        softly.assertThat(result.isNerveRefillUsed()).isEqualTo(false);
+        softly.assertThat(result.isTokenRefillUsed()).isEqualTo(false);
+        softly.assertThat(result.getSpecialRefillsAvailable()).isEqualTo(0);
+
+        softly.assertAll();
     }
 
 }
