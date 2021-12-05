@@ -1,4 +1,4 @@
-package be.dekleinekobini.tornapi.models.user;
+package be.dekleinekobini.tornapi.models;
 
 import be.dekleinekobini.tornapi.models.Timestamp;
 import com.fasterxml.jackson.core.JsonProcessingException;
