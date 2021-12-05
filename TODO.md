@@ -7,13 +7,6 @@
 - newevents
 - newmessages
 - notifications
-- perks
-- personalstats
-- properties
-- receivedevents
-- reports
-- revives
-- revivesfull
 
 ## Properties
 
@@ -21,49 +14,53 @@
 
 ## Faction
 
-- applications
-- armor
-- armorynews
-- attacknews
-- attacks
-- attacksfull
+(X) = requires API Access
+
+- (X) applications
+- (X) armor
+- (X) armorynews
+- (X) attacknews
+- (X) attacks
+- (X) attacksfull
 - basic
-- boosters
-- cesium
+- (X) boosters
+- (X) cesium
 - chain
-- chainreport
-- chains
-- contributors
-- crimenews
-- crimes
-- currency
-- donations
-- drugs
-- fundsnews
-- mainnews
-- medical
-- membershipnews
-- positions
-- reports
-- revives
-- revivesfull
-- stats
-- temporary
+- (X) chainreport
+- (X) chains
+- (X) contributors
+- (X) crimenews
+- (X) crimes
+- (X) currency
+- (X) donations
+- (X) drugs
+- (X) fundsnews
+- (X) mainnews
+- (X) medical
+- (X) membershipnews
+- (X) positions
+- (X) reports
+- (X) revives
+- (X) revivesfull
+- (X) stats
+- (X) temporary
 - territory
-- territorynews
-- upgrades
-- weapons
+- (X) territorynews
+- (X) upgrades
+- (X) weapons
 
 ## Company
 
-- applications
+(X) = requires being a director
+
+- (X) applications
 - companies
-- detailed
+- (X) detailed
 - employees
-- news
-- newsfull
+- (X) news
+- (X) newsfull
 - profile
-- stock
+- (X) stock
 
 ## Item Market
 
