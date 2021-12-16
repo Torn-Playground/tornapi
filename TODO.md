@@ -1,6 +1,5 @@
 ## User
 
-- log
 - medals
 - merits
 - messages
