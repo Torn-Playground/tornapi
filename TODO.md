@@ -61,12 +61,6 @@
 - profile
 - (X) stock
 
-## Item Market
-
-- bazaar
-- itemmarket
-- pointsmarket
-
 ## Torn
 
 - bank
