@@ -2,7 +2,6 @@ package be.dekleinekobini.tornapi.models.user;
 
 import be.dekleinekobini.tornapi.models.Model;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.fasterxml.jackson.databind.JsonNode;
 
 import java.time.Duration;
 import java.util.List;
@@ -17,9 +16,6 @@ public class Education extends Model {
     @JsonProperty("education_completed")
     private List<Long> completed;
 
-    public static Education of(JsonNode json) {
-        return OBJECT_MAPPER.convertValue(json, Education.class);
-    }
 
     public long getCurrent() {
         return current;

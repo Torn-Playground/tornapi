@@ -4,12 +4,9 @@ import be.dekleinekobini.tornapi.models.Model;
 import be.dekleinekobini.tornapi.models.converters.EpochLocalDateTimeConverter;
 import be.dekleinekobini.tornapi.models.user.partial.LastActionStatus;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.fasterxml.jackson.core.type.TypeReference;
-import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 
 import java.time.LocalDateTime;
-import java.util.Map;
 import java.util.Objects;
 
 public class Revives extends Model {
@@ -40,11 +37,6 @@ public class Revives extends Model {
     private boolean targetEarlyDischarge;
     @JsonProperty("target_last_action")
     private LastAction targetLastAction;
-
-    public static Map<Long, Revives> of(JsonNode json) {
-        return OBJECT_MAPPER.convertValue(json.get("revives"), new TypeReference<>() {
-        });
-    }
 
     public LocalDateTime getTimestamp() {
         return timestamp;

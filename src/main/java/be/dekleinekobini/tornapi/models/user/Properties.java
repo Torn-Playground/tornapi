@@ -2,10 +2,7 @@ package be.dekleinekobini.tornapi.models.user;
 
 import be.dekleinekobini.tornapi.models.Model;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.fasterxml.jackson.core.type.TypeReference;
-import com.fasterxml.jackson.databind.JsonNode;
 
-import java.util.Map;
 import java.util.Objects;
 
 public class Properties extends Model {
@@ -25,11 +22,6 @@ public class Properties extends Model {
     private long marketPrice;
     private Modifications modifications;
     private Staff staff;
-
-    public static Map<Long, Properties> of(JsonNode json) {
-        return OBJECT_MAPPER.convertValue(json.get("properties"), new TypeReference<>() {
-        });
-    }
 
     public long getOwnerId() {
         return ownerId;

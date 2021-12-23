@@ -3,8 +3,6 @@ package be.dekleinekobini.tornapi.models.user;
 import be.dekleinekobini.tornapi.models.Model;
 import be.dekleinekobini.tornapi.models.converters.EpochLocalDateTimeConverter;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.fasterxml.jackson.core.type.TypeReference;
-import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 
 import java.time.LocalDateTime;
@@ -20,11 +18,6 @@ public class Stocks extends Model {
     private Dividend dividend;
     private Benefit benefit;
     private Map<Long, Transaction> transactions;
-
-    public static Map<Long, Stocks> of(JsonNode json) {
-        return OBJECT_MAPPER.convertValue(json.get("stocks"), new TypeReference<>() {
-        });
-    }
 
     public long getStockId() {
         return stockId;

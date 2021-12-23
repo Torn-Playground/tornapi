@@ -2,7 +2,6 @@ package be.dekleinekobini.tornapi.models.user;
 
 import be.dekleinekobini.tornapi.models.Model;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.fasterxml.jackson.databind.JsonNode;
 
 import java.util.Map;
 import java.util.Objects;
@@ -11,10 +10,6 @@ public class JobPoints extends Model {
 
     private Map<String, Long> jobs;
     private Map<Long, CompanyPoints> companies;
-
-    public static JobPoints of(JsonNode json) {
-        return OBJECT_MAPPER.convertValue(json.get("jobpoints"), JobPoints.class);
-    }
 
     public Map<String, Long> getJobs() {
         return jobs;

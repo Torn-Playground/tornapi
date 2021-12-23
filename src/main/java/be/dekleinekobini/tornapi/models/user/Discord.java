@@ -2,7 +2,6 @@ package be.dekleinekobini.tornapi.models.user;
 
 import be.dekleinekobini.tornapi.models.Model;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.fasterxml.jackson.databind.JsonNode;
 
 import java.util.Objects;
 
@@ -12,10 +11,6 @@ public class Discord extends Model {
     private long userId;
     @JsonProperty("discordID")
     private String discordId;
-
-    public static Discord of(JsonNode json) {
-        return OBJECT_MAPPER.convertValue(json.get("discord"), Discord.class);
-    }
 
     public long getUserId() {
         return userId;

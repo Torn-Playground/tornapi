@@ -2,10 +2,7 @@ package be.dekleinekobini.tornapi.models.user;
 
 import be.dekleinekobini.tornapi.models.Model;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.fasterxml.jackson.core.type.TypeReference;
-import com.fasterxml.jackson.databind.JsonNode;
 
-import java.util.List;
 import java.util.Objects;
 
 public class WeaponExp extends Model {
@@ -14,11 +11,6 @@ public class WeaponExp extends Model {
     private long itemId;
     private String name;
     private byte exp;
-
-    public static List<WeaponExp> of(JsonNode json) {
-        return OBJECT_MAPPER.convertValue(json.get("weaponexp"), new TypeReference<>() {
-        });
-    }
 
     public long getItemId() {
         return itemId;

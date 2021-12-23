@@ -3,7 +3,6 @@ package be.dekleinekobini.tornapi.models.user;
 import be.dekleinekobini.tornapi.models.Model;
 import be.dekleinekobini.tornapi.models.converters.EpochLocalDateTimeConverter;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 
 import java.time.Duration;
@@ -20,10 +19,6 @@ public class Travel extends Model {
     private LocalDateTime departed;
     @JsonProperty("time_left")
     private Duration timeLeft;
-
-    public static Travel of(JsonNode json) {
-        return OBJECT_MAPPER.convertValue(json.get("travel"), Travel.class);
-    }
 
     public String getDestination() {
         return destination;
@@ -65,7 +60,7 @@ public class Travel extends Model {
         this.timeLeft = timeLeft;
     }
 
-    enum TravelMethod {
+    public enum TravelMethod {
         STANDARD, AIRSTRIP,
         PRIVATE, // TODO - Verify, should be name of WLT
         BUSINESS // TODO - Verify, should be name of business

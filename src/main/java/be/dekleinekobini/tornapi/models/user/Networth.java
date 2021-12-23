@@ -2,8 +2,6 @@ package be.dekleinekobini.tornapi.models.user;
 
 import be.dekleinekobini.tornapi.models.Model;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.fasterxml.jackson.databind.JsonNode;
-import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 
 import java.util.Objects;
 
@@ -38,10 +36,6 @@ public class Networth extends Model {
     private long total;
     @JsonProperty("parsetime")
     private double parseTime;
-
-    public static Networth of(JsonNode json) {
-        return OBJECT_MAPPER.convertValue(json.get("networth"), Networth.class);
-    }
 
     public long getPending() {
         return pending;

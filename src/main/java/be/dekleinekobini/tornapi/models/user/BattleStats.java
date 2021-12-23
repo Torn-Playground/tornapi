@@ -2,7 +2,6 @@ package be.dekleinekobini.tornapi.models.user;
 
 import be.dekleinekobini.tornapi.models.Model;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.fasterxml.jackson.databind.JsonNode;
 
 import java.util.List;
 import java.util.Objects;
@@ -31,9 +30,6 @@ public class BattleStats extends Model {
     @JsonProperty("dexterity_info")
     private List<String> dexterityInfo;
 
-    public static BattleStats of(JsonNode json) {
-        return OBJECT_MAPPER.convertValue(json, BattleStats.class);
-    }
 
     public long getStrength() {
         return strength;

@@ -2,7 +2,6 @@ package be.dekleinekobini.tornapi.models.user;
 
 import be.dekleinekobini.tornapi.models.Model;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.fasterxml.jackson.databind.JsonNode;
 
 import java.time.Duration;
 import java.util.Objects;
@@ -22,10 +21,6 @@ public class Money extends Model {
     private long moneyOnHand;
     @JsonProperty("city_bank")
     private Bank cityBank;
-
-    public static Money of(JsonNode json) {
-        return OBJECT_MAPPER.convertValue(json, Money.class);
-    }
 
     public long getPoints() {
         return points;

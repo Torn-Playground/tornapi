@@ -2,7 +2,6 @@ package be.dekleinekobini.tornapi.models.user;
 
 import be.dekleinekobini.tornapi.models.Model;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.fasterxml.jackson.databind.JsonNode;
 
 import java.util.Objects;
 
@@ -16,10 +15,6 @@ public class Refills extends Model {
     private boolean tokenRefillUsed;
     @JsonProperty("special_refills_available")
     private int specialRefillsAvailable;
-
-    public static Refills of(JsonNode json) {
-        return OBJECT_MAPPER.convertValue(json.get("refills"), Refills.class);
-    }
 
     public boolean isEnergyRefillUsed() {
         return energyRefillUsed;

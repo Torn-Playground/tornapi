@@ -2,10 +2,7 @@ package be.dekleinekobini.tornapi.models.user;
 
 import be.dekleinekobini.tornapi.models.Model;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.fasterxml.jackson.core.type.TypeReference;
-import com.fasterxml.jackson.databind.JsonNode;
 
-import java.util.List;
 import java.util.Objects;
 
 public class Inventory extends Model {
@@ -18,11 +15,6 @@ public class Inventory extends Model {
     private long equipped;
     @JsonProperty("market_price")
     private long marketPrice;
-
-    public static List<Inventory> of(JsonNode json) {
-        return OBJECT_MAPPER.convertValue(json.get("inventory"), new TypeReference<>() {
-        });
-    }
 
     public long getId() {
         return id;

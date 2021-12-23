@@ -1,12 +1,7 @@
 package be.dekleinekobini.tornapi.models.user;
 
 import be.dekleinekobini.tornapi.models.Model;
-import com.fasterxml.jackson.annotation.JsonProperty;
-import com.fasterxml.jackson.core.type.TypeReference;
-import com.fasterxml.jackson.databind.JsonNode;
 
-import java.util.HashMap;
-import java.util.Map;
 import java.util.Objects;
 
 public class HOF extends Model {
@@ -26,11 +21,6 @@ public class HOF extends Model {
 
     private long value;
     private long rank;
-
-    public static Map<String, HOF> of(JsonNode json) {
-        return OBJECT_MAPPER.convertValue(json.get("halloffame"), new TypeReference<>() {
-        });
-    }
 
     public long getValue() {
         return value;

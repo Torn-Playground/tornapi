@@ -2,7 +2,6 @@ package be.dekleinekobini.tornapi.models.user;
 
 import be.dekleinekobini.tornapi.models.Model;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.fasterxml.jackson.databind.JsonNode;
 
 import java.util.List;
 import java.util.Objects;
@@ -27,10 +26,6 @@ public class Perks extends Model {
     private List<String> factionPerks;
     @JsonProperty("book_perks")
     private List<String> bookPerks;
-
-    public static Perks of(JsonNode json) {
-        return OBJECT_MAPPER.convertValue(json, Perks.class);
-    }
 
     public List<String> getJobPerks() {
         return jobPerks;
@@ -116,5 +111,5 @@ public class Perks extends Model {
     public int hashCode() {
         return Objects.hash(jobPerks, propertyPerks, stockPerks, meritPerks, educationPerks, enhancerPerks, companyPerks, factionPerks, bookPerks);
     }
-    
+
 }

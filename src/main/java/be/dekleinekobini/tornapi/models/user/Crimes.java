@@ -2,9 +2,7 @@ package be.dekleinekobini.tornapi.models.user;
 
 import be.dekleinekobini.tornapi.models.Model;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.fasterxml.jackson.databind.JsonNode;
 
-import java.time.Duration;
 import java.util.Objects;
 
 public class Crimes extends Model {
@@ -23,10 +21,6 @@ public class Crimes extends Model {
     private int fraudCrimes;
     private int other;
     private int total;
-
-    public static Crimes of(JsonNode json) {
-        return OBJECT_MAPPER.convertValue(json.get("criminalrecord"), Crimes.class);
-    }
 
     public int getSellingIllegalProducts() {
         return sellingIllegalProducts;

@@ -3,8 +3,6 @@ package be.dekleinekobini.tornapi.models.user;
 import be.dekleinekobini.tornapi.models.Model;
 import be.dekleinekobini.tornapi.models.converters.EpochLocalDateTimeConverter;
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.core.type.TypeReference;
-import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 
 import java.time.LocalDateTime;
@@ -21,11 +19,6 @@ public class Log extends Model {
     private Map<String, Object> data;
     @JsonIgnore // FIXME - Implement after Torn solves the type.
     private Map<String, String> params;
-
-    public static Map<String, Log> of(JsonNode json) {
-        return OBJECT_MAPPER.convertValue(json.get("log"), new TypeReference<>() {
-        });
-    }
 
     public long getLog() {
         return log;

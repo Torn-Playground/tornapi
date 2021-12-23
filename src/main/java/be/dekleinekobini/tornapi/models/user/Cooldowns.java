@@ -1,7 +1,6 @@
 package be.dekleinekobini.tornapi.models.user;
 
 import be.dekleinekobini.tornapi.models.Model;
-import com.fasterxml.jackson.databind.JsonNode;
 
 import java.time.Duration;
 import java.util.Objects;
@@ -11,10 +10,6 @@ public class Cooldowns extends Model {
     private Duration drug;
     private Duration medical;
     private Duration booster;
-
-    public static Cooldowns of(JsonNode json) {
-        return OBJECT_MAPPER.convertValue(json.get("cooldowns"), Cooldowns.class);
-    }
 
     public Duration getDrug() {
         return drug;
@@ -52,5 +47,5 @@ public class Cooldowns extends Model {
     public int hashCode() {
         return Objects.hash(drug, medical, booster);
     }
-    
+
 }

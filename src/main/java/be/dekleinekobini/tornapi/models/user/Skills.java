@@ -2,7 +2,6 @@ package be.dekleinekobini.tornapi.models.user;
 
 import be.dekleinekobini.tornapi.models.Model;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.fasterxml.jackson.databind.JsonNode;
 
 import java.util.Objects;
 
@@ -13,10 +12,6 @@ public class Skills extends Model {
     private double racing;
     @JsonProperty("player_id")
     private long playerId;
-
-    public static Skills of(JsonNode json) {
-        return OBJECT_MAPPER.convertValue(json, Skills.class);
-    }
 
     public double getReviving() {
         return reviving;

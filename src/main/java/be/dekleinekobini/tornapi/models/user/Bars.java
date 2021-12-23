@@ -3,7 +3,6 @@ package be.dekleinekobini.tornapi.models.user;
 import be.dekleinekobini.tornapi.models.Model;
 import be.dekleinekobini.tornapi.models.converters.EpochLocalDateTimeConverter;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 
 import java.time.Duration;
@@ -21,9 +20,6 @@ public class Bars extends Model {
     private Bar nerve;
     private ChainBar chain;
 
-    public static Bars of(JsonNode json) {
-        return OBJECT_MAPPER.convertValue(json, Bars.class);
-    }
 
     public LocalDateTime getServerTime() {
         return serverTime;

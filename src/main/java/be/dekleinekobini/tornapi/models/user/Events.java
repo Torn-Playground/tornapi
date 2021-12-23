@@ -2,12 +2,9 @@ package be.dekleinekobini.tornapi.models.user;
 
 import be.dekleinekobini.tornapi.models.Model;
 import be.dekleinekobini.tornapi.models.converters.EpochLocalDateTimeConverter;
-import com.fasterxml.jackson.core.type.TypeReference;
-import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 
 import java.time.LocalDateTime;
-import java.util.Map;
 import java.util.Objects;
 
 public class Events extends Model {
@@ -16,11 +13,6 @@ public class Events extends Model {
     private LocalDateTime timestamp;
     private String event;
     private boolean seen;
-
-    public static Map<Long, Events> of(JsonNode json) {
-        return OBJECT_MAPPER.convertValue(json.get("events"), new TypeReference<>() {
-        });
-    }
 
     public LocalDateTime getTimestamp() {
         return timestamp;

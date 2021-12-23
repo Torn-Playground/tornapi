@@ -2,7 +2,6 @@ package be.dekleinekobini.tornapi.models.user;
 
 import be.dekleinekobini.tornapi.models.Model;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.fasterxml.jackson.databind.JsonNode;
 
 import java.util.Objects;
 
@@ -10,10 +9,6 @@ public class Gym extends Model {
 
     @JsonProperty("active_gym")
     private long activeGym;
-
-    public static Gym of(JsonNode json) {
-        return OBJECT_MAPPER.convertValue(json, Gym.class);
-    }
 
     public long getActiveGym() {
         return activeGym;

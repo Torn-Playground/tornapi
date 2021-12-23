@@ -3,12 +3,9 @@ package be.dekleinekobini.tornapi.models.user;
 import be.dekleinekobini.tornapi.models.Model;
 import be.dekleinekobini.tornapi.models.converters.EpochLocalDateTimeConverter;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.fasterxml.jackson.core.type.TypeReference;
-import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 
 import java.time.LocalDateTime;
-import java.util.Map;
 import java.util.Objects;
 
 public class Attacks extends Model {
@@ -46,11 +43,6 @@ public class Attacks extends Model {
     @JsonProperty("respect_loss")
     private double respectLoss;
     private Modifiers modifiers;
-
-    public static Map<Long, Attacks> of(JsonNode json) {
-        return OBJECT_MAPPER.convertValue(json.get("attacks"), new TypeReference<>() {
-        });
-    }
 
     public String getCode() {
         return code;

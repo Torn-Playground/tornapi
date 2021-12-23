@@ -4,7 +4,6 @@ import be.dekleinekobini.tornapi.models.Model;
 import be.dekleinekobini.tornapi.models.user.partial.Gender;
 import be.dekleinekobini.tornapi.models.user.partial.Status;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.fasterxml.jackson.databind.JsonNode;
 
 import java.util.Objects;
 
@@ -17,9 +16,6 @@ public class Basic extends Model {
     private String name;
     private Status status;
 
-    public static Basic of(JsonNode json) {
-        return OBJECT_MAPPER.convertValue(json, Basic.class);
-    }
 
     public int getLevel() {
         return level;

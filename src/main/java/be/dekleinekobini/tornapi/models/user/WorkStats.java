@@ -2,7 +2,6 @@ package be.dekleinekobini.tornapi.models.user;
 
 import be.dekleinekobini.tornapi.models.Model;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.fasterxml.jackson.databind.JsonNode;
 
 import java.util.Objects;
 
@@ -12,10 +11,6 @@ public class WorkStats extends Model {
     private long manualLabor;
     private long intelligence;
     private long endurance;
-
-    public static WorkStats of(JsonNode json) {
-        return OBJECT_MAPPER.convertValue(json, WorkStats.class);
-    }
 
     public long getManualLabor() {
         return manualLabor;

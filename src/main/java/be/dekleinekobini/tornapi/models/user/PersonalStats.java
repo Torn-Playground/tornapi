@@ -3,7 +3,6 @@ package be.dekleinekobini.tornapi.models.user;
 import be.dekleinekobini.tornapi.models.Model;
 import be.dekleinekobini.tornapi.models.converters.DayDurationConverter;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 
 import java.time.Duration;
@@ -374,10 +373,6 @@ public class PersonalStats extends Model {
     private long itemsLooted;
     @JsonProperty("refills")
     private long energyRefills;
-
-    public static PersonalStats of(JsonNode json) {
-        return OBJECT_MAPPER.convertValue(json.get("personalstats"), PersonalStats.class);
-    }
 
     public long getBazaarCustomers() {
         return bazaarCustomers;

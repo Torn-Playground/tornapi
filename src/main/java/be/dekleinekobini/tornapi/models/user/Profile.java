@@ -5,7 +5,6 @@ import be.dekleinekobini.tornapi.models.converters.EpochLocalDateTimeConverter;
 import be.dekleinekobini.tornapi.models.converters.SignupLocalDateTimeConverter;
 import be.dekleinekobini.tornapi.models.user.partial.LastActionStatus;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 
 import java.time.Duration;
@@ -40,10 +39,6 @@ public class Profile extends Basic {
     private States states;
     @JsonProperty("last_action")
     private LastAction lastAction;
-
-    public static Profile of(JsonNode json) {
-        return OBJECT_MAPPER.convertValue(json, Profile.class);
-    }
 
     public String getRank() {
         return rank;
@@ -197,7 +192,7 @@ public class Profile extends Basic {
         this.lastAction = lastAction;
     }
 
-    static class Life {
+    public static class Life {
 
         private int current;
         private int maximum;
@@ -268,7 +263,7 @@ public class Profile extends Basic {
         }
     }
 
-    static class Job {
+    public static class Job {
 
         private String position;
         @JsonProperty("company_id")
@@ -324,7 +319,7 @@ public class Profile extends Basic {
         }
     }
 
-    static class Faction {
+    public static class Faction {
 
         private String position;
         @JsonProperty("faction_id")
@@ -391,7 +386,7 @@ public class Profile extends Basic {
         }
     }
 
-    static class Marriage {
+    public static class Marriage {
 
         @JsonProperty("spouse_id")
         private long spouseId;
@@ -438,7 +433,7 @@ public class Profile extends Basic {
         }
     }
 
-    static class States {
+    public static class States {
 
         @JsonProperty("hospital_timestamp")
         private long hospitalTimestamp;
@@ -475,7 +470,7 @@ public class Profile extends Basic {
         }
     }
 
-    static class LastAction {
+    public static class LastAction {
 
         private LastActionStatus status;
         @JsonDeserialize(converter = EpochLocalDateTimeConverter.class)
@@ -518,7 +513,7 @@ public class Profile extends Basic {
         public int hashCode() {
             return Objects.hash(status, timestamp, relative);
         }
-        
+
     }
 
     @Override

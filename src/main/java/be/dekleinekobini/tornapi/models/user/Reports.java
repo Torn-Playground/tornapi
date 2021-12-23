@@ -3,12 +3,9 @@ package be.dekleinekobini.tornapi.models.user;
 import be.dekleinekobini.tornapi.models.Model;
 import be.dekleinekobini.tornapi.models.converters.EpochLocalDateTimeConverter;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.fasterxml.jackson.core.type.TypeReference;
-import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 
 import java.time.LocalDateTime;
-import java.util.List;
 import java.util.Objects;
 
 public class Reports extends Model {
@@ -21,11 +18,6 @@ public class Reports extends Model {
     private Report report;
     @JsonDeserialize(converter = EpochLocalDateTimeConverter.class)
     private LocalDateTime timestamp;
-
-    public static List<Reports> of(JsonNode json) {
-        return OBJECT_MAPPER.convertValue(json.get("reports"), new TypeReference<>() {
-        });
-    }
 
     public String getId() {
         return id;
