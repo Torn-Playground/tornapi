@@ -8,7 +8,6 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.assertj.core.api.SoftAssertions;
-import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 
 import java.time.Duration;
@@ -20,6 +19,7 @@ import java.util.List;
 import java.util.Map;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Fail.fail;
 import static org.assertj.core.data.MapEntry.entry;
 
 class UserMapperTest {
@@ -655,19 +655,19 @@ class UserMapperTest {
                 .containsEntry("m8z5BUColXf0ltTrgZCh", log2);
     }
 
-    @Disabled("Not yet implemented")
     @Test
     void ofMedals() throws JsonProcessingException {
+        fail("Not yet implemented");
     }
 
-    @Disabled("Not yet implemented")
     @Test
     void ofMerits() throws JsonProcessingException {
+        fail("Not yet implemented");
     }
 
-    @Disabled("Not yet implemented")
     @Test
     void ofMessages() throws JsonProcessingException {
+        fail("Not yet implemented");
     }
 
     @Test
@@ -693,9 +693,9 @@ class UserMapperTest {
         softly.assertAll();
     }
 
-    @Disabled("Not yet implemented")
     @Test
     void ofMissions() throws JsonProcessingException {
+        fail("Not yet implemented");
     }
 
     @Test
@@ -734,19 +734,19 @@ class UserMapperTest {
         softly.assertAll();
     }
 
-    @Disabled("Not yet implemented")
     @Test
     void ofNewEvents() throws JsonProcessingException {
+        fail("Not yet implemented");
     }
 
-    @Disabled("Not yet implemented")
     @Test
     void ofNewMessages() throws JsonProcessingException {
+        fail("Not yet implemented");
     }
 
-    @Disabled("Not yet implemented")
     @Test
     void ofNotifications() throws JsonProcessingException {
+        fail("Not yet implemented");
     }
 
     @Test
