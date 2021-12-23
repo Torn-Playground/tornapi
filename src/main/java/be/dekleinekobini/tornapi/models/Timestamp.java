@@ -1,7 +1,6 @@
 package be.dekleinekobini.tornapi.models;
 
 import be.dekleinekobini.tornapi.models.converters.EpochLocalDateTimeConverter;
-import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 
 import java.time.LocalDateTime;
@@ -11,10 +10,6 @@ public class Timestamp extends Model {
 
     @JsonDeserialize(converter = EpochLocalDateTimeConverter.class)
     private LocalDateTime timestamp;
-
-    public static Timestamp of(JsonNode json) {
-        return OBJECT_MAPPER.convertValue(json, Timestamp.class);
-    }
 
     public LocalDateTime getTimestamp() {
         return timestamp;
