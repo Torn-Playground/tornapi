@@ -9,7 +9,7 @@ import java.time.LocalDateTime;
 import java.util.Map;
 import java.util.Objects;
 
-public class Stocks extends Model {
+public class Stock extends Model {
 
     @JsonProperty("stock_id")
     private long stockId;
@@ -63,7 +63,7 @@ public class Stocks extends Model {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        Stocks stocks = (Stocks) o;
+        Stock stocks = (Stock) o;
         return stockId == stocks.stockId && totalShares == stocks.totalShares && Objects.equals(dividend, stocks.dividend) && Objects.equals(benefit, stocks.benefit) && transactions.equals(stocks.transactions);
     }
 

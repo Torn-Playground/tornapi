@@ -5,7 +5,7 @@ import be.dekleinekobini.tornapi.models.Model;
 import java.time.LocalDateTime;
 import java.util.Objects;
 
-public class Honors extends Model {
+public class Honor extends Model {
 
     private long id;
     private LocalDateTime awarded;
@@ -30,8 +30,8 @@ public class Honors extends Model {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        Honors honors = (Honors) o;
-        return id == honors.id && Objects.equals(awarded, honors.awarded);
+        Honor honor = (Honor) o;
+        return id == honor.id && Objects.equals(awarded, honor.awarded);
     }
 
     @Override

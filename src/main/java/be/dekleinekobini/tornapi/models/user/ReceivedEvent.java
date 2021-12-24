@@ -7,12 +7,20 @@ import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import java.time.LocalDateTime;
 import java.util.Objects;
 
-public class Events extends Model {
+public class ReceivedEvent extends Model {
 
+    private long owner;
     @JsonDeserialize(converter = EpochLocalDateTimeConverter.class)
     private LocalDateTime timestamp;
     private String event;
-    private boolean seen;
+
+    public long getOwner() {
+        return owner;
+    }
+
+    public void setOwner(long owner) {
+        this.owner = owner;
+    }
 
     public LocalDateTime getTimestamp() {
         return timestamp;
@@ -30,25 +38,17 @@ public class Events extends Model {
         this.event = event;
     }
 
-    public boolean isSeen() {
-        return seen;
-    }
-
-    public void setSeen(boolean seen) {
-        this.seen = seen;
-    }
-
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        Events events = (Events) o;
-        return seen == events.seen && timestamp.equals(events.timestamp) && event.equals(events.event);
+        ReceivedEvent that = (ReceivedEvent) o;
+        return owner == that.owner && timestamp.equals(that.timestamp) && event.equals(that.event);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(timestamp, event, seen);
+        return Objects.hash(owner, timestamp, event);
     }
 
 }

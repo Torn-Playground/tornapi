@@ -5,7 +5,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 
 import java.util.Objects;
 
-public class Properties extends Model {
+public class Property extends Model {
 
     @JsonProperty("owner_id")
     private long ownerId;
@@ -115,7 +115,7 @@ public class Properties extends Model {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        Properties that = (Properties) o;
+        Property that = (Property) o;
         return ownerId == that.ownerId && propertyType == that.propertyType && happy == that.happy && upkeep == that.upkeep && staffCost == that.staffCost && cost == that.cost && marketPrice == that.marketPrice && property.equals(that.property) && status.equals(that.status) && modifications.equals(that.modifications) && staff.equals(that.staff);
     }
 

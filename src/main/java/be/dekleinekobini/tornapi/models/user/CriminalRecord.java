@@ -5,7 +5,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 
 import java.util.Objects;
 
-public class Crimes extends Model {
+public class CriminalRecord extends Model {
 
     @JsonProperty("selling_illegal_products")
     private int sellingIllegalProducts;
@@ -98,8 +98,8 @@ public class Crimes extends Model {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        Crimes crimes = (Crimes) o;
-        return sellingIllegalProducts == crimes.sellingIllegalProducts && theft == crimes.theft && autoTheft == crimes.autoTheft && drugDeals == crimes.drugDeals && computerCrimes == crimes.computerCrimes && murder == crimes.murder && fraudCrimes == crimes.fraudCrimes && other == crimes.other && total == crimes.total;
+        CriminalRecord criminalRecord = (CriminalRecord) o;
+        return sellingIllegalProducts == criminalRecord.sellingIllegalProducts && theft == criminalRecord.theft && autoTheft == criminalRecord.autoTheft && drugDeals == criminalRecord.drugDeals && computerCrimes == criminalRecord.computerCrimes && murder == criminalRecord.murder && fraudCrimes == criminalRecord.fraudCrimes && other == criminalRecord.other && total == criminalRecord.total;
     }
 
     @Override

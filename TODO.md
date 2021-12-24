@@ -2,10 +2,8 @@
 
 - medals
 - merits
-- messages
 - newevents
 - newmessages
-- notifications
 
 ## Properties
 

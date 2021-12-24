@@ -39,7 +39,7 @@ public class UserMapper extends ModelMapper {
         return OBJECT_MAPPER.convertValue(json, BattleStats.class);
     }
 
-    public static List<Bazaar> ofBazaar(JsonNode json) {
+    public static List<BazaarItem> ofBazaar(JsonNode json) {
         return OBJECT_MAPPER.convertValue(json.get("bazaar"), new TypeReference<>() {
         });
     }
@@ -48,15 +48,15 @@ public class UserMapper extends ModelMapper {
         return OBJECT_MAPPER.convertValue(json.get("cooldowns"), Cooldowns.class);
     }
 
-    public static Crimes ofCrimes(JsonNode json) {
-        return OBJECT_MAPPER.convertValue(json.get("criminalrecord"), Crimes.class);
+    public static CriminalRecord ofCrimes(JsonNode json) {
+        return OBJECT_MAPPER.convertValue(json.get("criminalrecord"), CriminalRecord.class);
     }
 
     public static Discord ofDiscord(JsonNode json) {
         return OBJECT_MAPPER.convertValue(json.get("discord"), Discord.class);
     }
 
-    public static List<Display> ofDisplay(JsonNode json) {
+    public static List<DisplayItem> ofDisplay(JsonNode json) {
         return OBJECT_MAPPER.convertValue(json.get("display"), new TypeReference<>() {
         });
     }
@@ -65,7 +65,7 @@ public class UserMapper extends ModelMapper {
         return OBJECT_MAPPER.convertValue(json, Education.class);
     }
 
-    public static Map<Long, Events> ofEvents(JsonNode json) {
+    public static Map<Long, Event> ofEvents(JsonNode json) {
         return OBJECT_MAPPER.convertValue(json.get("events"), new TypeReference<>() {
         });
     }
@@ -74,7 +74,7 @@ public class UserMapper extends ModelMapper {
         return OBJECT_MAPPER.convertValue(json, Gym.class);
     }
 
-    public static List<Honors> ofHonors(JsonNode json) {
+    public static List<Honor> ofHonors(JsonNode json) {
         List<Long> awarded = OBJECT_MAPPER.convertValue(json.get("honors_awarded"), new TypeReference<>() {
         });
         List<LocalDateTime> times = OBJECT_MAPPER
@@ -87,9 +87,9 @@ public class UserMapper extends ModelMapper {
         if (awarded.size() != times.size())
             throw new IllegalStateException("Awarded honors and times should always be the same size!");
 
-        List<Honors> honors = new ArrayList<>();
+        List<Honor> honors = new ArrayList<>();
         for (int i = 0; i < awarded.size(); i++) {
-            Honors honor = new Honors();
+            Honor honor = new Honor();
             honor.setId(awarded.get(i));
             honor.setAwarded(times.get(i));
 
@@ -109,7 +109,7 @@ public class UserMapper extends ModelMapper {
         });
     }
 
-    public static List<Inventory> ofInventory(JsonNode json) {
+    public static List<InventoryItem> ofInventory(JsonNode json) {
         return OBJECT_MAPPER.convertValue(json.get("inventory"), new TypeReference<>() {
         });
     }
@@ -123,19 +123,7 @@ public class UserMapper extends ModelMapper {
         });
     }
 
-    public static Object ofMedals(JsonNode json) {
-        if (true) throw new UnsupportedOperationException("Not yet implemented");
-        return OBJECT_MAPPER.convertValue(json, new TypeReference<>() {
-        });
-    }
-
-    public static Object ofMerits(JsonNode json) {
-        if (true) throw new UnsupportedOperationException("Not yet implemented");
-        return OBJECT_MAPPER.convertValue(json, new TypeReference<>() {
-        });
-    }
-
-    public static Map<String, Messages> ofMessages(JsonNode json) {
+    public static Map<String, Message> ofMessages(JsonNode json) {
         return OBJECT_MAPPER.convertValue(json.get("messages"), new TypeReference<>() {
         });
     }
@@ -146,18 +134,6 @@ public class UserMapper extends ModelMapper {
 
     public static Money ofMoney(JsonNode json) {
         return OBJECT_MAPPER.convertValue(json, Money.class);
-    }
-
-    public static Object ofNewEvents(JsonNode json) {
-        if (true) throw new UnsupportedOperationException("Not yet implemented");
-        return OBJECT_MAPPER.convertValue(json, new TypeReference<>() {
-        });
-    }
-
-    public static Object ofNewMessages(JsonNode json) {
-        if (true) throw new UnsupportedOperationException("Not yet implemented");
-        return OBJECT_MAPPER.convertValue(json, new TypeReference<>() {
-        });
     }
 
     public static Notifications ofNotifications(JsonNode json) {
@@ -180,12 +156,12 @@ public class UserMapper extends ModelMapper {
         return OBJECT_MAPPER.convertValue(json, Profile.class);
     }
 
-    public static Map<Long, Properties> ofProperties(JsonNode json) {
+    public static Map<Long, Property> ofProperties(JsonNode json) {
         return OBJECT_MAPPER.convertValue(json.get("properties"), new TypeReference<>() {
         });
     }
 
-    public static Map<Long, ReceivedEvents> ofReceivedEvents(JsonNode json) {
+    public static Map<Long, ReceivedEvent> ofReceivedEvents(JsonNode json) {
         return OBJECT_MAPPER.convertValue(json.get("receivedevents"), new TypeReference<>() {
         });
     }
@@ -194,12 +170,12 @@ public class UserMapper extends ModelMapper {
         return OBJECT_MAPPER.convertValue(json.get("refills"), Refills.class);
     }
 
-    public static List<Reports> ofReports(JsonNode json) {
+    public static List<Report> ofReports(JsonNode json) {
         return OBJECT_MAPPER.convertValue(json.get("reports"), new TypeReference<>() {
         });
     }
 
-    public static Map<Long, Revives> ofRevives(JsonNode json) {
+    public static Map<Long, Revive> ofRevives(JsonNode json) {
         return OBJECT_MAPPER.convertValue(json.get("revives"), new TypeReference<>() {
         });
     }
@@ -208,7 +184,7 @@ public class UserMapper extends ModelMapper {
         return OBJECT_MAPPER.convertValue(json, Skills.class);
     }
 
-    public static Map<Long, Stocks> ofStocks(JsonNode json) {
+    public static Map<Long, Stock> ofStocks(JsonNode json) {
         return OBJECT_MAPPER.convertValue(json.get("stocks"), new TypeReference<>() {
         });
     }
@@ -217,7 +193,7 @@ public class UserMapper extends ModelMapper {
         return OBJECT_MAPPER.convertValue(json.get("travel"), Travel.class);
     }
 
-    public static List<WeaponExp> ofWeaponExp(JsonNode json) {
+    public static List<WeaponExperience> ofWeaponExp(JsonNode json) {
         return OBJECT_MAPPER.convertValue(json.get("weaponexp"), new TypeReference<>() {
         });
     }

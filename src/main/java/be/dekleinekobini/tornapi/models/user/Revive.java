@@ -9,7 +9,7 @@ import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import java.time.LocalDateTime;
 import java.util.Objects;
 
-public class Revives extends Model {
+public class Revive extends Model {
 
     @JsonDeserialize(converter = EpochLocalDateTimeConverter.class)
     private LocalDateTime timestamp;
@@ -154,7 +154,7 @@ public class Revives extends Model {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        Revives revives = (Revives) o;
+        Revive revives = (Revive) o;
         return Double.compare(revives.chance, chance) == 0 && reviverId == revives.reviverId && reviverFaction == revives.reviverFaction && targetId == revives.targetId && targetFaction == revives.targetFaction && targetEarlyDischarge == revives.targetEarlyDischarge && timestamp.equals(revives.timestamp) && result.equals(revives.result) && Objects.equals(reviverName, revives.reviverName) && Objects.equals(reviverFactionName, revives.reviverFactionName) && Objects.equals(targetName, revives.targetName) && Objects.equals(targetFactionName, revives.targetFactionName) && targetHospitalReason.equals(revives.targetHospitalReason) && targetLastAction.equals(revives.targetLastAction);
     }
 

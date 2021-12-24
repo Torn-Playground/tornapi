@@ -20,7 +20,6 @@ public class Bars extends Model {
     private Bar nerve;
     private ChainBar chain;
 
-
     public LocalDateTime getServerTime() {
         return serverTime;
     }

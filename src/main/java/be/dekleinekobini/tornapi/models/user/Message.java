@@ -8,7 +8,7 @@ import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import java.time.LocalDateTime;
 import java.util.Objects;
 
-public class Messages extends Model {
+public class Message extends Model {
 
     @JsonDeserialize(converter = EpochLocalDateTimeConverter.class)
     private LocalDateTime timestamp;
@@ -80,8 +80,8 @@ public class Messages extends Model {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        Messages messages = (Messages) o;
-        return id == messages.id && seen == messages.seen && read == messages.read && Objects.equals(timestamp, messages.timestamp) && Objects.equals(name, messages.name) && Objects.equals(type, messages.type) && Objects.equals(title, messages.title);
+        Message message = (Message) o;
+        return id == message.id && seen == message.seen && read == message.read && Objects.equals(timestamp, message.timestamp) && Objects.equals(name, message.name) && Objects.equals(type, message.type) && Objects.equals(title, message.title);
     }
 
     @Override

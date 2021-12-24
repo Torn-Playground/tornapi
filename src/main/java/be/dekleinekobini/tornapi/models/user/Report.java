@@ -8,14 +8,14 @@ import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import java.time.LocalDateTime;
 import java.util.Objects;
 
-public class Reports extends Model {
+public class Report extends Model {
 
     private String id;
     @JsonProperty("user_id")
     private long userId;
     private long target;
     private ReportType type;
-    private Report report;
+    private ReportDetails report;
     @JsonDeserialize(converter = EpochLocalDateTimeConverter.class)
     private LocalDateTime timestamp;
 
@@ -51,12 +51,12 @@ public class Reports extends Model {
         this.type = type;
     }
 
-    public Object getReport() {
+    public ReportDetails getReport() {
         return report;
     }
 
-    public void setReport(Report report) {
-        this.report = report;
+    public void setReport(ReportDetails reportDetails) {
+        this.report = reportDetails;
     }
 
     public LocalDateTime getTimestamp() {
@@ -71,8 +71,8 @@ public class Reports extends Model {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        Reports reports = (Reports) o;
-        return userId == reports.userId && target == reports.target && id.equals(reports.id) && type.equals(reports.type) && report.equals(reports.report) && timestamp.equals(reports.timestamp);
+        be.dekleinekobini.tornapi.models.user.Report report = (be.dekleinekobini.tornapi.models.user.Report) o;
+        return userId == report.userId && target == report.target && id.equals(report.id) && type.equals(report.type) && this.report.equals(report.report) && timestamp.equals(report.timestamp);
     }
 
     @Override
@@ -87,7 +87,7 @@ public class Reports extends Model {
 
     }
 
-    public static class Report {
+    public static class ReportDetails {
 
         private long strength;
         private long speed;
@@ -150,8 +150,8 @@ public class Reports extends Model {
         public boolean equals(Object o) {
             if (this == o) return true;
             if (o == null || getClass() != o.getClass()) return false;
-            Report report = (Report) o;
-            return strength == report.strength && speed == report.speed && dexterity == report.dexterity && defense == report.defense && totalBattleStats == report.totalBattleStats && money == report.money;
+            ReportDetails reportDetails = (ReportDetails) o;
+            return strength == reportDetails.strength && speed == reportDetails.speed && dexterity == reportDetails.dexterity && defense == reportDetails.defense && totalBattleStats == reportDetails.totalBattleStats && money == reportDetails.money;
         }
 
         @Override

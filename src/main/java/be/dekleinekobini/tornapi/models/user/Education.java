@@ -16,7 +16,6 @@ public class Education extends Model {
     @JsonProperty("education_completed")
     private List<Long> completed;
 
-
     public long getCurrent() {
         return current;
     }

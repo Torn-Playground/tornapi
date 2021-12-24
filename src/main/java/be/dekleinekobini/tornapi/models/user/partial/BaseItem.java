@@ -1,18 +1,17 @@
-package be.dekleinekobini.tornapi.models.user;
+package be.dekleinekobini.tornapi.models.user.partial;
 
 import be.dekleinekobini.tornapi.models.Model;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 import java.util.Objects;
 
-public class Display extends Model {
+public abstract class BaseItem extends Model {
 
     @JsonProperty("ID")
     private long id;
     private String name;
     private String type;
     private long quantity;
-    private long circulation;
     @JsonProperty("market_price")
     private long marketPrice;
 
@@ -48,14 +47,6 @@ public class Display extends Model {
         this.quantity = quantity;
     }
 
-    public long getCirculation() {
-        return circulation;
-    }
-
-    public void setCirculation(long circulation) {
-        this.circulation = circulation;
-    }
-
     public long getMarketPrice() {
         return marketPrice;
     }
@@ -68,13 +59,13 @@ public class Display extends Model {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        Display display = (Display) o;
-        return id == display.id && quantity == display.quantity && circulation == display.circulation && marketPrice == display.marketPrice && name.equals(display.name) && type.equals(display.type);
+        BaseItem baseItem = (BaseItem) o;
+        return id == baseItem.id && quantity == baseItem.quantity && marketPrice == baseItem.marketPrice && Objects.equals(name, baseItem.name) && Objects.equals(type, baseItem.type);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, name, type, quantity, circulation, marketPrice);
+        return Objects.hash(id, name, type, quantity, marketPrice);
     }
 
 }

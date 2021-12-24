@@ -30,7 +30,6 @@ public class BattleStats extends Model {
     @JsonProperty("dexterity_info")
     private List<String> dexterityInfo;
 
-
     public long getStrength() {
         return strength;
     }

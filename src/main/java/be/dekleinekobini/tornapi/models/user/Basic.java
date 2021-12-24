@@ -16,7 +16,6 @@ public class Basic extends Model {
     private String name;
     private Status status;
 
-
     public int getLevel() {
         return level;
     }
