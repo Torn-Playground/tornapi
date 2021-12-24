@@ -8,6 +8,7 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.assertj.core.api.SoftAssertions;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 
 import java.time.Duration;
@@ -19,7 +20,6 @@ import java.util.List;
 import java.util.Map;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.api.Fail.fail;
 import static org.assertj.core.data.MapEntry.entry;
 
 class UserMapperTest {
@@ -655,19 +655,47 @@ class UserMapperTest {
                 .containsEntry("m8z5BUColXf0ltTrgZCh", log2);
     }
 
+    @Disabled("Not yet implemented.")
     @Test
-    void ofMedals() throws JsonProcessingException {
-        fail("Not yet implemented");
+    void ofMedals() {
     }
 
+    @Disabled("Not yet implemented.")
     @Test
-    void ofMerits() throws JsonProcessingException {
-        fail("Not yet implemented");
+    void ofMerits() {
     }
 
     @Test
     void ofMessages() throws JsonProcessingException {
-        fail("Not yet implemented");
+        ObjectMapper objectMapper = new ObjectMapper();
+        JsonNode json = objectMapper.readTree("{\"messages\":{\"224840179\":{\"timestamp\":1636117557,\"ID\":445764,\"name\":\"Silver\",\"type\":\"Faction newsletter\",\"title\":\"Why we fight \",\"seen\":1,\"read\":1},\"224842336\":{\"timestamp\":1636121355,\"ID\":445764,\"name\":\"Silver\",\"type\":\"Faction newsletter\",\"title\":\"Safe crimes\",\"seen\":1,\"read\":1},\"224843163\":{\"timestamp\":1636123244,\"ID\":445764,\"name\":\"Silver\",\"type\":\"Faction newsletter\",\"title\":\"WAR INSTRUCTIONS \",\"seen\":1,\"read\":1},\"224849438\":{\"timestamp\":1636142059,\"ID\":445764,\"name\":\"Silver\",\"type\":\"Faction newsletter\",\"title\":\"Energy use \",\"seen\":1,\"read\":1},\"224856341\":{\"timestamp\":1636160724,\"ID\":445764,\"name\":\"Silver\",\"type\":\"Faction newsletter\",\"title\":\"Heading to sleep - current instructions. \",\"seen\":1,\"read\":1},\"224859252\":{\"timestamp\":1636168375,\"ID\":2167520,\"name\":\"Zortok\",\"type\":\"Faction newsletter\",\"title\":\"New Walls\",\"seen\":1,\"read\":1},\"224864624\":{\"timestamp\":1636191856,\"ID\":2167520,\"name\":\"Zortok\",\"type\":\"Faction newsletter\",\"title\":\"Platoon assignments\",\"seen\":1,\"read\":1},\"224865562\":{\"timestamp\":1636194687,\"ID\":445764,\"name\":\"Silver\",\"type\":\"Faction newsletter\",\"title\":\"Assistance to TUS\",\"seen\":1,\"read\":1},\"224873305\":{\"timestamp\":1636211251,\"ID\":445764,\"name\":\"Silver\",\"type\":\"Faction newsletter\",\"title\":\"WAR instructions \",\"seen\":1,\"read\":1},\"224877539\":{\"timestamp\":1636220344,\"ID\":130060,\"name\":\"Metzo\",\"type\":\"Faction newsletter\",\"title\":\"Fill the Assaulting walls\",\"seen\":1,\"read\":1},\"224881658\":{\"timestamp\":1636228837,\"ID\":2220399,\"name\":\"Wade\",\"type\":\"Faction newsletter\",\"title\":\"Platoons\",\"seen\":1,\"read\":1},\"224883689\":{\"timestamp\":1636232405,\"ID\":445764,\"name\":\"Silver\",\"type\":\"Faction newsletter\",\"title\":\"War instructions \",\"seen\":1,\"read\":1},\"224884514\":{\"timestamp\":1636235144,\"ID\":445764,\"name\":\"Silver\",\"type\":\"Faction newsletter\",\"title\":\"YOB WASTE OF TIME\",\"seen\":1,\"read\":1},\"224888039\":{\"timestamp\":1636244830,\"ID\":445764,\"name\":\"Silver\",\"type\":\"Faction newsletter\",\"title\":\"Wall priority \",\"seen\":1,\"read\":1},\"224893165\":{\"timestamp\":1636259879,\"ID\":2167520,\"name\":\"Zortok\",\"type\":\"Faction newsletter\",\"title\":\"Faction Race\",\"seen\":1,\"read\":1},\"224895777\":{\"timestamp\":1636275246,\"ID\":445764,\"name\":\"Silver\",\"type\":\"Faction newsletter\",\"title\":\"War instructions. \",\"seen\":1,\"read\":1},\"224900073\":{\"timestamp\":1636295064,\"ID\":445764,\"name\":\"Silver\",\"type\":\"Faction newsletter\",\"title\":\"War instructions \",\"seen\":1,\"read\":1},\"224912566\":{\"timestamp\":1636319656,\"ID\":2167520,\"name\":\"Zortok\",\"type\":\"Faction newsletter\",\"title\":\"Faction Race\",\"seen\":1,\"read\":1},\"224918360\":{\"timestamp\":1636335019,\"ID\":2592942,\"name\":\"luffare\",\"type\":\"User message\",\"title\":\"Quick question about the delay MS\",\"seen\":1,\"read\":1},\"224933931\":{\"timestamp\":1636392468,\"ID\":2592942,\"name\":\"luffare\",\"type\":\"User message\",\"title\":\"Re: Quick question about the delay MS\",\"seen\":1,\"read\":1},\"224934787\":{\"timestamp\":1636394679,\"ID\":445764,\"name\":\"Silver\",\"type\":\"Faction newsletter\",\"title\":\"Black statues under attack. \",\"seen\":1,\"read\":1},\"224934888\":{\"timestamp\":1636394846,\"ID\":445764,\"name\":\"Silver\",\"type\":\"Faction newsletter\",\"title\":\"ODB wall \",\"seen\":1,\"read\":1},\"224958866\":{\"timestamp\":1636479123,\"ID\":445764,\"name\":\"Silver\",\"type\":\"Faction newsletter\",\"title\":\"War instructions \",\"seen\":1,\"read\":1},\"224960053\":{\"timestamp\":1636482271,\"ID\":445764,\"name\":\"Silver\",\"type\":\"Faction newsletter\",\"title\":\"War instructions \",\"seen\":1,\"read\":1},\"224960594\":{\"timestamp\":1636483632,\"ID\":445764,\"name\":\"Silver\",\"type\":\"Faction newsletter\",\"title\":\"Hydra - raid \",\"seen\":1,\"read\":1},\"224963219\":{\"timestamp\":1636488208,\"ID\":445764,\"name\":\"Silver\",\"type\":\"Faction newsletter\",\"title\":\"Odb vs crime syndicate \",\"seen\":1,\"read\":1},\"224975662\":{\"timestamp\":1636520754,\"ID\":2167520,\"name\":\"Zortok\",\"type\":\"Faction newsletter\",\"title\":\"Walls\",\"seen\":1,\"read\":1},\"224984023\":{\"timestamp\":1636552914,\"ID\":2220399,\"name\":\"Wade\",\"type\":\"Faction newsletter\",\"title\":\"Don't hit ODB u buffoons \",\"seen\":1,\"read\":1},\"224990805\":{\"timestamp\":1636566798,\"ID\":445764,\"name\":\"Silver\",\"type\":\"Faction newsletter\",\"title\":\"STAY STACKED\",\"seen\":1,\"read\":1},\"224993822\":{\"timestamp\":1636573235,\"ID\":1826175,\"name\":\"Robbo88\",\"type\":\"Faction newsletter\",\"title\":\"War update\",\"seen\":1,\"read\":1},\"225001003\":{\"timestamp\":1636586492,\"ID\":445764,\"name\":\"Silver\",\"type\":\"Faction newsletter\",\"title\":\"Platoon order \",\"seen\":1,\"read\":1},\"225001482\":{\"timestamp\":1636587062,\"ID\":445764,\"name\":\"Silver\",\"type\":\"Faction newsletter\",\"title\":\"Thunderbirds  - hydra \",\"seen\":1,\"read\":1},\"225010223\":{\"timestamp\":1636616016,\"ID\":2220399,\"name\":\"Wade\",\"type\":\"Faction newsletter\",\"title\":\"IMPORTANT: Please Read\",\"seen\":1,\"read\":1},\"225010512\":{\"timestamp\":1636617553,\"ID\":445764,\"name\":\"Silver\",\"type\":\"Faction newsletter\",\"title\":\"KQB WALL\",\"seen\":1,\"read\":1},\"225013032\":{\"timestamp\":1636627465,\"ID\":445764,\"name\":\"Silver\",\"type\":\"Faction newsletter\",\"title\":\"ABUSEMENT PARK\",\"seen\":1,\"read\":1},\"225023417\":{\"timestamp\":1636657595,\"ID\":445764,\"name\":\"Silver\",\"type\":\"Faction newsletter\",\"title\":\"PRIORITY: Ria DEFENSE\",\"seen\":1,\"read\":1},\"225024242\":{\"timestamp\":1636659917,\"ID\":445764,\"name\":\"Silver\",\"type\":\"Faction newsletter\",\"title\":\"Push tine\",\"seen\":1,\"read\":1},\"225030675\":{\"timestamp\":1636678024,\"ID\":445764,\"name\":\"Silver\",\"type\":\"Faction newsletter\",\"title\":\"Small revive contract \",\"seen\":1,\"read\":1},\"225035495\":{\"timestamp\":1636691256,\"ID\":1589828,\"name\":\"DaQ\",\"type\":\"Faction newsletter\",\"title\":\"Turn off revives, hold your e, wait for instructions\",\"seen\":1,\"read\":1},\"225036536\":{\"timestamp\":1636694638,\"ID\":1589828,\"name\":\"DaQ\",\"type\":\"Faction newsletter\",\"title\":\"Stay in Hospital or fly - expect bounties\",\"seen\":1,\"read\":1},\"225038220\":{\"timestamp\":1636701904,\"ID\":445764,\"name\":\"Silver\",\"type\":\"Faction newsletter\",\"title\":\"Raid. \",\"seen\":1,\"read\":1},\"225039245\":{\"timestamp\":1636706365,\"ID\":445764,\"name\":\"Silver\",\"type\":\"Faction newsletter\",\"title\":\"Damage mitigation during raid. \",\"seen\":1,\"read\":1},\"225054218\":{\"timestamp\":1636750422,\"ID\":445764,\"name\":\"Silver\",\"type\":\"Faction newsletter\",\"title\":\"COORDINATED PUSH 21:30\",\"seen\":1,\"read\":1},\"225056044\":{\"timestamp\":1636754216,\"ID\":445764,\"name\":\"Silver\",\"type\":\"Faction newsletter\",\"title\":\"Push not happening\",\"seen\":1,\"read\":1},\"225060501\":{\"timestamp\":1636762915,\"ID\":445764,\"name\":\"Silver\",\"type\":\"Faction newsletter\",\"title\":\"Current situation update. Please read. \",\"seen\":1,\"read\":1},\"225104235\":{\"timestamp\":1636892504,\"ID\":1826175,\"name\":\"Robbo88\",\"type\":\"Faction newsletter\",\"title\":\"Warring update: Some push back\",\"seen\":1,\"read\":1},\"225108447\":{\"timestamp\":1636906365,\"ID\":1826175,\"name\":\"Robbo88\",\"type\":\"Faction newsletter\",\"title\":\"War Update: Stack again\",\"seen\":1,\"read\":1},\"225119392\":{\"timestamp\":1636935937,\"ID\":445764,\"name\":\"Silver\",\"type\":\"Faction newsletter\",\"title\":\"LETS f**kIN GO\",\"seen\":1,\"read\":1},\"225120376\":{\"timestamp\":1636937158,\"ID\":445764,\"name\":\"Silver\",\"type\":\"Faction newsletter\",\"title\":\"PRIORITY FOCUS:\",\"seen\":1,\"read\":1},\"225124646\":{\"timestamp\":1636951239,\"ID\":2167520,\"name\":\"Zortok\",\"type\":\"Faction newsletter\",\"title\":\"Wall priorities \",\"seen\":1,\"read\":1},\"225127425\":{\"timestamp\":1636960799,\"ID\":445764,\"name\":\"Silver\",\"type\":\"Faction newsletter\",\"title\":\"Bloodbath and beyond ALLIES \",\"seen\":1,\"read\":1},\"225132708\":{\"timestamp\":1636981124,\"ID\":445764,\"name\":\"Silver\",\"type\":\"Faction newsletter\",\"title\":\"EOB WALL \",\"seen\":1,\"read\":1},\"225133457\":{\"timestamp\":1636982749,\"ID\":2220399,\"name\":\"Wade\",\"type\":\"Faction newsletter\",\"title\":\"Get on MKF wall vs SA\",\"seen\":1,\"read\":1},\"225136491\":{\"timestamp\":1636991680,\"ID\":1826175,\"name\":\"Robbo88\",\"type\":\"Faction newsletter\",\"title\":\"Why are the walls empty?\",\"seen\":1,\"read\":1},\"225141085\":{\"timestamp\":1637003009,\"ID\":445764,\"name\":\"Silver\",\"type\":\"Faction newsletter\",\"title\":\"Wall priority. \",\"seen\":1,\"read\":1},\"225141671\":{\"timestamp\":1637004794,\"ID\":445764,\"name\":\"Silver\",\"type\":\"Faction newsletter\",\"title\":\"CHANGE YOUR HONOUR BAR. \",\"seen\":1,\"read\":1},\"225153134\":{\"timestamp\":1637046795,\"ID\":445764,\"name\":\"Silver\",\"type\":\"Faction newsletter\",\"title\":\"War update \",\"seen\":1,\"read\":1},\"225163654\":{\"timestamp\":1637088235,\"ID\":445764,\"name\":\"Silver\",\"type\":\"Faction newsletter\",\"title\":\"WALL STRATEGY\",\"seen\":1,\"read\":1},\"225175926\":{\"timestamp\":1637132024,\"ID\":445764,\"name\":\"Silver\",\"type\":\"Faction newsletter\",\"title\":\"Max the wall out \",\"seen\":1,\"read\":1},\"225176028\":{\"timestamp\":1637132114,\"ID\":2220399,\"name\":\"Wade\",\"type\":\"Faction newsletter\",\"title\":\"Chill with the shitposting\",\"seen\":1,\"read\":1},\"225193096\":{\"timestamp\":1637191367,\"ID\":445764,\"name\":\"Silver\",\"type\":\"Faction newsletter\",\"title\":\"War Tidy up...\",\"seen\":1,\"read\":1},\"225209849\":{\"timestamp\":1637265686,\"ID\":445764,\"name\":\"Silver\",\"type\":\"Faction newsletter\",\"title\":\"Yay training perks \",\"seen\":1,\"read\":1},\"225218744\":{\"timestamp\":1637314886,\"ID\":645079,\"name\":\"SAMEL\",\"type\":\"User message\",\"title\":\"Thx\",\"seen\":1,\"read\":1},\"225230363\":{\"timestamp\":1637350247,\"ID\":445764,\"name\":\"Silver\",\"type\":\"Faction newsletter\",\"title\":\"Ranked warring\",\"seen\":1,\"read\":1},\"225230999\":{\"timestamp\":1637351039,\"ID\":445764,\"name\":\"Silver\",\"type\":\"Faction newsletter\",\"title\":\"that strawpoll is broken ;(\",\"seen\":1,\"read\":1},\"225288319\":{\"timestamp\":1637533093,\"ID\":445764,\"name\":\"Silver\",\"type\":\"Faction newsletter\",\"title\":\"SA Chaining\",\"seen\":1,\"read\":1},\"225323061\":{\"timestamp\":1637678153,\"ID\":2233317,\"name\":\"VioletStorm\",\"type\":\"Faction newsletter\",\"title\":\"Dear mobile users!\",\"seen\":1,\"read\":1},\"225329686\":{\"timestamp\":1637700873,\"ID\":445764,\"name\":\"Silver\",\"type\":\"Faction newsletter\",\"title\":\"Couple more bits and boobs\",\"seen\":1,\"read\":1},\"225428454\":{\"timestamp\":1638104256,\"ID\":2361494,\"name\":\"RobberHood\",\"type\":\"Faction newsletter\",\"title\":\"How do I fight better?\",\"seen\":1,\"read\":1},\"225430673\":{\"timestamp\":1638114046,\"ID\":2604575,\"name\":\"JuanElTecolote\",\"type\":\"User message\",\"title\":\"Jailbreak \",\"seen\":1,\"read\":1},\"225468519\":{\"timestamp\":1638297151,\"ID\":2691961,\"name\":\"ImTheSteve\",\"type\":\"User message\",\"title\":\"None\",\"seen\":1,\"read\":1},\"225477085\":{\"timestamp\":1638327063,\"ID\":2167520,\"name\":\"Zortok\",\"type\":\"Faction newsletter\",\"title\":\"Steadfast changed \",\"seen\":1,\"read\":1},\"225519389\":{\"timestamp\":1638513841,\"ID\":1732919,\"name\":\"king_jamason\",\"type\":\"User message\",\"title\":\"Torn tools\",\"seen\":1,\"read\":1},\"225528980\":{\"timestamp\":1638558254,\"ID\":445764,\"name\":\"Silver\",\"type\":\"Faction newsletter\",\"title\":\"Position changes!\",\"seen\":1,\"read\":1},\"225611318\":{\"timestamp\":1638909209,\"ID\":2233317,\"name\":\"VioletStorm\",\"type\":\"Faction newsletter\",\"title\":\"Secret Santa Signup\",\"seen\":1,\"read\":1},\"225624513\":{\"timestamp\":1638955554,\"ID\":445764,\"name\":\"Silver\",\"type\":\"Faction newsletter\",\"title\":\"Re-poll\",\"seen\":1,\"read\":1},\"225658734\":{\"timestamp\":1639066789,\"ID\":445764,\"name\":\"Silver\",\"type\":\"Faction newsletter\",\"title\":\"Tenuous PA?\",\"seen\":1,\"read\":1},\"225666186\":{\"timestamp\":1639083977,\"ID\":445764,\"name\":\"Silver\",\"type\":\"Faction newsletter\",\"title\":\"Ranked war\",\"seen\":1,\"read\":1},\"225666595\":{\"timestamp\":1639084303,\"ID\":445764,\"name\":\"Silver\",\"type\":\"Faction newsletter\",\"title\":\"Recruiting\",\"seen\":1,\"read\":1},\"225666938\":{\"timestamp\":1639084767,\"ID\":445764,\"name\":\"Silver\",\"type\":\"Faction newsletter\",\"title\":\"Faction Goals for HAKA\",\"seen\":1,\"read\":1},\"225667135\":{\"timestamp\":1639084956,\"ID\":445764,\"name\":\"Silver\",\"type\":\"Faction newsletter\",\"title\":\"STAT GOALS 2022.\",\"seen\":1,\"read\":1},\"225667254\":{\"timestamp\":1639085104,\"ID\":445764,\"name\":\"Silver\",\"type\":\"Faction newsletter\",\"title\":\"Boobs!\",\"seen\":1,\"read\":1},\"225767076\":{\"timestamp\":1639395597,\"ID\":445764,\"name\":\"Silver\",\"type\":\"Faction newsletter\",\"title\":\"Announcing the 12 days of Christmas!\",\"seen\":1,\"read\":1},\"225788226\":{\"timestamp\":1639467837,\"ID\":445764,\"name\":\"Silver\",\"type\":\"Faction newsletter\",\"title\":\"The second day of Christmas \",\"seen\":1,\"read\":1},\"225808808\":{\"timestamp\":1639552977,\"ID\":445764,\"name\":\"Silver\",\"type\":\"Faction newsletter\",\"title\":\"Third day of Christmas \",\"seen\":1,\"read\":1},\"225812220\":{\"timestamp\":1639572345,\"ID\":2167520,\"name\":\"Zortok\",\"type\":\"Faction newsletter\",\"title\":\"Steadfast changed \",\"seen\":1,\"read\":1},\"225819289\":{\"timestamp\":1639594902,\"ID\":1875871,\"name\":\"Sub_Zer0\",\"type\":\"User message\",\"title\":\"trader spreadsheet \",\"seen\":1,\"read\":1},\"225819503\":{\"timestamp\":1639595375,\"ID\":1875871,\"name\":\"Sub_Zer0\",\"type\":\"User message\",\"title\":\"Re: trader spreadsheet \",\"seen\":1,\"read\":1},\"225820088\":{\"timestamp\":1639596821,\"ID\":1875871,\"name\":\"Sub_Zer0\",\"type\":\"User message\",\"title\":\"Re: trader spreadsheet \",\"seen\":1,\"read\":1},\"225830531\":{\"timestamp\":1639639746,\"ID\":445764,\"name\":\"Silver\",\"type\":\"Faction newsletter\",\"title\":\"On the fourth day of Christmas \",\"seen\":1,\"read\":1},\"225832692\":{\"timestamp\":1639650411,\"ID\":148747,\"name\":\"bogie\",\"type\":\"User message\",\"title\":\"Android App 1.5.0 internal testing\",\"seen\":1,\"read\":1},\"225840730\":{\"timestamp\":1639682514,\"ID\":2233317,\"name\":\"VioletStorm\",\"type\":\"Faction newsletter\",\"title\":\"Secret Santa Signup: LAST CALL\",\"seen\":1,\"read\":1},\"225849875\":{\"timestamp\":1639725735,\"ID\":445764,\"name\":\"Silver\",\"type\":\"Faction newsletter\",\"title\":\"The fifth day of Christmas \",\"seen\":1,\"read\":1},\"225874820\":{\"timestamp\":1639819735,\"ID\":445764,\"name\":\"Silver\",\"type\":\"Faction newsletter\",\"title\":\"Sixth day of Christmas \",\"seen\":1,\"read\":1},\"225894184\":{\"timestamp\":1639904901,\"ID\":1232819,\"name\":\"badger1965\",\"type\":\"User message\",\"title\":\"Jail\",\"seen\":1,\"read\":1},\"225895686\":{\"timestamp\":1639911559,\"ID\":445764,\"name\":\"Silver\",\"type\":\"Faction newsletter\",\"title\":\"On the Seventh Day of Christmas\",\"seen\":1,\"read\":1},\"225910999\":{\"timestamp\":1639985694,\"ID\":445764,\"name\":\"Silver\",\"type\":\"Faction newsletter\",\"title\":\"Eighth day of Christmas \",\"seen\":1,\"read\":1},\"225933541\":{\"timestamp\":1640097758,\"ID\":445764,\"name\":\"Silver\",\"type\":\"Faction newsletter\",\"title\":\"Ninth day of Christmas\",\"seen\":1,\"read\":1},\"225952432\":{\"timestamp\":1640197048,\"ID\":445764,\"name\":\"Silver\",\"type\":\"Faction newsletter\",\"title\":\"Tenth day of Christmas \",\"seen\":1,\"read\":1},\"225961764\":{\"timestamp\":1640250266,\"ID\":445764,\"name\":\"Silver\",\"type\":\"Faction newsletter\",\"title\":\"Eleventh day of Christmas\",\"seen\":1,\"read\":1}}}");
+
+        // Act
+        Map<String, Messages> result = UserMapper.ofMessages(json);
+
+        // Assert
+        Messages message1 = new Messages();
+        message1.setTimestamp(LocalDateTime.of(2021, 11, 5, 13, 5, 57));
+        message1.setId(445764);
+        message1.setName("Silver");
+        message1.setType("Faction newsletter");
+        message1.setTitle("Why we fight ");
+        message1.setSeen(true);
+        message1.setRead(true);
+
+        Messages message2 = new Messages();
+        message2.setTimestamp(LocalDateTime.of(2021, 12, 19, 9, 8, 21));
+        message2.setId(1232819);
+        message2.setName("badger1965");
+        message2.setType("User message");
+        message2.setTitle("Jail");
+        message2.setSeen(true);
+        message2.setRead(true);
+
+        assertThat(result)
+                .hasSize(100)
+                .containsEntry("224840179", message1)
+                .containsEntry("225894184", message2);
     }
 
     @Test
@@ -695,7 +723,28 @@ class UserMapperTest {
 
     @Test
     void ofMissions() throws JsonProcessingException {
-        fail("Not yet implemented");
+        ObjectMapper objectMapper = new ObjectMapper();
+        JsonNode json = objectMapper.readTree("{\"missions\":{\"Duke\":[{\"title\":\"Marriage Counseling\",\"status\":\"completed\"},{\"title\":\"Hammer Time\",\"status\":\"failed\"},{\"title\":\"Drug Problem\",\"status\":\"completed\"},{\"title\":\"A Problem at the Tracks\",\"status\":\"failed\"},{\"title\":\"Get Things Jumping\",\"status\":\"completed\"},{\"title\":\"Graffiti\",\"status\":\"completed\"},{\"title\":\"Family Ties\",\"status\":\"accepted\"},{\"title\":\"Bountiful\",\"status\":\"completed\"},{\"title\":\"Estranged\",\"status\":\"notAccepted\"}]}}");
+
+        // Act
+        var result = UserMapper.ofMissions(json);
+
+        // Assert
+        Missions.Mission dukeMission1 = new Missions.Mission();
+        dukeMission1.setTitle("Marriage Counseling");
+        dukeMission1.setStatus(Missions.Mission.Status.COMPLETED);
+
+        Missions.Mission dukeMission2 = new Missions.Mission();
+        dukeMission2.setTitle("Estranged");
+        dukeMission2.setStatus(Missions.Mission.Status.NOT_ACCEPTED);
+
+        SoftAssertions softly = new SoftAssertions();
+
+        softly.assertThat(result.getDuke())
+                .hasSize(9)
+                .contains(dukeMission1, dukeMission2);
+
+        softly.assertAll();
     }
 
     @Test
@@ -734,19 +783,34 @@ class UserMapperTest {
         softly.assertAll();
     }
 
+
+    @Disabled("Not yet implemented.")
     @Test
-    void ofNewEvents() throws JsonProcessingException {
-        fail("Not yet implemented");
+    void ofNewEvents() {
     }
 
+    @Disabled("Not yet implemented.")
     @Test
-    void ofNewMessages() throws JsonProcessingException {
-        fail("Not yet implemented");
+    void ofNewMessages() {
     }
 
     @Test
     void ofNotifications() throws JsonProcessingException {
-        fail("Not yet implemented");
+        ObjectMapper objectMapper = new ObjectMapper();
+        JsonNode json = objectMapper.readTree("{\"notifications\":{\"messages\":0,\"events\":2,\"awards\":0,\"competition\":0}}");
+
+        // Act
+        var result = UserMapper.ofNotifications(json);
+
+        // Assert
+        SoftAssertions softly = new SoftAssertions();
+
+        softly.assertThat(result.getMessages()).isEqualTo(0);
+        softly.assertThat(result.getEvents()).isEqualTo(2);
+        softly.assertThat(result.getAwards()).isEqualTo(0);
+        softly.assertThat(result.getCompetition()).isEqualTo(0);
+
+        softly.assertAll();
     }
 
     @Test

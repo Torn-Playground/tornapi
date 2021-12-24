@@ -123,8 +123,45 @@ public class UserMapper extends ModelMapper {
         });
     }
 
+    public static Object ofMedals(JsonNode json) {
+        if (true) throw new UnsupportedOperationException("Not yet implemented");
+        return OBJECT_MAPPER.convertValue(json, new TypeReference<>() {
+        });
+    }
+
+    public static Object ofMerits(JsonNode json) {
+        if (true) throw new UnsupportedOperationException("Not yet implemented");
+        return OBJECT_MAPPER.convertValue(json, new TypeReference<>() {
+        });
+    }
+
+    public static Map<String, Messages> ofMessages(JsonNode json) {
+        return OBJECT_MAPPER.convertValue(json.get("messages"), new TypeReference<>() {
+        });
+    }
+
+    public static Missions ofMissions(JsonNode json) {
+        return OBJECT_MAPPER.convertValue(json.get("missions"), Missions.class);
+    }
+
     public static Money ofMoney(JsonNode json) {
         return OBJECT_MAPPER.convertValue(json, Money.class);
+    }
+
+    public static Object ofNewEvents(JsonNode json) {
+        if (true) throw new UnsupportedOperationException("Not yet implemented");
+        return OBJECT_MAPPER.convertValue(json, new TypeReference<>() {
+        });
+    }
+
+    public static Object ofNewMessages(JsonNode json) {
+        if (true) throw new UnsupportedOperationException("Not yet implemented");
+        return OBJECT_MAPPER.convertValue(json, new TypeReference<>() {
+        });
+    }
+
+    public static Notifications ofNotifications(JsonNode json) {
+        return OBJECT_MAPPER.convertValue(json.get("notifications"), Notifications.class);
     }
 
     public static Networth ofNetworth(JsonNode json) {
