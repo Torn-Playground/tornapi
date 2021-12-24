@@ -3,12 +3,13 @@ package be.dekleinekobini.tornapi.models.user;
 import be.dekleinekobini.tornapi.models.Model;
 import be.dekleinekobini.tornapi.models.converters.EpochLocalDateTimeConverter;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonUnwrapped;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 
 import java.time.LocalDateTime;
 import java.util.Objects;
 
-public class Attacks extends Model {
+public class Attack extends Model {
 
     private String code;
     @JsonProperty("timestamp_started")
@@ -17,22 +18,10 @@ public class Attacks extends Model {
     @JsonProperty("timestamp_ended")
     @JsonDeserialize(converter = EpochLocalDateTimeConverter.class)
     private LocalDateTime timestampEnded;
-    @JsonProperty("attacker_id")
-    private long attackerId;
-    @JsonProperty("attacker_name")
-    private String attackerName;
-    @JsonProperty("attacker_faction")
-    private long attackerFaction;
-    @JsonProperty("attacker_factionname")
-    private String attackerFactionName;
-    @JsonProperty("defender_id")
-    private long defenderId;
-    @JsonProperty("defender_name")
-    private String defenderName;
-    @JsonProperty("defender_faction")
-    private long defenderFaction;
-    @JsonProperty("defender_factionname")
-    private String defenderFactionName;
+    @JsonUnwrapped(prefix = "attacker_")
+    private Fighter attacker;
+    @JsonUnwrapped(prefix = "defender_")
+    private Fighter defender;
     private AttackResult result;
     private boolean stealthed;
     private double respect;
@@ -68,68 +57,20 @@ public class Attacks extends Model {
         this.timestampEnded = timestampEnded;
     }
 
-    public long getAttackerId() {
-        return attackerId;
+    public Fighter getAttacker() {
+        return attacker;
     }
 
-    public void setAttackerId(long attackerId) {
-        this.attackerId = attackerId;
+    public void setAttacker(Fighter attacker) {
+        this.attacker = attacker;
     }
 
-    public String getAttackerName() {
-        return attackerName;
+    public Fighter getDefender() {
+        return defender;
     }
 
-    public void setAttackerName(String attackerName) {
-        this.attackerName = attackerName;
-    }
-
-    public long getAttackerFaction() {
-        return attackerFaction;
-    }
-
-    public void setAttackerFaction(long attackerFaction) {
-        this.attackerFaction = attackerFaction;
-    }
-
-    public String getAttackerFactionName() {
-        return attackerFactionName;
-    }
-
-    public void setAttackerFactionName(String attackerFactionName) {
-        this.attackerFactionName = attackerFactionName;
-    }
-
-    public long getDefenderId() {
-        return defenderId;
-    }
-
-    public void setDefenderId(long defenderId) {
-        this.defenderId = defenderId;
-    }
-
-    public String getDefenderName() {
-        return defenderName;
-    }
-
-    public void setDefenderName(String defenderName) {
-        this.defenderName = defenderName;
-    }
-
-    public long getDefenderFaction() {
-        return defenderFaction;
-    }
-
-    public void setDefenderFaction(long defenderFaction) {
-        this.defenderFaction = defenderFaction;
-    }
-
-    public String getDefenderFactionName() {
-        return defenderFactionName;
-    }
-
-    public void setDefenderFactionName(String defenderFactionName) {
-        this.defenderFactionName = defenderFactionName;
+    public void setDefender(Fighter defender) {
+        this.defender = defender;
     }
 
     public AttackResult getResult() {
@@ -200,13 +141,71 @@ public class Attacks extends Model {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        Attacks attacks = (Attacks) o;
-        return attackerId == attacks.attackerId && attackerFaction == attacks.attackerFaction && defenderId == attacks.defenderId && defenderFaction == attacks.defenderFaction && stealthed == attacks.stealthed && Double.compare(attacks.respect, respect) == 0 && chain == attacks.chain && raid == attacks.raid && Double.compare(attacks.respectGain, respectGain) == 0 && Double.compare(attacks.respectLoss, respectLoss) == 0 && code.equals(attacks.code) && timestampStarted.equals(attacks.timestampStarted) && timestampEnded.equals(attacks.timestampEnded) && Objects.equals(attackerName, attacks.attackerName) && Objects.equals(attackerFactionName, attacks.attackerFactionName) && Objects.equals(defenderName, attacks.defenderName) && Objects.equals(defenderFactionName, attacks.defenderFactionName) && result == attacks.result && Objects.equals(modifiers, attacks.modifiers);
+        Attack attack = (Attack) o;
+        return stealthed == attack.stealthed && Double.compare(attack.respect, respect) == 0 && chain == attack.chain && raid == attack.raid && Double.compare(attack.respectGain, respectGain) == 0 && Double.compare(attack.respectLoss, respectLoss) == 0 && Objects.equals(code, attack.code) && Objects.equals(timestampStarted, attack.timestampStarted) && Objects.equals(timestampEnded, attack.timestampEnded) && Objects.equals(attacker, attack.attacker) && Objects.equals(defender, attack.defender) && result == attack.result && Objects.equals(modifiers, attack.modifiers);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(code, timestampStarted, timestampEnded, attackerId, attackerName, attackerFaction, attackerFactionName, defenderId, defenderName, defenderFaction, defenderFactionName, result, stealthed, respect, chain, raid, respectGain, respectLoss, modifiers);
+        return Objects.hash(code, timestampStarted, timestampEnded, attacker, defender, result, stealthed, respect, chain, raid, respectGain, respectLoss, modifiers);
+    }
+
+    public static class Fighter {
+
+        @JsonProperty("id")
+        private long id;
+        @JsonProperty("name")
+        private String name;
+        @JsonProperty("faction")
+        private long faction;
+        @JsonProperty("factionname")
+        private String factionName;
+
+        public long getId() {
+            return id;
+        }
+
+        public void setId(long id) {
+            this.id = id;
+        }
+
+        public String getName() {
+            return name;
+        }
+
+        public void setName(String name) {
+            this.name = name;
+        }
+
+        public long getFaction() {
+            return faction;
+        }
+
+        public void setFaction(long faction) {
+            this.faction = faction;
+        }
+
+        public String getFactionName() {
+            return factionName;
+        }
+
+        public void setFactionName(String factionName) {
+            this.factionName = factionName;
+        }
+
+        @Override
+        public boolean equals(Object o) {
+            if (this == o) return true;
+            if (o == null || getClass() != o.getClass()) return false;
+            Fighter fighter = (Fighter) o;
+            return id == fighter.id && faction == fighter.faction && Objects.equals(name, fighter.name) && Objects.equals(factionName, fighter.factionName);
+        }
+
+        @Override
+        public int hashCode() {
+            return Objects.hash(id, name, faction, factionName);
+        }
+
     }
 
     public enum AttackResult {

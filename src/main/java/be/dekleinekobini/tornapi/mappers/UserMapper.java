@@ -22,7 +22,7 @@ public class UserMapper extends ModelMapper {
         });
     }
 
-    public static Map<Long, Attacks> ofAttacks(JsonNode json) {
+    public static Map<Long, Attack> ofAttacks(JsonNode json) {
         return OBJECT_MAPPER.convertValue(json.get("attacks"), new TypeReference<>() {
         });
     }
