@@ -70,18 +70,14 @@
 - factiontree
 - gyms
 - honors
-- items
 - logcategories
 - logtypes
 - medals
 - organisedcrimes
-- pawnshop
 - pokertables
 - properties
 - rackets
 - raids
-- stats
-- stocks
 - territory
 - territorywars
 
