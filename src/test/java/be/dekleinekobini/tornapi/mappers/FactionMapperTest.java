@@ -4,8 +4,6 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 
-import static org.assertj.core.api.Fail.fail;
-
 class FactionMapperTest {
 
     @Test
@@ -38,9 +36,9 @@ class FactionMapperTest {
     void ofAttacksFull() throws JsonProcessingException {
     }
 
+    @Disabled("Not yet implemented.")
     @Test
     void ofBasic() throws JsonProcessingException {
-        fail("Not yet implemented");
     }
 
     @Test
@@ -63,9 +61,9 @@ class FactionMapperTest {
     void ofChains() throws JsonProcessingException {
     }
 
+    @Disabled("Not yet implemented.")
     @Test
     void ofChain() throws JsonProcessingException {
-        fail("Not yet implemented");
     }
 
     @Test
@@ -153,9 +151,9 @@ class FactionMapperTest {
     void ofTerritoryNews() throws JsonProcessingException {
     }
 
+    @Disabled("Not yet implemented.")
     @Test
     void ofTerritory() throws JsonProcessingException {
-        fail("Not yet implemented");
     }
 
     @Test

@@ -13,6 +13,7 @@ class CompanyMapperTest {
     void ofApplications() throws JsonProcessingException {
     }
 
+    @Disabled("Not yet implemented.")
     @Test
     void ofCompanies() throws JsonProcessingException {
         fail("Not yet implemented");
@@ -23,9 +24,9 @@ class CompanyMapperTest {
     void ofDetailed() throws JsonProcessingException {
     }
 
+    @Disabled("Not yet implemented.")
     @Test
     void ofEmpoyees() throws JsonProcessingException {
-        fail("Not yet implemented");
     }
 
     @Test
@@ -38,9 +39,9 @@ class CompanyMapperTest {
     void ofNews() throws JsonProcessingException {
     }
 
+    @Disabled("Not yet implemented.")
     @Test
     void ofProfile() throws JsonProcessingException {
-        fail("Not yet implemented");
     }
 
     @Test
