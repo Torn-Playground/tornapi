@@ -1,6 +1,7 @@
 package be.dekleinekobini.tornapi.mappers;
 
 import be.dekleinekobini.tornapi.models.Timestamp;
+import be.dekleinekobini.tornapi.models.TornError;
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.MapperFeature;
@@ -17,6 +18,14 @@ abstract class ModelMapper {
 
     public static Timestamp ofTimestamp(JsonNode json) {
         return OBJECT_MAPPER.convertValue(json, Timestamp.class);
+    }
+
+    public static boolean hasError(JsonNode json) {
+        return json.has("error");
+    }
+
+    public static TornError ofError(JsonNode json) {
+        return OBJECT_MAPPER.convertValue(json.get("error"), TornError.class);
     }
 
 }

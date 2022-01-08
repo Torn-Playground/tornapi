@@ -6,7 +6,7 @@
 
     <groupId>be.dekleinekobini</groupId>
     <artifactId>tornapi</artifactId>
-    <version>0.1.0</version>
+    <version>0.1.1</version>
     <name>tornapi</name>
     <description>Wrapper for the Torn API.</description>
 
@@ -29,10 +29,10 @@
         </dependency>
 
         <!--        <dependency>-->
-<!--            <groupId>org.json</groupId>-->
-<!--            <artifactId>json</artifactId>-->
-<!--            <version>20210307</version>-->
-<!--        </dependency>-->
+        <!--            <groupId>org.json</groupId>-->
+        <!--            <artifactId>json</artifactId>-->
+        <!--            <version>20210307</version>-->
+        <!--        </dependency>-->
         <dependency>
             <groupId>net.moznion</groupId>
             <artifactId>uribuilder-tiny</artifactId>
