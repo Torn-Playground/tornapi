@@ -1,35 +1,39 @@
 package be.dekleinekobini.tornapi.models;
 
-import be.dekleinekobini.tornapi.models.converters.EpochLocalDateTimeConverter;
-import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
-
-import java.time.LocalDateTime;
 import java.util.Objects;
 
 public class TornError extends Model {
 
-    @JsonDeserialize(converter = EpochLocalDateTimeConverter.class)
-    private LocalDateTime timestamp;
+    private long code;
+    private String error;
 
-    public LocalDateTime getTimestamp() {
-        return timestamp;
+    public long getCode() {
+        return code;
     }
 
-    public void setTimestamp(LocalDateTime timestamp) {
-        this.timestamp = timestamp;
+    public void setCode(long code) {
+        this.code = code;
+    }
+
+    public String getError() {
+        return error;
+    }
+
+    public void setError(String error) {
+        this.error = error;
     }
 
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        TornError timestamp1 = (TornError) o;
-        return Objects.equals(timestamp, timestamp1.timestamp);
+        TornError tornError = (TornError) o;
+        return code == tornError.code && Objects.equals(error, tornError.error);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(timestamp);
+        return Objects.hash(code, error);
     }
 
 }
