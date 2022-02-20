@@ -1,5 +1,6 @@
 package be.dekleinekobini.tornapi.mappers;
 
+import be.dekleinekobini.tornapi.models.torn.CompanyType;
 import be.dekleinekobini.tornapi.models.torn.Stock;
 import be.dekleinekobini.tornapi.models.torn.TornItem;
 import com.fasterxml.jackson.core.JsonProcessingException;
@@ -11,6 +12,8 @@ import org.junit.jupiter.api.Test;
 
 import java.io.IOException;
 import java.time.LocalDateTime;
+import java.util.HashMap;
+import java.util.Map;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -31,9 +34,97 @@ class TornMapperTest {
     void ofChainReport() {
     }
 
-    @Disabled("Not yet implemented.")
+    private CompanyType.CompanyPosition getCompanyPosition(int man, int intelligence, int end, int manGain, int intGain, int endGain, CompanyType.SpecialPosition ability, String description) {
+        CompanyType.CompanyPosition position = new CompanyType.CompanyPosition();
+        position.setManualRequired(man);
+        position.setIntelligenceRequired(intelligence);
+        position.setEnduranceRequired(end);
+        position.setManualGain(manGain);
+        position.setIntelligenceGain(intGain);
+        position.setEnduranceGain(endGain);
+        position.setSpecialAbility(ability);
+        position.setDescription(description);
+
+        return position;
+    }
+
     @Test
-    void ofCompanies() {
+    void ofCompanies() throws IOException {
+        ObjectMapper objectMapper = new ObjectMapper();
+        JsonNode json = objectMapper.readTree(this.getClass().getResource("/responses/torn-companies.json"));
+
+        // Act
+        var result = TornMapper.ofCompanies(json);
+
+        // Assert
+        Map<String, CompanyType.CompanyPosition> positions1 = new HashMap<>();
+        positions1.put("Stylist", getCompanyPosition(1500, 0, 750, 34, 0, 17, CompanyType.SpecialPosition.NONE, "This person primarily cuts and styles hair, an integral position in a hair salon."));
+        positions1.put("Colorist", getCompanyPosition(2000, 0, 1000, 36, 0, 18, CompanyType.SpecialPosition.NONE, "Specialising in hair colouring techniques, the colorist will boost the productivity of stylists."));
+        positions1.put("Nail Technician", getCompanyPosition(750, 0, 1500, 17, 0, 34, CompanyType.SpecialPosition.NONE, "This person performs manicure services while hair stylists are working. A nice extra for the clients, should they desire it."));
+        positions1.put("Apprentice", getCompanyPosition(500, 0, 250, 25, 0, 13, CompanyType.SpecialPosition.NONE, "This person cuts and styles hair at an apprentice level, they may not be as skilled but require less working stats."));
+        positions1.put("Shampooist", getCompanyPosition(1000, 0, 500, 30, 0, 15, CompanyType.SpecialPosition.CLEANER, "This person helps out with washing clients hair and cleaning the salon."));
+        positions1.put("Senior Stylist", getCompanyPosition(3000, 0, 1500, 39, 0, 20, CompanyType.SpecialPosition.MANAGER, "This position decreases any reduction of employee effectiveness, but can also fulfil the duties of a stylist."));
+        positions1.put("Receptionist", getCompanyPosition(0, 1250, 2500, 0, 19, 38, CompanyType.SpecialPosition.SECRETARY, "This person handles the booking of appointments. They also enable detailed employee statistics, showing the estimated profit made by each individual employee."));
+        positions1.put("Trainer", getCompanyPosition(0, 4500, 2250, 0, 42, 21, CompanyType.SpecialPosition.TRAINER, "This position increases the amount of trains a director receives each day and keeps the staff at the top of their game."));
+        positions1.put("Aesthetician", getCompanyPosition(0, 4500, 2250, 0, 42, 21, CompanyType.SpecialPosition.NONE, "An expert in the beautician field, they work extensively on the human body and undergo comprehensive studies on a range of cosmetics."));
+
+        CompanyType.CompanyStock standardTreatment = new CompanyType.CompanyStock();
+        standardTreatment.setCost("");
+        standardTreatment.setRrp(95);
+        CompanyType.CompanyStock fullTreatment = new CompanyType.CompanyStock();
+        fullTreatment.setCost("");
+        fullTreatment.setRrp(150);
+        CompanyType.CompanyStock luxuryTreatment = new CompanyType.CompanyStock();
+        luxuryTreatment.setCost("");
+        luxuryTreatment.setRrp(350);
+
+        Map<String, CompanyType.CompanyStock> stock1 = new HashMap<>();
+        stock1.put("Standard Treatment", standardTreatment);
+        stock1.put("Full Treatment", fullTreatment);
+        stock1.put("Luxury Treatment", luxuryTreatment);
+
+        CompanyType.CompanySpecial debate = new CompanyType.CompanySpecial();
+        debate.setEffect("Experience");
+        debate.setCost(1);
+        debate.setRatingRequired(1);
+        CompanyType.CompanySpecial gossip = new CompanyType.CompanySpecial();
+        gossip.setEffect("View someone's money on hand");
+        gossip.setCost(10);
+        gossip.setRatingRequired(3);
+        CompanyType.CompanySpecial rumors = new CompanyType.CompanySpecial();
+        rumors.setEffect("Reduced enemy stealth");
+        rumors.setCost(0);
+        rumors.setRatingRequired(5);
+        CompanyType.CompanySpecial cuttingCorners = new CompanyType.CompanySpecial();
+        cuttingCorners.setEffect("30 minute education time reduction");
+        cuttingCorners.setCost(1);
+        cuttingCorners.setRatingRequired(7);
+        CompanyType.CompanySpecial revenge = new CompanyType.CompanySpecial();
+        revenge.setEffect("20% slashing weapon damage");
+        revenge.setCost(0);
+        revenge.setRatingRequired(10);
+
+        Map<String, CompanyType.CompanySpecial> specials1 = new HashMap<>();
+        specials1.put("Debate", debate);
+        specials1.put("Gossip", gossip);
+        specials1.put("Rumors", rumors);
+        specials1.put("Cutting Corners", cuttingCorners);
+        specials1.put("Sweeney's Revenge", revenge);
+
+        CompanyType company1 = new CompanyType();
+        company1.setName("Hair Salon");
+        company1.setCost(750000);
+        company1.setDefaultEmployees(4);
+        company1.setPositions(positions1);
+        company1.setStock(stock1);
+        company1.setSpecials(specials1);
+
+        assertThat(result.get(1L).getSpecials()).isEqualTo(specials1);
+        assertThat(result.get(1L).getStock()).isEqualTo(stock1);
+
+        assertThat(result)
+                .hasSize(39)
+                .containsEntry(1L, company1);
     }
 
     @Disabled("Not yet implemented.")

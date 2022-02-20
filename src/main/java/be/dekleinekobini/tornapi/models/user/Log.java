@@ -81,15 +81,4 @@ public class Log extends Model {
         return Objects.hash(log, title, timestamp, category, data, params);
     }
 
-    @Override
-    public String toString() {
-        return "Log{" +
-                "log=" + log +
-                ", title='" + title + '\'' +
-                ", timestamp=" + timestamp +
-                ", category='" + category + '\'' +
-                ", data=" + data +
-                ", params=" + params +
-                '}';
-    }
 }

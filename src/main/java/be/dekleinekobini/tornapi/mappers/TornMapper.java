@@ -1,9 +1,6 @@
 package be.dekleinekobini.tornapi.mappers;
 
-import be.dekleinekobini.tornapi.models.torn.PawnShop;
-import be.dekleinekobini.tornapi.models.torn.Stock;
-import be.dekleinekobini.tornapi.models.torn.TornItem;
-import be.dekleinekobini.tornapi.models.torn.TornStats;
+import be.dekleinekobini.tornapi.models.torn.*;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.JsonNode;
 
@@ -12,6 +9,11 @@ import java.util.Map;
 public class TornMapper extends ModelMapper {
 
     private TornMapper() {
+    }
+
+    public static Map<Long, CompanyType> ofCompanies(JsonNode json) {
+        return OBJECT_MAPPER.convertValue(json.get("companies"), new TypeReference<>() {
+        });
     }
 
     public static Map<Long, TornItem> ofItems(JsonNode json) {

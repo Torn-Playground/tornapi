@@ -64,7 +64,6 @@
 - bank
 - cards
 - chainreport
-- companies
 - competition
 - education
 - factiontree
