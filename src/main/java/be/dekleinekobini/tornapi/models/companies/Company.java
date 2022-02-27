@@ -4,6 +4,7 @@ import be.dekleinekobini.tornapi.models.converters.DayDurationConverter;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 
+import java.time.Duration;
 import java.util.Objects;
 
 public class Company {
@@ -29,7 +30,7 @@ public class Company {
     private int weeklyCustomers;
     @JsonProperty("days_old")
     @JsonDeserialize(converter = DayDurationConverter.class)
-    private int daysOld;
+    private Duration daysOld;
 
     public long getId() {
         return id;
@@ -119,11 +120,11 @@ public class Company {
         this.weeklyCustomers = weeklyCustomers;
     }
 
-    public int getDaysOld() {
+    public Duration getDaysOld() {
         return daysOld;
     }
 
-    public void setDaysOld(int daysOld) {
+    public void setDaysOld(Duration daysOld) {
         this.daysOld = daysOld;
     }
 
@@ -139,5 +140,5 @@ public class Company {
     public int hashCode() {
         return Objects.hash(id, typeId, rating, name, director, employees, capacity, dailyIncome, dailyCustomers, weeklyIncome, weeklyCustomers, daysOld);
     }
-    
+
 }
