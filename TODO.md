@@ -51,7 +51,6 @@
 (X) = requires being a director
 
 - (X) applications
-- companies
 - (X) detailed
 - employees
 - (X) news
