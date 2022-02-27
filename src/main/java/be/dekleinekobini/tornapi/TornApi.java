@@ -67,6 +67,8 @@ public class TornApi {
         private String key;
         private String id;
 
+        private boolean usedProvider = false;
+
         public ApiSection(String section) {
             this.section = section;
         }
@@ -118,6 +120,7 @@ public class TornApi {
          */
         public ApiSection<T> key(String key) {
             this.key = key;
+            usedProvider = false;
             return this;
         }
 
@@ -128,6 +131,7 @@ public class TornApi {
             Objects.requireNonNull(keyProvider);
 
             this.key = keyProvider.next();
+            usedProvider = true;
             return this;
         }
 
@@ -151,11 +155,57 @@ public class TornApi {
         public JsonNode fetch() throws IOException, InterruptedException {
             URI uri = buildUri();
 
-            return connector.connect(uri.toString());
+            JsonNode result = connector.connect(uri.toString());
+
+            if (usedProvider) {
+                RequestData request = new RequestData(key, id, section, selections, parameters);
+
+                keyProvider.listener(request, result);
+            }
+
+            return result;
         }
 
     }
 
+    public static class RequestData {
+
+        private final String key;
+        private final String id;
+        private final String section;
+
+        private final Set<String> selections;
+        private final Map<String, Object> parameters;
+
+        public RequestData(String key, String id, String section, Set<String> selections, Map<String, Object> parameters) {
+            this.key = key;
+            this.id = id;
+            this.section = section;
+            this.selections = selections;
+            this.parameters = parameters;
+        }
+
+        public String getKey() {
+            return key;
+        }
+
+        public String getId() {
+            return id;
+        }
+
+        public String getSection() {
+            return section;
+        }
+
+        public Set<String> getSelections() {
+            return selections;
+        }
+
+        public Map<String, Object> getParameters() {
+            return parameters;
+        }
+
+    }
 
     //    private final ApiConnector connector;
 //    private final String section;
