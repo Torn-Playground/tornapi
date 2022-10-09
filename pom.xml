@@ -4,11 +4,24 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
-    <groupId>be.dekleinekobini</groupId>
+    <groupId>eu.tornplayground</groupId>
     <artifactId>tornapi</artifactId>
     <version>0.1.9</version>
     <name>tornapi</name>
     <description>Wrapper for the Torn API.</description>
+
+    <licenses>
+        <license>
+            <name>The Unlicense</name>
+            <url>https://unlicense.org/</url>
+        </license>
+    </licenses>
+
+    <scm>
+        <connection>scm:git:git://github.com/Torn-Playground/tornapi.git</connection>
+        <developerConnection>scm:git:ssh://github.com:Torn-Playground/tornapi.git</developerConnection>
+        <url>https://github.com/Torn-Playground/tornapi</url>
+    </scm>
 
     <properties>
         <maven.compiler.source>11</maven.compiler.source>
