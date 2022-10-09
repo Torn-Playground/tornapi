@@ -6,7 +6,7 @@
 
     <groupId>be.dekleinekobini</groupId>
     <artifactId>tornapi</artifactId>
-    <version>0.1.8</version>
+    <version>0.1.9</version>
     <name>tornapi</name>
     <description>Wrapper for the Torn API.</description>
 
@@ -14,11 +14,11 @@
         <maven.compiler.source>11</maven.compiler.source>
         <maven.compiler.target>11</maven.compiler.target>
 
-        <jackson.version>2.13.1</jackson.version>
+        <jackson.version>2.13.4</jackson.version>
 
-        <junit-jupiter.version>5.8.2</junit-jupiter.version>
-        <mockito.version>4.3.1</mockito.version>
-        <assertj.version>3.22.0</assertj.version>
+        <junit-jupiter.version>5.9.1</junit-jupiter.version>
+        <mockito.version>4.8.0</mockito.version>
+        <assertj.version>3.23.1</assertj.version>
     </properties>
 
     <dependencies>
@@ -33,11 +33,6 @@
             <version>${jackson.version}</version>
         </dependency>
 
-        <!--        <dependency>-->
-        <!--            <groupId>org.json</groupId>-->
-        <!--            <artifactId>json</artifactId>-->
-        <!--            <version>20210307</version>-->
-        <!--        </dependency>-->
         <dependency>
             <groupId>net.moznion</groupId>
             <artifactId>uribuilder-tiny</artifactId>
