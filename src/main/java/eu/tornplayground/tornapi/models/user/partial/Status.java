@@ -1,7 +1,7 @@
 package eu.tornplayground.tornapi.models.user.partial;
 
-import eu.tornplayground.tornapi.models.converters.EpochLocalDateTimeConverter;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import eu.tornplayground.tornapi.models.converters.EpochLocalDateTimeConverter;
 
 import java.time.LocalDateTime;
 import java.util.Objects;
@@ -56,7 +56,7 @@ public class Status {
     }
 
     public enum State {
-        OKAY, JAIL, HOSPITAL, TRAVELING, FEDERAL
+        OKAY, JAIL, HOSPITAL, TRAVELING, FEDERAL, ABROAD
     }
 
     @Override
