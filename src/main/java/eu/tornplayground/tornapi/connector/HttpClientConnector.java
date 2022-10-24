@@ -34,6 +34,10 @@ public class HttpClientConnector implements ApiConnector {
 
         HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
 
+        if (response.statusCode() < 200 || response.statusCode() > 300) {
+            throw new TornHttpException(response.statusCode(), response.body());
+        }
+
         ObjectMapper objectMapper = new ObjectMapper();
         return objectMapper.readTree(response.body());
     }

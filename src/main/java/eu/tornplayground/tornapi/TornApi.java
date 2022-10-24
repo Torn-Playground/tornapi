@@ -1,8 +1,8 @@
 package eu.tornplayground.tornapi;
 
+import com.fasterxml.jackson.databind.JsonNode;
 import eu.tornplayground.tornapi.connector.ApiConnector;
 import eu.tornplayground.tornapi.keyprovider.KeyProvider;
-import com.fasterxml.jackson.databind.JsonNode;
 import eu.tornplayground.tornapi.selections.*;
 import net.moznion.uribuildertiny.URIBuilderTiny;
 
