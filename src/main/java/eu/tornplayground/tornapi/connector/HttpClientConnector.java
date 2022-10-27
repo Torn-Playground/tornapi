@@ -27,7 +27,7 @@ public class HttpClientConnector implements ApiConnector {
     }
 
     @Override
-    public JsonNode connect(String url) throws IOException, InterruptedException {
+    public JsonNode connect(String url) throws IOException, InterruptedException, TornHttpException {
         HttpRequest request = HttpRequest.newBuilder()
                 .uri(URI.create(url))
                 .build();

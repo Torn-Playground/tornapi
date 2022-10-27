@@ -2,6 +2,7 @@ package eu.tornplayground.tornapi;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import eu.tornplayground.tornapi.connector.ApiConnector;
+import eu.tornplayground.tornapi.connector.TornHttpException;
 import eu.tornplayground.tornapi.keyprovider.KeyProvider;
 import eu.tornplayground.tornapi.selections.*;
 import net.moznion.uribuildertiny.URIBuilderTiny;
@@ -152,7 +153,7 @@ public class TornApi {
             return uriBuilder.build();
         }
 
-        public JsonNode fetch() throws IOException, InterruptedException {
+        public JsonNode fetch() throws IOException, InterruptedException, TornHttpException {
             URI uri = buildUri();
 
             JsonNode result = connector.connect(uri.toString());

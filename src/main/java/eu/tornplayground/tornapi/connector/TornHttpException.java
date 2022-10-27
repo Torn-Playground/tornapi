@@ -1,6 +1,6 @@
 package eu.tornplayground.tornapi.connector;
 
-public class TornHttpException extends RuntimeException {
+public class TornHttpException extends Exception {
 
     private final int statusCode;
     private final String body;

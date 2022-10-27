@@ -1,8 +1,8 @@
 package eu.tornplayground.tornapi;
 
 import eu.tornplayground.tornapi.connector.ApiConnector;
+import eu.tornplayground.tornapi.connector.TornHttpException;
 import eu.tornplayground.tornapi.keyprovider.KeyProvider;
-
 import eu.tornplayground.tornapi.selections.*;
 import org.assertj.core.api.AbstractUriAssert;
 import org.junit.jupiter.api.BeforeEach;
@@ -29,7 +29,7 @@ class TornApiTest {
 
     private TornApi api;
 
-    private URI captureUri() throws IOException, InterruptedException {
+    private URI captureUri() throws IOException, InterruptedException, TornHttpException {
         ArgumentCaptor<String> argumentCaptorUrl = ArgumentCaptor.forClass(String.class);
 
         verify(connector).connect(argumentCaptorUrl.capture());
@@ -66,7 +66,7 @@ class TornApiTest {
     }
 
     @Test
-    void fetchCurrentUser() throws IOException, InterruptedException {
+    void fetchCurrentUser() throws IOException, InterruptedException, TornHttpException {
         // Act
         api
                 .forUsers()
@@ -88,7 +88,7 @@ class TornApiTest {
 
 
     @Test
-    void fetchCurrentUserWithKeyProvider() throws IOException, InterruptedException {
+    void fetchCurrentUserWithKeyProvider() throws IOException, InterruptedException, TornHttpException {
         //
         KeyProvider keyProvider = Mockito.mock(KeyProvider.class);
 
@@ -115,7 +115,7 @@ class TornApiTest {
     }
 
     @Test
-    void fetchCurrentUserWithParameters() throws IOException, InterruptedException {
+    void fetchCurrentUserWithParameters() throws IOException, InterruptedException, TornHttpException {
         // Act
         api
                 .forUsers()
@@ -140,7 +140,7 @@ class TornApiTest {
     }
 
     @Test
-    void fetchUser() throws IOException, InterruptedException {
+    void fetchUser() throws IOException, InterruptedException, TornHttpException {
         // Act
         api
                 .forUsers()
@@ -162,7 +162,7 @@ class TornApiTest {
     }
 
     @Test
-    void fetchUserWithStringId() throws IOException, InterruptedException {
+    void fetchUserWithStringId() throws IOException, InterruptedException, TornHttpException {
         // Act
         api
                 .forUsers()
@@ -183,7 +183,7 @@ class TornApiTest {
     }
 
     @Test
-    void fetchUserWithParameters() throws IOException, InterruptedException {
+    void fetchUserWithParameters() throws IOException, InterruptedException, TornHttpException {
         // Act
         api
                 .forUsers()
@@ -209,7 +209,7 @@ class TornApiTest {
     }
 
     @Test
-    void fetchUserWithParametersAndStringId() throws IOException, InterruptedException {
+    void fetchUserWithParametersAndStringId() throws IOException, InterruptedException, TornHttpException {
         // Act
         api
                 .forUsers()
@@ -234,7 +234,7 @@ class TornApiTest {
     }
 
     @Test
-    void fetchCurrentProperty() throws IOException, InterruptedException {
+    void fetchCurrentProperty() throws IOException, InterruptedException, TornHttpException {
         // Act
         api
                 .forProperties()
@@ -254,7 +254,7 @@ class TornApiTest {
     }
 
     @Test
-    void fetchCurrentFaction() throws IOException, InterruptedException {
+    void fetchCurrentFaction() throws IOException, InterruptedException, TornHttpException {
         // Act
         api
                 .forFaction()
@@ -274,7 +274,7 @@ class TornApiTest {
     }
 
     @Test
-    void fetchCurrentCompany() throws IOException, InterruptedException {
+    void fetchCurrentCompany() throws IOException, InterruptedException, TornHttpException {
         // Act
         api
                 .forCompany()
@@ -294,7 +294,7 @@ class TornApiTest {
     }
 
     @Test
-    void fetchMultipleItems() throws IOException, InterruptedException {
+    void fetchMultipleItems() throws IOException, InterruptedException, TornHttpException {
         // Act
         api
                 .forMarket()
@@ -315,7 +315,7 @@ class TornApiTest {
     }
 
     @Test
-    void fetchAllEducations() throws IOException, InterruptedException {
+    void fetchAllEducations() throws IOException, InterruptedException, TornHttpException {
         // Act
         api
                 .forTorn()
@@ -335,7 +335,7 @@ class TornApiTest {
     }
 
     @Test
-    void fetchKeyInformation() throws IOException, InterruptedException {
+    void fetchKeyInformation() throws IOException, InterruptedException, TornHttpException {
         // Act
         api
                 .forKey()

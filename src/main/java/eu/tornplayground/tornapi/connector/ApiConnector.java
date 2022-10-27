@@ -6,6 +6,6 @@ import java.io.IOException;
 
 public interface ApiConnector {
 
-    JsonNode connect(String url) throws IOException, InterruptedException;
+    JsonNode connect(String url) throws TornHttpException, IOException, InterruptedException;
 
 }
