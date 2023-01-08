@@ -70,7 +70,7 @@ public class TornApi {
 
         private boolean usedProvider = false;
 
-        public ApiSection(String section) {
+        private ApiSection(String section) {
             this.section = section;
         }
 
