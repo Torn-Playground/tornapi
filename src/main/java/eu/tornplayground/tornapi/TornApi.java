@@ -16,6 +16,7 @@ public class TornApi {
 
     private final ApiConnector connector;
     private final KeyProvider keyProvider;
+    private String defaultComment;
 
     public TornApi(ApiConnector connector, KeyProvider keyProvider) {
         this.connector = connector;
@@ -24,6 +25,14 @@ public class TornApi {
 
     public TornApi(ApiConnector connector) {
         this(connector, null);
+    }
+
+    public String getDefaultComment() {
+        return defaultComment;
+    }
+
+    public void setDefaultComment(String defaultComment) {
+        this.defaultComment = defaultComment;
     }
 
     public <T extends Selection> ApiSection<T> forCategory(String category, @SuppressWarnings("unused") Class<T> selectionType) {
@@ -58,6 +67,45 @@ public class TornApi {
         return forCategory("key", KeySelections.class);
     }
 
+    public static class RequestData {
+
+        private final String key;
+        private final String id;
+        private final String section;
+
+        private final Set<String> selections;
+        private final Map<String, Object> parameters;
+
+        public RequestData(String key, String id, String section, Set<String> selections, Map<String, Object> parameters) {
+            this.key = key;
+            this.id = id;
+            this.section = section;
+            this.selections = selections;
+            this.parameters = parameters;
+        }
+
+        public String getKey() {
+            return key;
+        }
+
+        public String getId() {
+            return id;
+        }
+
+        public String getSection() {
+            return section;
+        }
+
+        public Set<String> getSelections() {
+            return selections;
+        }
+
+        public Map<String, Object> getParameters() {
+            return parameters;
+        }
+
+    }
+
     public class ApiSection<T extends Selection> {
 
         private final String section;
@@ -67,11 +115,13 @@ public class TornApi {
 
         private String key;
         private String id;
+        private String comment;
 
         private boolean usedProvider = false;
 
         private ApiSection(String section) {
             this.section = section;
+            this.comment = defaultComment;
         }
 
         /**
@@ -117,6 +167,14 @@ public class TornApi {
         }
 
         /**
+         * Add selections to the connection.
+         */
+        public ApiSection<T> withComment(String comment) {
+            this.comment = comment;
+            return this;
+        }
+
+        /**
          * Set key to be used by the connection.
          */
         public ApiSection<T> key(String key) {
@@ -147,6 +205,7 @@ public class TornApi {
             if (id != null) uriBuilder.appendPaths(id);
 
             uriBuilder.setQueryParameters(parameters);
+            if (comment != null) uriBuilder.addQueryParameter("comment", comment);
             uriBuilder.addQueryParameter("selections", String.join(",", selections));
             uriBuilder.addQueryParameter("key", key);
 
@@ -165,45 +224,6 @@ public class TornApi {
             }
 
             return result;
-        }
-
-    }
-
-    public static class RequestData {
-
-        private final String key;
-        private final String id;
-        private final String section;
-
-        private final Set<String> selections;
-        private final Map<String, Object> parameters;
-
-        public RequestData(String key, String id, String section, Set<String> selections, Map<String, Object> parameters) {
-            this.key = key;
-            this.id = id;
-            this.section = section;
-            this.selections = selections;
-            this.parameters = parameters;
-        }
-
-        public String getKey() {
-            return key;
-        }
-
-        public String getId() {
-            return id;
-        }
-
-        public String getSection() {
-            return section;
-        }
-
-        public Set<String> getSelections() {
-            return selections;
-        }
-
-        public Map<String, Object> getParameters() {
-            return parameters;
         }
 
     }

@@ -354,4 +354,68 @@ class TornApiTest {
                 .contains("info");
     }
 
+    @Test
+    void givenNoDefaultComment_whenFetchWithoutComment_thenNoComment() throws IOException, InterruptedException, TornHttpException {
+        // Act
+        api
+                .forUsers()
+                .key("test-key")
+                .fetch();
+
+        // Assert
+        URI uri = captureUri();
+
+        assertUri(uri)
+                .hasNoParameter("comment");
+    }
+
+    @Test
+    void givenDefaultComment_whenFetchWithoutComment_thenDefaultComment() throws IOException, InterruptedException, TornHttpException {
+        // Act
+        api.setDefaultComment("testing-default");
+        api
+                .forUsers()
+                .key("test-key")
+                .fetch();
+
+        // Assert
+        URI uri = captureUri();
+
+        assertUri(uri)
+                .hasParameter("comment", "testing-default");
+    }
+
+    @Test
+    void givenDefaultComment_whenFetchWithComment_thenComment() throws IOException, InterruptedException, TornHttpException {
+        // Act
+        api.setDefaultComment("testing-default");
+        api
+                .forUsers()
+                .key("test-key")
+                .withComment("testing")
+                .fetch();
+
+        // Assert
+        URI uri = captureUri();
+
+        assertUri(uri)
+                .hasParameter("comment", "testing");
+    }
+
+    @Test
+    void givenNoDefaultComment_whenFetchWithComment_thenComment() throws IOException, InterruptedException, TornHttpException {
+        // Act
+        api
+                .forUsers()
+                .key("test-key")
+                .withComment("testing")
+                .fetch();
+
+        // Assert
+        URI uri = captureUri();
+
+        assertUri(uri)
+                .hasParameter("comment", "testing");
+    }
+
 }
