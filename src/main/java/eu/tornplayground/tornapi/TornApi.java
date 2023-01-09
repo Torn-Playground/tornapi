@@ -36,7 +36,7 @@ public class TornApi {
     }
 
     public <T extends Selection> ApiSection<T> forCategory(String category, @SuppressWarnings("unused") Class<T> selectionType) {
-        return new ApiSection<>(category);
+        return new ApiSection<>(category, defaultComment);
     }
 
     public ApiSection<UserSelections> forUsers() {
@@ -119,7 +119,7 @@ public class TornApi {
 
         private boolean usedProvider = false;
 
-        private ApiSection(String section) {
+        private ApiSection(String section, String defaultComment) {
             this.section = section;
             this.comment = defaultComment;
         }
