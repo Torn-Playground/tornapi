@@ -1,5 +1,6 @@
 package eu.tornplayground.tornapi.mappers;
 
+import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import eu.tornplayground.tornapi.models.Timestamp;
 import eu.tornplayground.tornapi.models.TornError;
 import com.fasterxml.jackson.databind.DeserializationFeature;
@@ -11,7 +12,7 @@ import com.fasterxml.jackson.databind.json.JsonMapper;
 public abstract class ModelMapper {
 
     protected final static ObjectMapper OBJECT_MAPPER = JsonMapper.builder()
-            .findAndAddModules()
+            .addModule(new JavaTimeModule())
             .configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false)
             .configure(MapperFeature.ACCEPT_CASE_INSENSITIVE_ENUMS, true)
             .build();
