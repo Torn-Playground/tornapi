@@ -161,11 +161,6 @@ public class UserMapper extends ModelMapper {
         });
     }
 
-    public static Map<Long, ReceivedEvent> ofReceivedEvents(JsonNode json) {
-        return OBJECT_MAPPER.convertValue(json.get("receivedevents"), new TypeReference<>() {
-        });
-    }
-
     public static Refills ofRefills(JsonNode json) {
         return OBJECT_MAPPER.convertValue(json.get("refills"), Refills.class);
     }

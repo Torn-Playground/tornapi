@@ -1,11 +1,12 @@
 package eu.tornplayground.tornapi.mappers;
 
-import eu.tornplayground.tornapi.models.torn.CompanyType;
-import eu.tornplayground.tornapi.models.torn.Stock;
-import eu.tornplayground.tornapi.models.torn.TornItem;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import eu.tornplayground.tornapi.models.torn.CompanyType;
+import eu.tornplayground.tornapi.models.torn.ShopLiftingSecurity;
+import eu.tornplayground.tornapi.models.torn.Stock;
+import eu.tornplayground.tornapi.models.torn.TornItem;
 import org.assertj.core.api.SoftAssertions;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
@@ -15,6 +16,7 @@ import java.time.LocalDateTime;
 import java.util.HashMap;
 import java.util.Map;
 
+import static eu.tornplayground.tornapi.models.torn.ShopLiftingSecurity.*;
 import static org.assertj.core.api.Assertions.assertThat;
 
 class TornMapperTest {
@@ -358,6 +360,31 @@ class TornMapperTest {
         softly.assertThat(result.getTotalRefillsBought()).isEqualTo(21603909);
         softly.assertThat(result.getTotalCompanyTrains()).isEqualTo(36236575);
         softly.assertThat(result.getTotalStatenhancersUsed()).isEqualTo(111776);
+
+        softly.assertAll();
+    }
+
+    @Test
+    void ofShoplifting() throws JsonProcessingException {
+        ObjectMapper objectMapper = new ObjectMapper();
+        JsonNode json = objectMapper.readTree("{\"shoplifting\":{\"sallys_sweet_shop\":[{\"title\":\"One camera\",\"disabled\":false}],\"Bits_n_bobs\":[{\"title\":\"Two cameras\",\"disabled\":false}],\"tc_clothing\":[{\"title\":\"One camera\",\"disabled\":false},{\"title\":\"Checkpoint\",\"disabled\":false}],\"super_store\":[{\"title\":\"Two cameras\",\"disabled\":false},{\"title\":\"Checkpoint\",\"disabled\":false}],\"big_als\":[{\"title\":\"Four cameras\",\"disabled\":false},{\"title\":\"Two guards\",\"disabled\":false}],\"jewelry_store\":[{\"title\":\"Three cameras\",\"disabled\":false},{\"title\":\"One guard\",\"disabled\":false}]}}");
+
+        // Act
+        var result = TornMapper.ofShoplifting(json);
+
+        // Assert
+        SoftAssertions softly = new SoftAssertions();
+
+        softly.assertThat(result.get("sallys_sweet_shop")).containsExactly(new ShopLiftingSecurity(ONE_CAMERA, false));
+        softly.assertThat(result.get("Bits_n_bobs")).containsExactly(new ShopLiftingSecurity(TWO_CAMERAS, false));
+        softly.assertThat(result.get("tc_clothing"))
+                .containsExactly(new ShopLiftingSecurity(ONE_CAMERA, false), new ShopLiftingSecurity(CHECKPOINT, false));
+        softly.assertThat(result.get("super_store"))
+                .containsExactly(new ShopLiftingSecurity(TWO_CAMERAS, false), new ShopLiftingSecurity(CHECKPOINT, false));
+        softly.assertThat(result.get("big_als"))
+                .containsExactly(new ShopLiftingSecurity(FOUR_CAMERAS, false), new ShopLiftingSecurity(TWO_GUARDS, false));
+        softly.assertThat(result.get("jewelry_store"))
+                .containsExactly(new ShopLiftingSecurity(THREE_CAMERAS, false), new ShopLiftingSecurity(ONE_GUARD, false));
 
         softly.assertAll();
     }

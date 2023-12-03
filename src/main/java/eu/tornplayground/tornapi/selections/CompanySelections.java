@@ -8,7 +8,6 @@ public enum CompanySelections implements Selection {
     DETAILED,
     EMPLOYEES,
     NEWS,
-    NEWSFULL,
     PROFILE,
     STOCK,
 

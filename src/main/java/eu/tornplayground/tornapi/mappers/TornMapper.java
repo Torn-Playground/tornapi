@@ -4,6 +4,7 @@ import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.JsonNode;
 import eu.tornplayground.tornapi.models.torn.*;
 
+import java.util.List;
 import java.util.Map;
 
 public class TornMapper extends ModelMapper {
@@ -23,6 +24,11 @@ public class TornMapper extends ModelMapper {
 
     public static PawnShop ofPawnShop(JsonNode json) {
         return OBJECT_MAPPER.convertValue(json.get("pawnshop"), PawnShop.class);
+    }
+
+    public static Map<String, List<ShopLiftingSecurity>> ofShoplifting(JsonNode json) {
+        return OBJECT_MAPPER.convertValue(json.get("shoplifting"), new TypeReference<>() {
+        });
     }
 
     public static TornStats ofStats(JsonNode json) {
