@@ -673,6 +673,19 @@ class UserMapperTest {
                 .containsEntry("m8z5BUColXf0ltTrgZCh", log2);
     }
 
+    @Test
+    void ofLog_EmptyResponse() throws JsonProcessingException {
+        // Arrange
+        ObjectMapper objectMapper = new ObjectMapper();
+        JsonNode json = objectMapper.readTree("{\"log\":[]}\n");
+
+        // Act
+        Map<String, Log> result = UserMapper.ofLog(json);
+
+        // Assert
+        assertThat(result).isEmpty();
+    }
+
     @Disabled("Not yet implemented.")
     @Test
     void ofMedals() {
