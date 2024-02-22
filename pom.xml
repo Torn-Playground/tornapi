@@ -27,13 +27,16 @@
         <maven.compiler.source>11</maven.compiler.source>
         <maven.compiler.target>11</maven.compiler.target>
 
-        <jackson.version>2.14.1</jackson.version>
-        <jackson-jsr310.version>2.14.1</jackson-jsr310.version>
-        <junit-jupiter.version>5.9.1</junit-jupiter.version>
-        <mockito.version>4.10.0</mockito.version>
-        <assertj.version>3.23.1</assertj.version>
+        <!-- Dependencies -->
+        <jackson.version>2.16.1</jackson.version>
+        <jackson-jsr310.version>2.16.1</jackson-jsr310.version>
+        <junit-jupiter.version>5.10.2</junit-jupiter.version>
+        <mockito.version>5.10.0</mockito.version>
+        <assertj.version>3.25.3</assertj.version>
         <uribuilder.version>2.7.1</uribuilder.version>
-        <maven-surefire-plugin.version>2.22.2</maven-surefire-plugin.version>
+
+        <!-- Plugins -->
+        <maven-surefire-plugin.version>3.2.5</maven-surefire-plugin.version>
     </properties>
 
     <dependencies>
