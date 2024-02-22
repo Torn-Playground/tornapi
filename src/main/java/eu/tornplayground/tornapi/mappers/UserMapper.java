@@ -12,6 +12,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
+import static java.util.Collections.emptyMap;
+
 public class UserMapper extends ModelMapper {
 
     private UserMapper() {
@@ -119,7 +121,10 @@ public class UserMapper extends ModelMapper {
     }
 
     public static Map<String, Log> ofLog(JsonNode json) {
-        return OBJECT_MAPPER.convertValue(json.get("log"), new TypeReference<>() {
+        JsonNode node = json.get("log");
+        if (!node.isObject()) return emptyMap();
+
+        return OBJECT_MAPPER.convertValue(node, new TypeReference<>() {
         });
     }
 
