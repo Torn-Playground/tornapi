@@ -67,7 +67,6 @@ class TornApiTest {
 
     @Test
     void fetchCurrentUser() throws IOException, InterruptedException, TornHttpException {
-        // Act
         api
                 .forUsers()
                 .withSelections(UserSelections.PROFILE, UserSelections.PERSONALSTATS)
@@ -75,7 +74,6 @@ class TornApiTest {
                 .key("test-key")
                 .fetch();
 
-        // Assert
         URI uri = captureUri();
 
         assertUri(uri)
@@ -89,13 +87,11 @@ class TornApiTest {
 
     @Test
     void fetchCurrentUserWithKeyProvider() throws IOException, InterruptedException, TornHttpException {
-        //
         KeyProvider keyProvider = Mockito.mock(KeyProvider.class);
 
         TornApi api = new TornApi(connector, keyProvider);
 
         when(keyProvider.next()).thenReturn("key-provider");
-        // Act
         api
                 .forUsers()
                 .withSelections(UserSelections.PROFILE, UserSelections.PERSONALSTATS)
@@ -103,7 +99,6 @@ class TornApiTest {
                 .consumeKey()
                 .fetch();
 
-        // Assert
         URI uri = captureUri();
 
         assertUri(uri, "key-provider")
@@ -116,7 +111,6 @@ class TornApiTest {
 
     @Test
     void fetchCurrentUserWithParameters() throws IOException, InterruptedException, TornHttpException {
-        // Act
         api
                 .forUsers()
                 .withSelections(UserSelections.PROFILE, UserSelections.PERSONALSTATS)
@@ -126,7 +120,6 @@ class TornApiTest {
                 .key("test-key")
                 .fetch();
 
-        // Assert
         URI uri = captureUri();
 
         assertUri(uri)
@@ -141,7 +134,6 @@ class TornApiTest {
 
     @Test
     void fetchUser() throws IOException, InterruptedException, TornHttpException {
-        // Act
         api
                 .forUsers()
                 .id(1)
@@ -150,7 +142,6 @@ class TornApiTest {
                 .key("test-key")
                 .fetch();
 
-        // Assert
         URI uri = captureUri();
 
         assertUri(uri)
@@ -163,7 +154,6 @@ class TornApiTest {
 
     @Test
     void fetchUserWithStringId() throws IOException, InterruptedException, TornHttpException {
-        // Act
         api
                 .forUsers()
                 .id("discord-id")
@@ -171,7 +161,6 @@ class TornApiTest {
                 .key("test-key")
                 .fetch();
 
-        // Assert
         URI uri = captureUri();
 
         assertUri(uri)
@@ -184,7 +173,6 @@ class TornApiTest {
 
     @Test
     void fetchUserWithParameters() throws IOException, InterruptedException, TornHttpException {
-        // Act
         api
                 .forUsers()
                 .id(1)
@@ -195,7 +183,6 @@ class TornApiTest {
                 .key("test-key")
                 .fetch();
 
-        // Assert
         URI uri = captureUri();
 
         assertUri(uri)
@@ -210,7 +197,6 @@ class TornApiTest {
 
     @Test
     void fetchUserWithParametersAndStringId() throws IOException, InterruptedException, TornHttpException {
-        // Act
         api
                 .forUsers()
                 .id("discord-id")
@@ -220,7 +206,6 @@ class TornApiTest {
                 .key("test-key")
                 .fetch();
 
-        // Assert
         URI uri = captureUri();
 
         assertUri(uri)
@@ -235,14 +220,12 @@ class TornApiTest {
 
     @Test
     void fetchCurrentProperty() throws IOException, InterruptedException, TornHttpException {
-        // Act
         api
                 .forProperties()
                 .withSelections(PropertiesSelections.PROPERTY)
                 .key("test-key")
                 .fetch();
 
-        // Assert
         URI uri = captureUri();
 
         assertUri(uri)
@@ -255,14 +238,12 @@ class TornApiTest {
 
     @Test
     void fetchCurrentFaction() throws IOException, InterruptedException, TornHttpException {
-        // Act
         api
                 .forFaction()
                 .withSelections(FactionSelections.BASIC, FactionSelections.TERRITORY)
                 .key("test-key")
                 .fetch();
 
-        // Assert
         URI uri = captureUri();
 
         assertUri(uri)
@@ -275,14 +256,12 @@ class TornApiTest {
 
     @Test
     void fetchCurrentCompany() throws IOException, InterruptedException, TornHttpException {
-        // Act
         api
                 .forCompany()
                 .withSelections(CompanySelections.PROFILE, CompanySelections.EMPLOYEES)
                 .key("test-key")
                 .fetch();
 
-        // Assert
         URI uri = captureUri();
 
         assertUri(uri)
@@ -295,7 +274,6 @@ class TornApiTest {
 
     @Test
     void fetchMultipleItems() throws IOException, InterruptedException, TornHttpException {
-        // Act
         api
                 .forMarket()
                 .id("1,2,3")
@@ -303,7 +281,6 @@ class TornApiTest {
                 .key("test-key")
                 .fetch();
 
-        // Assert
         URI uri = captureUri();
 
         assertUri(uri)
@@ -316,14 +293,12 @@ class TornApiTest {
 
     @Test
     void fetchAllEducations() throws IOException, InterruptedException, TornHttpException {
-        // Act
         api
                 .forTorn()
                 .withSelections(TornSelections.EDUCATION)
                 .key("test-key")
                 .fetch();
 
-        // Assert
         URI uri = captureUri();
 
         assertUri(uri)
@@ -336,14 +311,12 @@ class TornApiTest {
 
     @Test
     void fetchKeyInformation() throws IOException, InterruptedException, TornHttpException {
-        // Act
         api
                 .forKey()
                 .withSelections(KeySelections.INFO)
                 .key("test-key")
                 .fetch();
 
-        // Assert
         URI uri = captureUri();
 
         assertUri(uri)
@@ -356,13 +329,11 @@ class TornApiTest {
 
     @Test
     void givenNoDefaultComment_whenFetchWithoutComment_thenNoComment() throws IOException, InterruptedException, TornHttpException {
-        // Act
         api
                 .forUsers()
                 .key("test-key")
                 .fetch();
 
-        // Assert
         URI uri = captureUri();
 
         assertUri(uri)
@@ -371,14 +342,12 @@ class TornApiTest {
 
     @Test
     void givenDefaultComment_whenFetchWithoutComment_thenDefaultComment() throws IOException, InterruptedException, TornHttpException {
-        // Act
         api.setDefaultComment("testing-default");
         api
                 .forUsers()
                 .key("test-key")
                 .fetch();
 
-        // Assert
         URI uri = captureUri();
 
         assertUri(uri)
@@ -387,7 +356,6 @@ class TornApiTest {
 
     @Test
     void givenDefaultComment_whenFetchWithComment_thenComment() throws IOException, InterruptedException, TornHttpException {
-        // Act
         api.setDefaultComment("testing-default");
         api
                 .forUsers()
@@ -395,7 +363,6 @@ class TornApiTest {
                 .withComment("testing")
                 .fetch();
 
-        // Assert
         URI uri = captureUri();
 
         assertUri(uri)
@@ -404,14 +371,12 @@ class TornApiTest {
 
     @Test
     void givenNoDefaultComment_whenFetchWithComment_thenComment() throws IOException, InterruptedException, TornHttpException {
-        // Act
         api
                 .forUsers()
                 .key("test-key")
                 .withComment("testing")
                 .fetch();
 
-        // Assert
         URI uri = captureUri();
 
         assertUri(uri)

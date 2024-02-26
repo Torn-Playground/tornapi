@@ -16,20 +16,16 @@ class SingleKeyProviderTest {
 
     @Test
     void next() {
-        // Act
         String key = keyProvider.next();
 
-        // Assert
         assertThat(key).isEqualTo("some-key");
     }
 
     @Test
     void nextMultiple() {
         for (int i = 0; i < 100; i++) {
-            // Act
             String key = keyProvider.next();
 
-            // Assert
             int index = i;
 
             assertThat(key)
