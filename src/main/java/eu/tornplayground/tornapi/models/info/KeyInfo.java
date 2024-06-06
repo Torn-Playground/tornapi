@@ -4,10 +4,7 @@ import eu.tornplayground.tornapi.models.Model;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Objects;
+import java.util.*;
 
 public class KeyInfo extends Model {
 
@@ -66,67 +63,67 @@ public class KeyInfo extends Model {
 
     public static class Selections {
 
-        private List<String> user;
-        private List<String> property;
-        private List<String> faction;
-        private List<String> company;
-        private List<String> market;
-        private List<String> torn;
-        private List<String> key;
+        private Set<String> user;
+        private Set<String> property;
+        private Set<String> faction;
+        private Set<String> company;
+        private Set<String> market;
+        private Set<String> torn;
+        private Set<String> key;
 
-        public List<String> getUser() {
+        public Set<String> getUser() {
             return user;
         }
 
-        public void setUser(List<String> user) {
+        public void setUser(Set<String> user) {
             this.user = user;
         }
 
-        public List<String> getProperty() {
+        public Set<String> getProperty() {
             return property;
         }
 
-        public void setProperty(List<String> property) {
+        public void setProperty(Set<String> property) {
             this.property = property;
         }
 
-        public List<String> getFaction() {
+        public Set<String> getFaction() {
             return faction;
         }
 
-        public void setFaction(List<String> faction) {
+        public void setFaction(Set<String> faction) {
             this.faction = faction;
         }
 
-        public List<String> getCompany() {
+        public Set<String> getCompany() {
             return company;
         }
 
-        public void setCompany(List<String> company) {
+        public void setCompany(Set<String> company) {
             this.company = company;
         }
 
-        public List<String> getMarket() {
+        public Set<String> getMarket() {
             return market;
         }
 
-        public void setMarket(List<String> market) {
+        public void setMarket(Set<String> market) {
             this.market = market;
         }
 
-        public List<String> getTorn() {
+        public Set<String> getTorn() {
             return torn;
         }
 
-        public void setTorn(List<String> torn) {
+        public void setTorn(Set<String> torn) {
             this.torn = torn;
         }
 
-        public List<String> getKey() {
+        public Set<String> getKey() {
             return key;
         }
 
-        public void setKey(List<String> key) {
+        public void setKey(Set<String> key) {
             this.key = key;
         }
 
