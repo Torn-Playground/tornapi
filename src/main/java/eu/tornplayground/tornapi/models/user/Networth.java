@@ -1,8 +1,11 @@
 package eu.tornplayground.tornapi.models.user;
 
-import eu.tornplayground.tornapi.models.Model;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import eu.tornplayground.tornapi.models.Model;
+import eu.tornplayground.tornapi.models.converters.EpochZonedDateTimeConverter;
 
+import java.time.ZonedDateTime;
 import java.util.Objects;
 
 public class Networth extends Model {
@@ -36,6 +39,8 @@ public class Networth extends Model {
     private long total;
     @JsonProperty("parsetime")
     private double parseTime;
+    @JsonDeserialize(converter = EpochZonedDateTimeConverter.class)
+    private ZonedDateTime timestamp;
 
     public long getPending() {
         return pending;
@@ -205,17 +210,25 @@ public class Networth extends Model {
         this.parseTime = parseTime;
     }
 
+    public ZonedDateTime getTimestamp() {
+        return timestamp;
+    }
+
+    public void setTimestamp(ZonedDateTime timestamp) {
+        this.timestamp = timestamp;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Networth networth = (Networth) o;
-        return pending == networth.pending && wallet == networth.wallet && bank == networth.bank && points == networth.points && cayman == networth.cayman && vault == networth.vault && piggyBank == networth.piggyBank && items == networth.items && displayCase == networth.displayCase && bazaar == networth.bazaar && itemMarket == networth.itemMarket && properties == networth.properties && stockMarket == networth.stockMarket && auctionHouse == networth.auctionHouse && company == networth.company && bookie == networth.bookie && enlistedCars == networth.enlistedCars && loan == networth.loan && unpaidFees == networth.unpaidFees && total == networth.total && Double.compare(networth.parseTime, parseTime) == 0;
+        return pending == networth.pending && wallet == networth.wallet && bank == networth.bank && points == networth.points && cayman == networth.cayman && vault == networth.vault && piggyBank == networth.piggyBank && items == networth.items && displayCase == networth.displayCase && bazaar == networth.bazaar && itemMarket == networth.itemMarket && properties == networth.properties && stockMarket == networth.stockMarket && auctionHouse == networth.auctionHouse && company == networth.company && bookie == networth.bookie && enlistedCars == networth.enlistedCars && loan == networth.loan && unpaidFees == networth.unpaidFees && total == networth.total && Double.compare(parseTime, networth.parseTime) == 0 && Objects.equals(timestamp, networth.timestamp);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(pending, wallet, bank, points, cayman, vault, piggyBank, items, displayCase, bazaar, itemMarket, properties, stockMarket, auctionHouse, company, bookie, enlistedCars, loan, unpaidFees, total, parseTime);
+        return Objects.hash(pending, wallet, bank, points, cayman, vault, piggyBank, items, displayCase, bazaar, itemMarket, properties, stockMarket, auctionHouse, company, bookie, enlistedCars, loan, unpaidFees, total, parseTime, timestamp);
     }
 
 }

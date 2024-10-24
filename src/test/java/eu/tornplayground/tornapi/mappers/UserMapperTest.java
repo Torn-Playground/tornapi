@@ -1,12 +1,12 @@
 package eu.tornplayground.tornapi.mappers;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import eu.tornplayground.tornapi.models.user.*;
 import eu.tornplayground.tornapi.models.user.partial.Gender;
 import eu.tornplayground.tornapi.models.user.partial.LastActionStatus;
 import eu.tornplayground.tornapi.models.user.partial.Status;
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.JsonNode;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import org.assertj.core.api.SoftAssertions;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
@@ -14,11 +14,13 @@ import org.junit.jupiter.api.Test;
 import java.time.Duration;
 import java.time.Instant;
 import java.time.LocalDateTime;
-import java.time.ZoneOffset;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import static java.time.Instant.ofEpochMilli;
+import static java.time.ZoneOffset.UTC;
+import static java.time.ZonedDateTime.ofInstant;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.data.MapEntry.entry;
 
@@ -230,7 +232,7 @@ class UserMapperTest {
         softly.assertThat(basic.getStatus().getDetails()).isEqualTo("");
         softly.assertThat(basic.getStatus().getState()).isEqualTo(Status.State.OKAY);
         softly.assertThat(basic.getStatus().getColor()).isEqualTo("green");
-        softly.assertThat(basic.getStatus().getUntil()).isEqualTo(Instant.ofEpochSecond(0).atOffset(ZoneOffset.UTC).toLocalDateTime());
+        softly.assertThat(basic.getStatus().getUntil()).isEqualTo(Instant.ofEpochSecond(0).atOffset(UTC).toLocalDateTime());
 
         softly.assertAll();
     }
@@ -707,35 +709,36 @@ class UserMapperTest {
     }
 
     @Test
-    void ofNetworth() throws JsonProcessingException { // Arrange
+    void ofNetworth() throws JsonProcessingException {
         ObjectMapper objectMapper = new ObjectMapper();
-        JsonNode json = objectMapper.readTree("{\"networth\":{\"pending\":0,\"wallet\":886911,\"bank\":2398000000,\"points\":648277990,\"cayman\":0,\"vault\":0,\"piggybank\":3400000,\"items\":2356511851,\"displaycase\":56703412,\"bazaar\":55007420,\"itemmarket\":0,\"properties\":2929182000,\"stockmarket\":16109651000,\"auctionhouse\":0,\"company\":0,\"bookie\":0,\"enlistedcars\":16225460,\"loan\":0,\"unpaidfees\":0,\"total\":24573846044,\"parsetime\":0.2255561351776123}}");
+        JsonNode json = objectMapper.readTree("{\"networth\":{\"pending\":0,\"wallet\":26701291,\"bank\":2369400000,\"points\":4522425700,\"cayman\":0,\"vault\":0,\"piggybank\":3400000,\"items\":1108257117,\"displaycase\":0,\"bazaar\":3397614,\"trade\":0,\"itemmarket\":123393098,\"properties\":7323892500,\"stockmarket\":31596135000,\"auctionhouse\":0,\"company\":0,\"bookie\":0,\"enlistedcars\":35922746,\"loan\":0,\"unpaidfees\":0,\"total\":47112925066,\"parsetime\":0.05828404426574707,\"timestamp\":1729793700}}");
 
         Networth networth = UserMapper.ofNetworth(json);
 
         SoftAssertions softly = new SoftAssertions();
 
         softly.assertThat(networth.getPending()).isEqualTo(0);
-        softly.assertThat(networth.getWallet()).isEqualTo(886911);
-        softly.assertThat(networth.getBank()).isEqualTo(2398000000L);
-        softly.assertThat(networth.getPoints()).isEqualTo(648277990);
+        softly.assertThat(networth.getWallet()).isEqualTo(26701291);
+        softly.assertThat(networth.getBank()).isEqualTo(2369400000L);
+        softly.assertThat(networth.getPoints()).isEqualTo(4522425700L);
         softly.assertThat(networth.getCayman()).isEqualTo(0);
         softly.assertThat(networth.getVault()).isEqualTo(0);
         softly.assertThat(networth.getPiggyBank()).isEqualTo(3400000);
-        softly.assertThat(networth.getItems()).isEqualTo(2356511851L);
-        softly.assertThat(networth.getDisplayCase()).isEqualTo(56703412);
-        softly.assertThat(networth.getBazaar()).isEqualTo(55007420);
-        softly.assertThat(networth.getItemMarket()).isEqualTo(0);
-        softly.assertThat(networth.getProperties()).isEqualTo(2929182000L);
-        softly.assertThat(networth.getStockMarket()).isEqualTo(16109651000L);
+        softly.assertThat(networth.getItems()).isEqualTo(1108257117L);
+        softly.assertThat(networth.getDisplayCase()).isEqualTo(0);
+        softly.assertThat(networth.getBazaar()).isEqualTo(3397614);
+        softly.assertThat(networth.getItemMarket()).isEqualTo(123393098);
+        softly.assertThat(networth.getProperties()).isEqualTo(7323892500L);
+        softly.assertThat(networth.getStockMarket()).isEqualTo(31596135000L);
         softly.assertThat(networth.getAuctionHouse()).isEqualTo(0);
         softly.assertThat(networth.getCompany()).isEqualTo(0);
         softly.assertThat(networth.getBookie()).isEqualTo(0);
-        softly.assertThat(networth.getEnlistedCars()).isEqualTo(16225460);
+        softly.assertThat(networth.getEnlistedCars()).isEqualTo(35922746);
         softly.assertThat(networth.getLoan()).isEqualTo(0);
         softly.assertThat(networth.getUnpaidFees()).isEqualTo(0);
-        softly.assertThat(networth.getTotal()).isEqualTo(24573846044L);
-        softly.assertThat(networth.getParseTime()).isEqualTo(0.2255561351776123);
+        softly.assertThat(networth.getTotal()).isEqualTo(47112925066L);
+        softly.assertThat(networth.getParseTime()).isEqualTo(0.05828404426574707);
+        softly.assertThat(networth.getTimestamp()).isEqualTo(ofInstant(ofEpochMilli(1729793700000L), UTC));
 
         softly.assertAll();
     }
@@ -1179,7 +1182,7 @@ class UserMapperTest {
         softly.assertThat(profile.getStatus().getDetails()).isEqualTo("");
         softly.assertThat(profile.getStatus().getState()).isEqualTo(Status.State.OKAY);
         softly.assertThat(profile.getStatus().getColor()).isEqualTo("green");
-        softly.assertThat(profile.getStatus().getUntil()).isEqualTo(Instant.ofEpochSecond(0).atOffset(ZoneOffset.UTC).toLocalDateTime());
+        softly.assertThat(profile.getStatus().getUntil()).isEqualTo(Instant.ofEpochSecond(0).atOffset(UTC).toLocalDateTime());
 
         softly.assertThat(profile.getJob()).isNotNull();
         softly.assertThat(profile.getJob().getPosition()).isEqualTo("Employee");
