@@ -4,12 +4,15 @@ import com.fasterxml.jackson.databind.JsonNode;
 import eu.tornplayground.tornapi.connector.ApiConnector;
 import eu.tornplayground.tornapi.connector.TornHttpException;
 import eu.tornplayground.tornapi.keyprovider.KeyProvider;
+import eu.tornplayground.tornapi.limiter.RequestLimiter;
 import eu.tornplayground.tornapi.selections.*;
 import net.moznion.uribuildertiny.URIBuilderTiny;
 
 import java.io.IOException;
 import java.net.URI;
 import java.util.*;
+import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
 
 public class TornApi {
@@ -17,6 +20,7 @@ public class TornApi {
     private final ApiConnector connector;
     private final KeyProvider keyProvider;
     private String defaultComment;
+    private RequestLimiter requestLimiter;
 
     public TornApi(ApiConnector connector, KeyProvider keyProvider) {
         this.connector = connector;
@@ -25,6 +29,11 @@ public class TornApi {
 
     public TornApi(ApiConnector connector) {
         this(connector, null);
+    }
+
+    public TornApi setRequestLimiter(RequestLimiter requestLimiter) {
+        this.requestLimiter = requestLimiter;
+        return this;
     }
 
     public String getDefaultComment() {
@@ -213,17 +222,36 @@ public class TornApi {
         }
 
         public JsonNode fetch() throws IOException, InterruptedException, TornHttpException {
-            URI uri = buildUri();
+            RequestData request = new RequestData(key, id, section, selections, parameters);
 
+            if (requestLimiter != null && requestLimiter.hasLimitReached(key)) {
+                TimeUnit.MILLISECONDS.sleep(requestLimiter.getMillisecondsUntilNextRequest(key));
+            }
+
+            long timestamp = System.currentTimeMillis();
+
+            URI uri = buildUri();
             JsonNode result = connector.connect(uri.toString());
 
-            if (usedProvider) {
-                RequestData request = new RequestData(key, id, section, selections, parameters);
+            if (requestLimiter != null) {
+                requestLimiter.registerRequest(key, timestamp);
+            }
 
+            if (usedProvider) {
                 keyProvider.listener(request, result);
             }
 
             return result;
+        }
+
+        public CompletableFuture<JsonNode> fetchAsync() {
+            return CompletableFuture.supplyAsync(() -> {
+                try {
+                    return fetch();
+                } catch (IOException | InterruptedException | TornHttpException e) {
+                    throw new RuntimeException(e);
+                }
+            });
         }
 
     }
