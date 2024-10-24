@@ -5,33 +5,29 @@ import org.junit.jupiter.api.Test;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-class SingleKeyProviderTest {
+class MultiKeyProviderTest {
 
     private KeyProvider keyProvider;
 
     @BeforeEach
     void setUp() {
-        this.keyProvider = new SingleKeyProvider("some-key");
+        this.keyProvider = new MultiKeyProvider("some-key", "some-other-key");
     }
 
     @Test
     void next() {
-        String key = keyProvider.next();
-
-        assertThat(key).isEqualTo("some-key");
+        assertThat(keyProvider.next()).isEqualTo("some-key");
+        assertThat(keyProvider.next()).isEqualTo("some-other-key");
+        assertThat(keyProvider.next()).isEqualTo("some-key");
     }
 
     @Test
     void nextMultiple() {
         for (int i = 0; i < 100; i++) {
-            String key = keyProvider.next();
-
-            int index = i;
-
-            assertThat(key)
+            final int index = i;
+            assertThat(keyProvider.next())
                     .withFailMessage(() -> String.format("Key failed after try #%s", index))
-                    .isEqualTo("some-key");
+                    .isEqualTo(index % 2 == 0 ? "some-key" : "some-other-key");
         }
     }
-
 }
