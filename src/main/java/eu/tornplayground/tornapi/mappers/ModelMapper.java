@@ -1,7 +1,6 @@
 package eu.tornplayground.tornapi.mappers;
 
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
-import eu.tornplayground.tornapi.models.Timestamp;
 import eu.tornplayground.tornapi.models.TornError;
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.JsonNode;
@@ -16,7 +15,7 @@ public abstract class ModelMapper {
             .configure(MapperFeature.ACCEPT_CASE_INSENSITIVE_ENUMS, true)
             .configure(MapperFeature.CAN_OVERRIDE_ACCESS_MODIFIERS, true);
 
-    private ModelMapper() {
+    protected ModelMapper() {
     }
 
     public static boolean hasError(JsonNode json) {
