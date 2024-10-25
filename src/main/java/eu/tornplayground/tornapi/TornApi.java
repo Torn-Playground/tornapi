@@ -6,6 +6,7 @@ import eu.tornplayground.tornapi.cache.ResponseCache;
 import eu.tornplayground.tornapi.connector.ApiConnector;
 import eu.tornplayground.tornapi.connector.TornHttpException;
 import eu.tornplayground.tornapi.keyprovider.KeyProvider;
+import eu.tornplayground.tornapi.mappers.ModelMapper;
 import eu.tornplayground.tornapi.selections.*;
 import net.moznion.uribuildertiny.URIBuilderTiny;
 
@@ -243,7 +244,7 @@ public class TornApi {
 
             JsonNode result = connector.connect(uri.toString());
 
-            if (responseCache != null && !result.has("error")) {
+            if (responseCache != null && !ModelMapper.hasError(result)) {
                 responseCache.put(request.cacheHash(), result);
             }
 
