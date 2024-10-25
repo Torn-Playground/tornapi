@@ -19,7 +19,7 @@ public class TornApi {
     private final ApiConnector connector;
     private final KeyProvider keyProvider;
     private String defaultComment;
-    private ResponseCache defaultResponseCache;
+    private ResponseCache responseCache;
 
     public TornApi(ApiConnector connector, KeyProvider keyProvider) {
         this.connector = connector;
@@ -30,13 +30,13 @@ public class TornApi {
         this(connector, null);
     }
 
-    public TornApi withDefaultResponseCache(ResponseCache cache) {
-        this.defaultResponseCache = cache;
+    public TornApi withResponseCache(ResponseCache cache) {
+        this.responseCache = cache;
         return this;
     }
 
     public TornApi withDefaultResponseCache() {
-        this.defaultResponseCache = new DefaultResponseCache();
+        this.responseCache = new DefaultResponseCache();
         return this;
     }
 
@@ -235,16 +235,16 @@ public class TornApi {
         public JsonNode fetch() throws IOException, InterruptedException, TornHttpException {
             RequestData request = new RequestData(key, id, section, selections, parameters);
 
-            if (defaultResponseCache != null && defaultResponseCache.contains(request.cacheHash())) {
-                return defaultResponseCache.get(request.cacheHash());
+            if (responseCache != null && responseCache.contains(request.cacheHash())) {
+                return responseCache.get(request.cacheHash());
             }
 
             URI uri = buildUri();
 
             JsonNode result = connector.connect(uri.toString());
 
-            if (defaultResponseCache != null) {
-                defaultResponseCache.put(request.cacheHash(), result);
+            if (responseCache != null && !result.has("error")) {
+                responseCache.put(request.cacheHash(), result);
             }
 
             if (usedProvider) {
