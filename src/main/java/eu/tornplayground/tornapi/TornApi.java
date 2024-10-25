@@ -252,8 +252,10 @@ public class TornApi {
             return CompletableFuture.supplyAsync(() -> {
                 try {
                     return fetch();
-                } catch (IOException | InterruptedException | TornHttpException | RequestLimitReachedException e) {
+                } catch (InterruptedException e) {
                     Thread.currentThread().interrupt();
+                    throw new CompletionException(e);
+                } catch (IOException | TornHttpException | RequestLimitReachedException e) {
                     throw new CompletionException(e);
                 }
             });
