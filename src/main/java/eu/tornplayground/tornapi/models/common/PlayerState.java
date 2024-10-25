@@ -1,4 +1,4 @@
-package eu.tornplayground.tornapi.models.faction.basic.member;
+package eu.tornplayground.tornapi.models.common;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 

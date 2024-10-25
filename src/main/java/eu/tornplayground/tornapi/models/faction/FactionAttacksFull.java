@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import eu.tornplayground.tornapi.models.Model;
 import eu.tornplayground.tornapi.models.converters.EpochLocalDateTimeConverter;
+import eu.tornplayground.tornapi.models.common.AttackResult;
 
 import java.time.LocalDateTime;
 import java.util.Objects;
@@ -33,7 +34,7 @@ public class FactionAttacksFull extends Model {
     private Integer defenderFaction;
 
     @JsonProperty("result")
-    private String result;
+    private AttackResult result;
 
     @JsonProperty("stealthed")
     private boolean stealthed;
@@ -72,7 +73,7 @@ public class FactionAttacksFull extends Model {
         return defenderFaction;
     }
 
-    public String getResult() {
+    public AttackResult getResult() {
         return result;
     }
 
@@ -89,7 +90,7 @@ public class FactionAttacksFull extends Model {
         if (this == o) return true;
         if (!(o instanceof FactionAttacksFull)) return false;
         FactionAttacksFull that = (FactionAttacksFull) o;
-        return stealthed == that.stealthed && Float.compare(respect, that.respect) == 0 && Objects.equals(code, that.code) && Objects.equals(timestampStarted, that.timestampStarted) && Objects.equals(timestampEnded, that.timestampEnded) && Objects.equals(attackerId, that.attackerId) && Objects.equals(attackerFaction, that.attackerFaction) && Objects.equals(defenderId, that.defenderId) && Objects.equals(defenderFaction, that.defenderFaction) && Objects.equals(result, that.result);
+        return stealthed == that.stealthed && Float.compare(respect, that.respect) == 0 && Objects.equals(code, that.code) && Objects.equals(timestampStarted, that.timestampStarted) && Objects.equals(timestampEnded, that.timestampEnded) && Objects.equals(attackerId, that.attackerId) && Objects.equals(attackerFaction, that.attackerFaction) && Objects.equals(defenderId, that.defenderId) && Objects.equals(defenderFaction, that.defenderFaction) && result == that.result;
     }
 
     @Override

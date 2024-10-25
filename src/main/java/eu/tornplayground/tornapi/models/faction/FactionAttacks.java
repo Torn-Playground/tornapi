@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import eu.tornplayground.tornapi.models.Model;
 import eu.tornplayground.tornapi.models.converters.EpochLocalDateTimeConverter;
+import eu.tornplayground.tornapi.models.common.AttackResult;
 import eu.tornplayground.tornapi.models.faction.attacks.Modifiers;
 
 import java.time.LocalDateTime;
@@ -46,7 +47,7 @@ public class FactionAttacks extends Model {
     private String defenderFactionName;
 
     @JsonProperty("result")
-    private String result;
+    private AttackResult result;
 
     @JsonProperty("stealthed")
     private boolean stealthed;
@@ -119,7 +120,7 @@ public class FactionAttacks extends Model {
         return defenderFactionName;
     }
 
-    public String getResult() {
+    public AttackResult getResult() {
         return result;
     }
 
@@ -160,7 +161,7 @@ public class FactionAttacks extends Model {
         if (this == o) return true;
         if (!(o instanceof FactionAttacks)) return false;
         FactionAttacks that = (FactionAttacks) o;
-        return stealthed == that.stealthed && Float.compare(respect, that.respect) == 0 && chain == that.chain && raid == that.raid && rankedWar == that.rankedWar && Float.compare(respectGain, that.respectGain) == 0 && Float.compare(respectLoss, that.respectLoss) == 0 && Objects.equals(code, that.code) && Objects.equals(timestampStarted, that.timestampStarted) && Objects.equals(timestampEnded, that.timestampEnded) && Objects.equals(attackerId, that.attackerId) && Objects.equals(attackerName, that.attackerName) && Objects.equals(attackerFaction, that.attackerFaction) && Objects.equals(attackerFactionName, that.attackerFactionName) && Objects.equals(defenderId, that.defenderId) && Objects.equals(defenderName, that.defenderName) && Objects.equals(defenderFaction, that.defenderFaction) && Objects.equals(defenderFactionName, that.defenderFactionName) && Objects.equals(result, that.result) && Objects.equals(modifiers, that.modifiers);
+        return stealthed == that.stealthed && Float.compare(respect, that.respect) == 0 && chain == that.chain && raid == that.raid && rankedWar == that.rankedWar && Float.compare(respectGain, that.respectGain) == 0 && Float.compare(respectLoss, that.respectLoss) == 0 && Objects.equals(code, that.code) && Objects.equals(timestampStarted, that.timestampStarted) && Objects.equals(timestampEnded, that.timestampEnded) && Objects.equals(attackerId, that.attackerId) && Objects.equals(attackerName, that.attackerName) && Objects.equals(attackerFaction, that.attackerFaction) && Objects.equals(attackerFactionName, that.attackerFactionName) && Objects.equals(defenderId, that.defenderId) && Objects.equals(defenderName, that.defenderName) && Objects.equals(defenderFaction, that.defenderFaction) && Objects.equals(defenderFactionName, that.defenderFactionName) && result == that.result && Objects.equals(modifiers, that.modifiers);
     }
 
     @Override

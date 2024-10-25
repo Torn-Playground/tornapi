@@ -1,8 +1,8 @@
 package eu.tornplayground.tornapi.models.user;
 
 import eu.tornplayground.tornapi.models.Model;
+import eu.tornplayground.tornapi.models.common.OnlineStatus;
 import eu.tornplayground.tornapi.models.converters.EpochLocalDateTimeConverter;
-import eu.tornplayground.tornapi.models.user.partial.LastActionStatus;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 
@@ -171,15 +171,15 @@ public class Revive extends Model {
 
     public static class LastAction {
 
-        private LastActionStatus status;
+        private OnlineStatus status;
         @JsonDeserialize(converter = EpochLocalDateTimeConverter.class)
         private LocalDateTime timestamp;
 
-        public LastActionStatus getStatus() {
+        public OnlineStatus getStatus() {
             return status;
         }
 
-        public void setStatus(LastActionStatus status) {
+        public void setStatus(OnlineStatus status) {
             this.status = status;
         }
 

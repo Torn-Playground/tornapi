@@ -3,9 +3,9 @@ package eu.tornplayground.tornapi.mappers;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import eu.tornplayground.tornapi.models.common.OnlineStatus;
 import eu.tornplayground.tornapi.models.user.*;
 import eu.tornplayground.tornapi.models.user.partial.Gender;
-import eu.tornplayground.tornapi.models.user.partial.LastActionStatus;
 import eu.tornplayground.tornapi.models.user.partial.Status;
 import org.assertj.core.api.SoftAssertions;
 import org.junit.jupiter.api.Disabled;
@@ -1219,7 +1219,7 @@ class UserMapperTest {
         softly.assertThat(profile.getStates().getJailTimestamp()).isEqualTo(0);
 
         softly.assertThat(profile.getLastAction()).isNotNull();
-        softly.assertThat(profile.getLastAction().getStatus()).isEqualTo(LastActionStatus.IDLE);
+        softly.assertThat(profile.getLastAction().getStatus()).isEqualTo(OnlineStatus.IDLE);
         softly.assertThat(profile.getLastAction().getTimestamp()).isEqualTo(LocalDateTime.of(2021, 11, 19, 22, 49, 40));
         softly.assertThat(profile.getLastAction().getRelative()).isEqualTo("1 hour ago");
 
@@ -1302,7 +1302,7 @@ class UserMapperTest {
         softly.assertThat(profile.getStates().getJailTimestamp()).isEqualTo(0);
 
         softly.assertThat(profile.getLastAction()).isNotNull();
-        softly.assertThat(profile.getLastAction().getStatus()).isEqualTo(LastActionStatus.IDLE);
+        softly.assertThat(profile.getLastAction().getStatus()).isEqualTo(OnlineStatus.IDLE);
         softly.assertThat(profile.getLastAction().getTimestamp()).isEqualTo(LocalDateTime.of(2021, 11, 19, 22, 49, 40));
         softly.assertThat(profile.getLastAction().getRelative()).isEqualTo("1 hour ago");
 
@@ -1419,7 +1419,7 @@ class UserMapperTest {
         Map<Long, Revive> result = UserMapper.ofRevives(json);
 
         Revive.LastAction reviveLastAction1 = new Revive.LastAction();
-        reviveLastAction1.setStatus(LastActionStatus.ONLINE);
+        reviveLastAction1.setStatus(OnlineStatus.ONLINE);
         reviveLastAction1.setTimestamp(LocalDateTime.of(2021, 11, 6, 1, 6, 23));
 
 
@@ -1436,7 +1436,7 @@ class UserMapperTest {
         revive1.setTargetLastAction(reviveLastAction1);
 
         Revive.LastAction reviveLastAction2 = new Revive.LastAction();
-        reviveLastAction2.setStatus(LastActionStatus.OFFLINE);
+        reviveLastAction2.setStatus(OnlineStatus.OFFLINE);
         reviveLastAction2.setTimestamp(LocalDateTime.of(2021, 11, 21, 22, 30, 44));
 
         Revive revive2 = new Revive();
@@ -1465,7 +1465,7 @@ class UserMapperTest {
         Map<Long, Revive> result = UserMapper.ofRevives(json);
 
         Revive.LastAction reviveLastAction1 = new Revive.LastAction();
-        reviveLastAction1.setStatus(LastActionStatus.ONLINE);
+        reviveLastAction1.setStatus(OnlineStatus.ONLINE);
         reviveLastAction1.setTimestamp(LocalDateTime.of(2021, 11, 6, 1, 6, 23));
 
         Revive revive1 = new Revive();
@@ -1485,7 +1485,7 @@ class UserMapperTest {
         revive1.setTargetLastAction(reviveLastAction1);
 
         Revive.LastAction reviveLastAction2 = new Revive.LastAction();
-        reviveLastAction2.setStatus(LastActionStatus.OFFLINE);
+        reviveLastAction2.setStatus(OnlineStatus.OFFLINE);
         reviveLastAction2.setTimestamp(LocalDateTime.of(2021, 11, 21, 22, 30, 44));
 
         Revive revive2 = new Revive();
