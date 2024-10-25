@@ -7,8 +7,10 @@
     <groupId>eu.tornplayground</groupId>
     <artifactId>tornapi</artifactId>
     <version>0.6.3</version>
-    <name>tornapi</name>
+
+    <name>TornAPI Wrapper</name>
     <description>Wrapper for the Torn API.</description>
+    <url>https://tornapi.tornplayground.eu/</url>
 
     <licenses>
         <license>
@@ -16,6 +18,15 @@
             <url>https://unlicense.org/</url>
         </license>
     </licenses>
+
+    <developers>
+        <developer>
+            <name>Kobe De Peuter</name>
+            <email>kobedepeuter@outlook.com</email>
+            <url>https://github.com/DeKleineKobini</url>
+            <timezone>Europe/Brussels</timezone>
+        </developer>
+    </developers>
 
     <scm>
         <connection>scm:git:git://github.com/Torn-Playground/tornapi.git</connection>
