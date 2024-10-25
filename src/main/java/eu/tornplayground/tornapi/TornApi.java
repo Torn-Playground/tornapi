@@ -1,6 +1,8 @@
 package eu.tornplayground.tornapi;
 
 import com.fasterxml.jackson.databind.JsonNode;
+import eu.tornplayground.tornapi.cache.DefaultResponseCache;
+import eu.tornplayground.tornapi.cache.ResponseCache;
 import eu.tornplayground.tornapi.connector.ApiConnector;
 import eu.tornplayground.tornapi.connector.TornHttpException;
 import eu.tornplayground.tornapi.keyprovider.KeyProvider;
@@ -17,6 +19,7 @@ public class TornApi {
     private final ApiConnector connector;
     private final KeyProvider keyProvider;
     private String defaultComment;
+    private ResponseCache responseCache;
 
     public TornApi(ApiConnector connector, KeyProvider keyProvider) {
         this.connector = connector;
@@ -25,6 +28,16 @@ public class TornApi {
 
     public TornApi(ApiConnector connector) {
         this(connector, null);
+    }
+
+    public TornApi withResponseCache(ResponseCache cache) {
+        this.responseCache = cache;
+        return this;
+    }
+
+    public TornApi withDefaultResponseCache() {
+        this.responseCache = new DefaultResponseCache();
+        return this;
     }
 
     public String getDefaultComment() {
@@ -104,6 +117,13 @@ public class TornApi {
             return parameters;
         }
 
+        /**
+         * Hash the request data for caching.
+         * Excludes the parameters as they are not used for caching.
+         */
+        public int cacheHash() {
+            return Objects.hash(key, id, section, selections);
+        }
     }
 
     public class ApiSection<T extends Selection> {
@@ -213,19 +233,25 @@ public class TornApi {
         }
 
         public JsonNode fetch() throws IOException, InterruptedException, TornHttpException {
+            RequestData request = new RequestData(key, id, section, selections, parameters);
+
+            if (responseCache != null && responseCache.contains(request.cacheHash())) {
+                return responseCache.get(request.cacheHash());
+            }
+
             URI uri = buildUri();
 
             JsonNode result = connector.connect(uri.toString());
 
-            if (usedProvider) {
-                RequestData request = new RequestData(key, id, section, selections, parameters);
+            if (responseCache != null && !result.has("error")) {
+                responseCache.put(request.cacheHash(), result);
+            }
 
+            if (usedProvider) {
                 keyProvider.listener(request, result);
             }
 
             return result;
         }
-
     }
-
 }
