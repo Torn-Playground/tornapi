@@ -4,6 +4,7 @@ import java.util.Deque;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentLinkedDeque;
+import java.util.concurrent.TimeUnit;
 
 /**
  * Limits the number of requests per given time frame per API key.
@@ -13,7 +14,13 @@ public class RequestLimiter {
 
     private final short maxRequests;
     private final int timeFrameInMilliseconds;
+    private boolean withException = false;
+    private int requestsQueuedCount = 0;
 
+    /**
+     * @param maxRequests Max requests for given timeframe
+     * @param seconds Timeframe in seconds
+     */
     public RequestLimiter(short maxRequests, int seconds) {
         this.maxRequests = maxRequests;
         this.timeFrameInMilliseconds = seconds * 1000;
@@ -23,27 +30,42 @@ public class RequestLimiter {
         }
     }
 
-    public long getMillisecondsUntilNextRequest(String apiKey) {
-        if (hasLimitReached(apiKey)) {
-            return 0;
-        }
+    /**
+     * @param maxRequests Max requests for given timeframe
+     * @param seconds Timeframe in seconds
+     * @param withException If true, throws an exception when the limit is reached. If false, sleeps until the limit is reset.
+     */
+    public RequestLimiter(short maxRequests, int seconds, boolean withException) {
+        this(maxRequests, seconds);
+        this.withException = withException;
+    }
 
+    public synchronized void handleRequest(String apiKey) throws RequestLimitReachedException, InterruptedException {
         long currentMilliseconds = System.currentTimeMillis();
         Deque<Long> timestamps = keyTimestampMap.computeIfAbsent(apiKey, k -> new ConcurrentLinkedDeque<>());
+        timestamps.removeIf(timestamp -> timestamp + timeFrameInMilliseconds < currentMilliseconds);
 
-        @SuppressWarnings("ConstantConditions")
-        long oldestTimestamp = timestamps.peekFirst(); // should actually never be null
-        long timeUntilTimestampExpires = timeFrameInMilliseconds - (currentMilliseconds - oldestTimestamp);
-        return Math.max(timeUntilTimestampExpires, 0);
+        if (timestamps.size() < maxRequests) {
+            registerRequest(apiKey, currentMilliseconds);
+            return;
+        }
+
+        long timestamp = timestamps.stream().skip(requestsQueuedCount).findFirst().orElse(0L);
+        long millisecondsUntilNextRequest = timeFrameInMilliseconds - (currentMilliseconds - timestamp);
+
+        if (millisecondsUntilNextRequest > 0) {
+            if (withException) {
+                throw new RequestLimitReachedException("Rate limit reached. Please wait " + millisecondsUntilNextRequest + " milliseconds.");
+            } else {
+                requestsQueuedCount++;
+                registerRequest(apiKey, currentMilliseconds + millisecondsUntilNextRequest);
+                TimeUnit.MILLISECONDS.sleep(millisecondsUntilNextRequest);
+                requestsQueuedCount--;
+            }
+        }
     }
 
-    public boolean hasLimitReached(String apiKey) {
-        Deque<Long> timestamps = keyTimestampMap.computeIfAbsent(apiKey, k -> new ConcurrentLinkedDeque<>());
-        timestamps.removeIf(timestamp -> timestamp + timeFrameInMilliseconds < System.currentTimeMillis());
-        return timestamps.size() >= maxRequests;
-    }
-
-    public void registerRequest(String apiKey, long timestamp) {
+    public synchronized void registerRequest(String apiKey, long timestamp) {
         keyTimestampMap.computeIfAbsent(apiKey, k -> new ConcurrentLinkedDeque<>()).add(timestamp);
     }
 }
