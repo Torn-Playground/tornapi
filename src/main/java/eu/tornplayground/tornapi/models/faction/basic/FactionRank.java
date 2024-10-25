@@ -2,15 +2,16 @@ package eu.tornplayground.tornapi.models.faction.basic;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import eu.tornplayground.tornapi.models.Model;
+import eu.tornplayground.tornapi.models.faction.basic.rank.Rank;
 
 import java.util.Objects;
 
-public class Rank extends Model {
+public class FactionRank extends Model {
     @JsonProperty("level")
     private int level;
 
     @JsonProperty("name")
-    private String name;
+    private Rank name;
 
     @JsonProperty("division")
     private int division;
@@ -21,14 +22,14 @@ public class Rank extends Model {
     @JsonProperty("wins")
     private int wins;
 
-    protected Rank() {
+    protected FactionRank() {
     }
 
     public int getLevel() {
         return level;
     }
 
-    public String getName() {
+    public Rank getName() {
         return name;
     }
 
@@ -47,9 +48,9 @@ public class Rank extends Model {
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
-        if (!(o instanceof Rank)) return false;
-        Rank rank = (Rank) o;
-        return level == rank.level && position == rank.position && wins == rank.wins && Objects.equals(name, rank.name) && division == rank.division;
+        if (!(o instanceof FactionRank)) return false;
+        FactionRank that = (FactionRank) o;
+        return level == that.level && division == that.division && position == that.position && wins == that.wins && name == that.name;
     }
 
     @Override

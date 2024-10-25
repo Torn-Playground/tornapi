@@ -2,13 +2,12 @@ package eu.tornplayground.tornapi.models.faction;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
-import com.fasterxml.jackson.databind.annotation.JsonPOJOBuilder;
 import eu.tornplayground.tornapi.models.Model;
 import eu.tornplayground.tornapi.models.converters.DayDurationConverter;
 import eu.tornplayground.tornapi.models.converters.EpochLocalDateTimeConverter;
 import eu.tornplayground.tornapi.models.faction.basic.Member;
 import eu.tornplayground.tornapi.models.faction.basic.RaidWars;
-import eu.tornplayground.tornapi.models.faction.basic.Rank;
+import eu.tornplayground.tornapi.models.faction.basic.FactionRank;
 import eu.tornplayground.tornapi.models.faction.basic.TerritoryWars;
 
 import java.time.Duration;
@@ -63,7 +62,7 @@ public class FactionBasic extends Model {
     private Map<Integer, LocalDateTime> peace;
 
     @JsonProperty("rank")
-    private Rank rank;
+    private FactionRank rank;
 
     @JsonProperty("members")
     private Map<Integer, Member> members;
@@ -127,7 +126,7 @@ public class FactionBasic extends Model {
         return peace;
     }
 
-    public Rank getRank() {
+    public FactionRank getRank() {
         return rank;
     }
 
