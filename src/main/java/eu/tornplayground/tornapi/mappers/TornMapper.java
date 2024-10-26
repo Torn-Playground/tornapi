@@ -3,6 +3,7 @@ package eu.tornplayground.tornapi.mappers;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.JsonNode;
 import eu.tornplayground.tornapi.models.torn.*;
+import eu.tornplayground.tornapi.models.torn.stock.Stock;
 
 import java.util.List;
 import java.util.Map;

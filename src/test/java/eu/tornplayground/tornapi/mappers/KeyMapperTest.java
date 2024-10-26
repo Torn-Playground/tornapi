@@ -1,6 +1,6 @@
 package eu.tornplayground.tornapi.mappers;
 
-import eu.tornplayground.tornapi.models.info.KeyInfo;
+import eu.tornplayground.tornapi.models.info.keyinfo.AccessType;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -19,7 +19,7 @@ class KeyMapperTest {
         SoftAssertions softly = new SoftAssertions();
 
         softly.assertThat(result.getAccessLevel()).isEqualTo(3);
-        softly.assertThat(result.getAccessType()).isEqualTo(KeyInfo.AccessType.LIMITED_ACCESS);
+        softly.assertThat(result.getAccessType()).isEqualTo(AccessType.LIMITED_ACCESS);
         softly.assertThat(result.getSelections().getUser())
                 .hasSize(44)
                 .contains("hof", "money", "lookup");

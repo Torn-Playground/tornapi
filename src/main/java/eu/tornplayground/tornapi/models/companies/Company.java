@@ -3,130 +3,52 @@ package eu.tornplayground.tornapi.models.companies;
 import eu.tornplayground.tornapi.models.converters.DayDurationConverter;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 import java.time.Duration;
 import java.util.Objects;
 
+@Getter
+@NoArgsConstructor(access = lombok.AccessLevel.PROTECTED)
 public class Company {
 
     @JsonProperty("ID")
     private long id;
+
     @JsonProperty("company_type")
     private long typeId;
+
+    @JsonProperty("rating")
     private int rating;
+
+    @JsonProperty("name")
     private String name;
+
+    @JsonProperty("director")
     private long director;
+
     @JsonProperty("employees_hired")
     private int employees;
+
     @JsonProperty("employees_capacity")
     private int capacity;
+
     @JsonProperty("daily_income")
     private long dailyIncome;
+
     @JsonProperty("daily_customers")
     private int dailyCustomers;
+
     @JsonProperty("weekly_income")
     private long weeklyIncome;
+
     @JsonProperty("weekly_customers")
     private int weeklyCustomers;
+
     @JsonProperty("days_old")
     @JsonDeserialize(converter = DayDurationConverter.class)
     private Duration daysOld;
-
-    public long getId() {
-        return id;
-    }
-
-    public void setId(long id) {
-        this.id = id;
-    }
-
-    public long getTypeId() {
-        return typeId;
-    }
-
-    public void setTypeId(long typeId) {
-        this.typeId = typeId;
-    }
-
-    public int getRating() {
-        return rating;
-    }
-
-    public void setRating(int rating) {
-        this.rating = rating;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public long getDirector() {
-        return director;
-    }
-
-    public void setDirector(long director) {
-        this.director = director;
-    }
-
-    public int getEmployees() {
-        return employees;
-    }
-
-    public void setEmployees(int employees) {
-        this.employees = employees;
-    }
-
-    public int getCapacity() {
-        return capacity;
-    }
-
-    public void setCapacity(int capacity) {
-        this.capacity = capacity;
-    }
-
-    public long getDailyIncome() {
-        return dailyIncome;
-    }
-
-    public void setDailyIncome(long dailyIncome) {
-        this.dailyIncome = dailyIncome;
-    }
-
-    public int getDailyCustomers() {
-        return dailyCustomers;
-    }
-
-    public void setDailyCustomers(int dailyCustomers) {
-        this.dailyCustomers = dailyCustomers;
-    }
-
-    public long getWeeklyIncome() {
-        return weeklyIncome;
-    }
-
-    public void setWeeklyIncome(long weeklyIncome) {
-        this.weeklyIncome = weeklyIncome;
-    }
-
-    public int getWeeklyCustomers() {
-        return weeklyCustomers;
-    }
-
-    public void setWeeklyCustomers(int weeklyCustomers) {
-        this.weeklyCustomers = weeklyCustomers;
-    }
-
-    public Duration getDaysOld() {
-        return daysOld;
-    }
-
-    public void setDaysOld(Duration daysOld) {
-        this.daysOld = daysOld;
-    }
 
     @Override
     public boolean equals(Object o) {

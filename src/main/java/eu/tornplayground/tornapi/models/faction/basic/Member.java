@@ -6,10 +6,14 @@ import eu.tornplayground.tornapi.models.Model;
 import eu.tornplayground.tornapi.models.converters.DayDurationConverter;
 import eu.tornplayground.tornapi.models.faction.basic.member.LastAction;
 import eu.tornplayground.tornapi.models.faction.basic.member.Status;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 import java.time.Duration;
 import java.util.Objects;
 
+@Getter
+@NoArgsConstructor(access = lombok.AccessLevel.PROTECTED)
 public class Member extends Model {
 
     @JsonProperty("name")
@@ -30,33 +34,6 @@ public class Member extends Model {
 
     @JsonProperty("position")
     private String position;
-
-    protected Member() {
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public short getLevel() {
-        return level;
-    }
-
-    public Duration getDaysInFaction() {
-        return daysInFaction;
-    }
-
-    public LastAction getLastAction() {
-        return lastAction;
-    }
-
-    public Status getStatus() {
-        return status;
-    }
-
-    public String getPosition() {
-        return position;
-    }
 
     @Override
     public boolean equals(Object o) {

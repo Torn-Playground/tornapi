@@ -6,10 +6,14 @@ import eu.tornplayground.tornapi.models.Model;
 import eu.tornplayground.tornapi.models.converters.EpochLocalDateTimeConverter;
 import eu.tornplayground.tornapi.models.common.AttackResult;
 import eu.tornplayground.tornapi.models.faction.attacks.Modifiers;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 import java.time.LocalDateTime;
 import java.util.Objects;
 
+@Getter
+@NoArgsConstructor(access = lombok.AccessLevel.PROTECTED)
 public class FactionAttacks extends Model {
     @JsonProperty("code")
     private String code;
@@ -72,89 +76,6 @@ public class FactionAttacks extends Model {
 
     @JsonProperty("modifiers")
     private Modifiers modifiers;
-
-    protected FactionAttacks() {
-    }
-
-    public String getCode() {
-        return code;
-    }
-
-    public LocalDateTime getTimestampStarted() {
-        return timestampStarted;
-    }
-
-    public LocalDateTime getTimestampEnded() {
-        return timestampEnded;
-    }
-
-    public Integer getAttackerId() {
-        return attackerId;
-    }
-
-    public String getAttackerName() {
-        return attackerName;
-    }
-
-    public Integer getAttackerFaction() {
-        return attackerFaction;
-    }
-
-    public String getAttackerFactionName() {
-        return attackerFactionName;
-    }
-
-    public Integer getDefenderId() {
-        return defenderId;
-    }
-
-    public String getDefenderName() {
-        return defenderName;
-    }
-
-    public Integer getDefenderFaction() {
-        return defenderFaction;
-    }
-
-    public String getDefenderFactionName() {
-        return defenderFactionName;
-    }
-
-    public AttackResult getResult() {
-        return result;
-    }
-
-    public boolean isStealthed() {
-        return stealthed;
-    }
-
-    public float getRespect() {
-        return respect;
-    }
-
-    public int getChain() {
-        return chain;
-    }
-
-    public boolean isRaid() {
-        return raid;
-    }
-
-    public boolean isRankedWar() {
-        return rankedWar;
-    }
-
-    public float getRespectGain() {
-        return respectGain;
-    }
-
-    public float getRespectLoss() {
-        return respectLoss;
-    }
-
-    public Modifiers getModifiers() {
-        return modifiers;
-    }
 
     @Override
     public boolean equals(Object o) {

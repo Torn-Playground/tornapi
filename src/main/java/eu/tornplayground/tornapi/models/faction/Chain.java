@@ -5,11 +5,15 @@ import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import eu.tornplayground.tornapi.models.Model;
 import eu.tornplayground.tornapi.models.converters.EpochLocalDateTimeConverter;
 import eu.tornplayground.tornapi.models.converters.SecondDurationConverter;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 import java.time.Duration;
 import java.time.LocalDateTime;
 import java.util.Objects;
 
+@Getter
+@NoArgsConstructor(access = lombok.AccessLevel.PROTECTED)
 public class Chain extends Model {
     @JsonProperty("current")
     private int current;
@@ -35,37 +39,6 @@ public class Chain extends Model {
     @JsonProperty("end")
     @JsonDeserialize(converter = EpochLocalDateTimeConverter.class)
     private LocalDateTime end;
-
-    protected Chain() {
-    }
-
-    public int getCurrent() {
-        return current;
-    }
-
-    public int getMax() {
-        return max;
-    }
-
-    public Duration getTimeout() {
-        return timeout;
-    }
-
-    public float getModifier() {
-        return modifier;
-    }
-
-    public Duration getCooldown() {
-        return cooldown;
-    }
-
-    public LocalDateTime getStart() {
-        return start;
-    }
-
-    public LocalDateTime getEnd() {
-        return end;
-    }
 
     @Override
     public boolean equals(Object o) {

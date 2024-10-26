@@ -1,39 +1,22 @@
 package eu.tornplayground.tornapi.models.market;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 import java.util.Objects;
-
+@Getter
+@NoArgsConstructor(access = lombok.AccessLevel.PROTECTED)
 public class PointOrder {
 
+    @JsonProperty("cost")
     private long cost;
+
+    @JsonProperty("quantity")
     private long quantity;
+
     @JsonProperty("total_cost")
     private long totalCost;
-
-    public long getCost() {
-        return cost;
-    }
-
-    public void setCost(long cost) {
-        this.cost = cost;
-    }
-
-    public long getQuantity() {
-        return quantity;
-    }
-
-    public void setQuantity(long quantity) {
-        this.quantity = quantity;
-    }
-
-    public long getTotalCost() {
-        return totalCost;
-    }
-
-    public void setTotalCost(long totalCost) {
-        this.totalCost = totalCost;
-    }
 
     @Override
     public boolean equals(Object o) {

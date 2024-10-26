@@ -3,10 +3,8 @@ package eu.tornplayground.tornapi.mappers;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import eu.tornplayground.tornapi.models.torn.CompanyType;
-import eu.tornplayground.tornapi.models.torn.ShopLiftingSecurity;
-import eu.tornplayground.tornapi.models.torn.Stock;
-import eu.tornplayground.tornapi.models.torn.TornItem;
+import eu.tornplayground.tornapi.models.torn.*;
+import eu.tornplayground.tornapi.models.torn.stock.Stock;
 import org.assertj.core.api.SoftAssertions;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
@@ -386,8 +384,8 @@ class TornMapperTest {
 
         var result = TornMapper.ofStocks(json);
 
-        Stock.Benefit benefit1 = new Stock.Benefit();
-        benefit1.setType(Stock.Benefit.Type.ACTIVE);
+        Benefit benefit1 = new Benefit();
+        benefit1.setType(Benefit.Type.ACTIVE);
         benefit1.setFrequency(31);
         benefit1.setRequirement(3000000);
         benefit1.setDescription("$50,000,000");
@@ -401,8 +399,8 @@ class TornMapperTest {
         stock1.setTotalShares(11898959701L);
         stock1.setBenefit(benefit1);
 
-        Stock.Benefit benefit2 = new Stock.Benefit();
-        benefit2.setType(Stock.Benefit.Type.PASSIVE);
+        Benefit benefit2 = new Benefit();
+        benefit2.setType(Benefit.Type.PASSIVE);
         benefit2.setFrequency(7);
         benefit2.setRequirement(1000000);
         benefit2.setDescription("a Company Sales Boost");

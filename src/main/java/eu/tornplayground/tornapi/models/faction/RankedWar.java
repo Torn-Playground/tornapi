@@ -4,27 +4,20 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import eu.tornplayground.tornapi.models.Model;
 import eu.tornplayground.tornapi.models.faction.rankedwar.Faction;
 import eu.tornplayground.tornapi.models.faction.rankedwar.War;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 import java.util.Map;
 import java.util.Objects;
 
+@Getter
+@NoArgsConstructor(access = lombok.AccessLevel.PROTECTED)
 public class RankedWar extends Model {
     @JsonProperty("factions")
     private Map<Integer, Faction> factions;
 
     @JsonProperty("war")
     private War war;
-
-    protected RankedWar() {
-    }
-
-    public Map<Integer, Faction> getFactions() {
-        return factions;
-    }
-
-    public War getWar() {
-        return war;
-    }
 
     @Override
     public boolean equals(Object o) {

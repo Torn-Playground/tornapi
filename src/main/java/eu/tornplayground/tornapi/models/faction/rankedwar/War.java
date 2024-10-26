@@ -4,10 +4,14 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import eu.tornplayground.tornapi.models.Model;
 import eu.tornplayground.tornapi.models.converters.EpochLocalDateTimeConverter;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 import java.time.LocalDateTime;
 import java.util.Objects;
 
+@Getter
+@NoArgsConstructor(access = lombok.AccessLevel.PROTECTED)
 public class War extends Model {
     @JsonProperty("start")
     @JsonDeserialize(converter = EpochLocalDateTimeConverter.class)
@@ -22,25 +26,6 @@ public class War extends Model {
 
     @JsonProperty("winner")
     private int winner;
-
-    protected War() {
-    }
-
-    public LocalDateTime getStart() {
-        return start;
-    }
-
-    public LocalDateTime getEnd() {
-        return end;
-    }
-
-    public int getTarget() {
-        return target;
-    }
-
-    public int getWinner() {
-        return winner;
-    }
 
     @Override
     public boolean equals(Object o) {

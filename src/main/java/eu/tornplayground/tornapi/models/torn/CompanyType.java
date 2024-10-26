@@ -3,68 +3,34 @@ package eu.tornplayground.tornapi.models.torn;
 import eu.tornplayground.tornapi.models.Model;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
 
+@Getter
+@NoArgsConstructor(access = lombok.AccessLevel.PROTECTED)
 public class CompanyType extends Model {
 
+    @JsonProperty("name")
     private String name;
+
+    @JsonProperty("cost")
     private long cost;
+
     @JsonProperty("default_employees")
     private int defaultEmployees;
+
+    @JsonProperty("positions")
     private Map<String, CompanyPosition> positions;
+
+    @JsonProperty("stock")
     private Map<String, CompanyStock> stock;
+
+    @JsonProperty("specials")
     private Map<String, CompanySpecial> specials;
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public long getCost() {
-        return cost;
-    }
-
-    public void setCost(long cost) {
-        this.cost = cost;
-    }
-
-    public int getDefaultEmployees() {
-        return defaultEmployees;
-    }
-
-    public void setDefaultEmployees(int defaultEmployees) {
-        this.defaultEmployees = defaultEmployees;
-    }
-
-    public Map<String, CompanyPosition> getPositions() {
-        return positions;
-    }
-
-    public void setPositions(Map<String, CompanyPosition> positions) {
-        this.positions = positions;
-    }
-
-    public Map<String, CompanyStock> getStock() {
-        return stock;
-    }
-
-    public void setStock(Map<String, CompanyStock> stock) {
-        this.stock = stock;
-    }
-
-    public Map<String, CompanySpecial> getSpecials() {
-        return specials;
-    }
-
-    public void setSpecials(Map<String, CompanySpecial> specials) {
-        this.specials = specials;
-    }
 
     @Override
     public boolean equals(Object o) {

@@ -2,9 +2,13 @@ package eu.tornplayground.tornapi.models.faction.rankedwar;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import eu.tornplayground.tornapi.models.Model;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 import java.util.Objects;
 
+@Getter
+@NoArgsConstructor(access = lombok.AccessLevel.PROTECTED)
 public class Faction extends Model {
     @JsonProperty("name")
     private String name;
@@ -14,21 +18,6 @@ public class Faction extends Model {
 
     @JsonProperty("chain")
     private int chain;
-
-    protected Faction() {
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public int getScore() {
-        return score;
-    }
-
-    public int getChain() {
-        return chain;
-    }
 
     @Override
     public boolean equals(Object o) {
