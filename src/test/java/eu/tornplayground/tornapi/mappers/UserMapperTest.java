@@ -1310,7 +1310,7 @@ class UserMapperTest {
         softly.assertThat(revive.getTargetFaction()).isEqualTo(33007);
         softly.assertThat(revive.getTargetHospitalReason()).isEqualTo("Hospitalized by <a href = \"http://www.torn.com/profiles.php?XID=734492\">BabyLuST</a>");
         softly.assertThat(revive.isTargetEarlyDischarge()).isFalse();
-        softly.assertThat(revive.getTargetLastAction().getStatus()).isEqualTo(LastActionStatus.ONLINE);
+        softly.assertThat(revive.getTargetLastAction().getStatus()).isEqualTo(OnlineStatus.ONLINE);
         softly.assertThat(revive.getTargetLastAction().getTimestamp()).isEqualTo(LocalDateTime.ofInstant(Instant.ofEpochSecond(1636160783), ZoneOffset.UTC));
 
         softly.assertAll();
@@ -1339,7 +1339,7 @@ class UserMapperTest {
         softly.assertThat(revive.getTargetFactionName()).isEqualTo("HAKA");
         softly.assertThat(revive.getTargetHospitalReason()).isEqualTo("Hospitalized by <a href = \"http://www.torn.com/profiles.php?XID=734492\">BabyLuST</a>");
         softly.assertThat(revive.isTargetEarlyDischarge()).isFalse();
-        softly.assertThat(revive.getTargetLastAction().getStatus()).isEqualTo(LastActionStatus.ONLINE);
+        softly.assertThat(revive.getTargetLastAction().getStatus()).isEqualTo(OnlineStatus.ONLINE);
         softly.assertThat(revive.getTargetLastAction().getTimestamp()).isEqualTo(LocalDateTime.ofInstant(Instant.ofEpochSecond(1636160783), ZoneOffset.UTC));
 
         softly.assertAll();

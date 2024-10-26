@@ -1,8 +1,8 @@
-package eu.tornplayground.tornapi.models.torn.stock;
+package eu.tornplayground.tornapi.models.torn;
 
 import eu.tornplayground.tornapi.models.Model;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import eu.tornplayground.tornapi.models.torn.Benefit;
+import eu.tornplayground.tornapi.models.torn.stock.Benefit;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 

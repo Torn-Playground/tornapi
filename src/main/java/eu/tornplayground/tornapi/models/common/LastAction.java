@@ -4,7 +4,6 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import eu.tornplayground.tornapi.models.Model;
 import eu.tornplayground.tornapi.models.converters.EpochLocalDateTimeConverter;
-import eu.tornplayground.tornapi.models.user.partial.LastActionStatus;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -16,7 +15,7 @@ import java.util.Objects;
 public class LastAction extends Model {
 
     @JsonProperty("status")
-    private LastActionStatus status;
+    private OnlineStatus status;
 
     @JsonProperty("timestamp")
     @JsonDeserialize(converter = EpochLocalDateTimeConverter.class)

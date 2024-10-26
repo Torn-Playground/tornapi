@@ -9,11 +9,11 @@ import java.util.Map;
 
 @Getter
 public enum AccessType {
-    CUSTOM("custom"),
-    FULL_ACCESS("full access"),
-    LIMITED_ACCESS("limited access"),
-    MINIMAL_ACCESS("minimal access"),
-    PUBLIC_ONLY("public only");
+    CUSTOM("Custom"),
+    FULL_ACCESS("Full Access"),
+    LIMITED_ACCESS("Limited Access"),
+    MINIMAL_ACCESS("Minimal Access"),
+    PUBLIC_ONLY("Public Only");
 
     private final String name;
 
@@ -22,7 +22,7 @@ public enum AccessType {
     }
 
     @JsonCreator
-    public AccessType fromName(String name) {
+    public static AccessType fromName(String name) {
         for (AccessType value : AccessType.values()) {
             if (value.name.equals(name)) {
                 return value;
