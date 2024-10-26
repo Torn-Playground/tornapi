@@ -1,9 +1,9 @@
 package eu.tornplayground.tornapi.models.user;
 
+import eu.tornplayground.tornapi.models.common.OnlineStatus;
 import eu.tornplayground.tornapi.models.converters.DayDurationConverter;
 import eu.tornplayground.tornapi.models.converters.EpochLocalDateTimeConverter;
 import eu.tornplayground.tornapi.models.converters.SignupLocalDateTimeConverter;
-import eu.tornplayground.tornapi.models.user.partial.LastActionStatus;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 
@@ -472,16 +472,16 @@ public class Profile extends Basic {
 
     public static class LastAction {
 
-        private LastActionStatus status;
+        private OnlineStatus status;
         @JsonDeserialize(converter = EpochLocalDateTimeConverter.class)
         private LocalDateTime timestamp;
         private String relative;
 
-        public LastActionStatus getStatus() {
+        public OnlineStatus getStatus() {
             return status;
         }
 
-        public void setStatus(LastActionStatus status) {
+        public void setStatus(OnlineStatus status) {
             this.status = status;
         }
 
