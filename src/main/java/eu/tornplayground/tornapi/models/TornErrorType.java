@@ -45,7 +45,7 @@ public enum TornErrorType {
     @JsonCreator
     public static TornErrorType fromMessage(String message) {
         for (TornErrorType error : values()) {
-            if (error.getMessage().equals(message)) {
+            if (error.getMessage().contains(message)) {
                 return error;
             }
         }

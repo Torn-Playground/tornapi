@@ -5,6 +5,7 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import eu.tornplayground.tornapi.models.Timestamp;
 import eu.tornplayground.tornapi.models.TornError;
+import eu.tornplayground.tornapi.models.TornErrorType;
 import org.assertj.core.api.SoftAssertions;
 import org.junit.jupiter.api.Test;
 
@@ -50,7 +51,7 @@ class ModelMapperTest {
         SoftAssertions softly = new SoftAssertions();
 
         softly.assertThat(error.getCode()).isEqualTo(4);
-        softly.assertThat(error.getError()).isEqualTo("Wrong fields");
+        softly.assertThat(error.getError()).isEqualTo(TornErrorType.WRONG_FIELDS);
 
         softly.assertAll();
     }
