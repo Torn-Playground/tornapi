@@ -1,39 +1,30 @@
 package eu.tornplayground.tornapi.models.user;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import eu.tornplayground.tornapi.models.Model;
+import eu.tornplayground.tornapi.models.converters.SecondDurationConverter;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 import java.time.Duration;
 import java.util.Objects;
 
+@Getter
+@NoArgsConstructor(access = lombok.AccessLevel.PROTECTED)
 public class Cooldowns extends Model {
 
+    @JsonProperty("drug")
+    @JsonDeserialize(converter = SecondDurationConverter.class)
     private Duration drug;
+
+    @JsonProperty("medical")
+    @JsonDeserialize(converter = SecondDurationConverter.class)
     private Duration medical;
+
+    @JsonProperty("booster")
+    @JsonDeserialize(converter = SecondDurationConverter.class)
     private Duration booster;
-
-    public Duration getDrug() {
-        return drug;
-    }
-
-    public void setDrug(Duration drug) {
-        this.drug = drug;
-    }
-
-    public Duration getMedical() {
-        return medical;
-    }
-
-    public void setMedical(Duration medical) {
-        this.medical = medical;
-    }
-
-    public Duration getBooster() {
-        return booster;
-    }
-
-    public void setBooster(Duration booster) {
-        this.booster = booster;
-    }
 
     @Override
     public boolean equals(Object o) {

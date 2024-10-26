@@ -4,16 +4,27 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import eu.tornplayground.tornapi.models.user.*;
+import eu.tornplayground.tornapi.models.user.Bars;
+import eu.tornplayground.tornapi.models.user.ammo.AmmoSize;
+import eu.tornplayground.tornapi.models.user.ammo.AmmoType;
+import eu.tornplayground.tornapi.models.user.jobpoints.CompanyPoints;
+import eu.tornplayground.tornapi.models.user.mission.MissionStatus;
 import eu.tornplayground.tornapi.models.user.partial.Gender;
 import eu.tornplayground.tornapi.models.user.partial.LastActionStatus;
 import eu.tornplayground.tornapi.models.user.partial.Status;
+import eu.tornplayground.tornapi.models.user.report.ReportType;
+import eu.tornplayground.tornapi.models.user.revive.ReviveResult;
+import eu.tornplayground.tornapi.models.user.travel.TravelMethod;
+import org.assertj.core.api.AutoCloseableSoftAssertions;
 import org.assertj.core.api.SoftAssertions;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 
+import java.lang.reflect.InvocationTargetException;
 import java.time.Duration;
 import java.time.Instant;
 import java.time.LocalDateTime;
+import java.time.ZoneOffset;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -22,34 +33,36 @@ import static java.time.Instant.ofEpochMilli;
 import static java.time.ZoneOffset.UTC;
 import static java.time.ZonedDateTime.ofInstant;
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.InstanceOfAssertFactories.atomicReferenceFieldUpdater;
 import static org.assertj.core.data.MapEntry.entry;
 
 class UserMapperTest {
-
+    
+    
     @Test
     void ofAmmo() throws JsonProcessingException {
         ObjectMapper objectMapper = new ObjectMapper();
         JsonNode json = objectMapper.readTree("{\"ammo\":[{\"ammoID\":2,\"typeID\":1,\"size\":\"9mm Parabellum Round\",\"type\":\"Standard\",\"quantity\":3023,\"equipped\":1},{\"ammoID\":1,\"typeID\":1,\"size\":\"12 Gauge Cartridge\",\"type\":\"Standard\",\"quantity\":2355,\"equipped\":1},{\"ammoID\":1,\"typeID\":5,\"size\":\"12 Gauge Cartridge\",\"type\":\"Incendiary\",\"quantity\":243,\"equipped\":0},{\"ammoID\":3,\"typeID\":1,\"size\":\"5.7mm High Vel. Round\",\"type\":\"Standard\",\"quantity\":390,\"equipped\":0},{\"ammoID\":4,\"typeID\":1,\"size\":\"7.62 mm Rifle Round\",\"type\":\"Standard\",\"quantity\":3797,\"equipped\":0},{\"ammoID\":4,\"typeID\":2,\"size\":\"7.62 mm Rifle Round\",\"type\":\"Hollow Point\",\"quantity\":2146,\"equipped\":0},{\"ammoID\":4,\"typeID\":3,\"size\":\"7.62 mm Rifle Round\",\"type\":\"Piercing\",\"quantity\":2000,\"equipped\":0},{\"ammoID\":4,\"typeID\":4,\"size\":\"7.62 mm Rifle Round\",\"type\":\"Tracer\",\"quantity\":2500,\"equipped\":0},{\"ammoID\":4,\"typeID\":5,\"size\":\"7.62 mm Rifle Round\",\"type\":\"Incendiary\",\"quantity\":1500,\"equipped\":0},{\"ammoID\":5,\"typeID\":1,\"size\":\"5.56mm Rifle Round\",\"type\":\"Standard\",\"quantity\":88568,\"equipped\":0},{\"ammoID\":5,\"typeID\":2,\"size\":\"5.56mm Rifle Round\",\"type\":\"Hollow Point\",\"quantity\":274,\"equipped\":0},{\"ammoID\":5,\"typeID\":3,\"size\":\"5.56mm Rifle Round\",\"type\":\"Piercing\",\"quantity\":1500,\"equipped\":0},{\"ammoID\":5,\"typeID\":4,\"size\":\"5.56mm Rifle Round\",\"type\":\"Tracer\",\"quantity\":500,\"equipped\":0},{\"ammoID\":5,\"typeID\":5,\"size\":\"5.56mm Rifle Round\",\"type\":\"Incendiary\",\"quantity\":500,\"equipped\":0},{\"ammoID\":9,\"typeID\":1,\"size\":\"5.45mm Rifle Round\",\"type\":\"Standard\",\"quantity\":90,\"equipped\":0},{\"ammoID\":10,\"typeID\":1,\"size\":\".45 ACP Round\",\"type\":\"Standard\",\"quantity\":966,\"equipped\":0},{\"ammoID\":17,\"typeID\":1,\"size\":\".380 ACP Round\",\"type\":\"Standard\",\"quantity\":38,\"equipped\":0},{\"ammoID\":18,\"typeID\":1,\"size\":\"Liter of Fuel\",\"type\":\"Standard\",\"quantity\":3186,\"equipped\":0},{\"ammoID\":15,\"typeID\":1,\"size\":\"Flare\",\"type\":\"Standard\",\"quantity\":1000,\"equipped\":0}]}");
 
-        List<Ammo> ammo = UserMapper.ofAmmo(json);
+        List<Ammo> result = UserMapper.ofAmmo(json);
 
-        Ammo standard9mm = new Ammo();
-        standard9mm.setAmmoId(2);
-        standard9mm.setTypeId(1);
-        standard9mm.setSize("9mm Parabellum Round");
-        standard9mm.setType("Standard");
-        standard9mm.setEquipped(true);
+        SoftAssertions softly = new SoftAssertions();
 
-        Ammo hollow556 = new Ammo();
-        hollow556.setAmmoId(5);
-        hollow556.setTypeId(2);
-        hollow556.setSize("5.56mm Rifle Round");
-        hollow556.setType("Hollow Point");
-        hollow556.setEquipped(false);
+        softly.assertThat(result.size()).isEqualTo(19);
 
-        assertThat(ammo)
-                .hasSize(19)
-                .contains(standard9mm, hollow556);
+        Ammo ammo = result.get(0);
+        softly.assertThat(ammo.getAmmoId()).isEqualTo(2);
+        softly.assertThat(ammo.getTypeId()).isEqualTo(1);
+        softly.assertThat(ammo.getSize()).isEqualTo(AmmoSize.PARABELLUM_9MM_ROUND);
+        softly.assertThat(ammo.getType()).isEqualTo(AmmoType.STANDARD);
+
+        ammo = result.get(4);
+        softly.assertThat(ammo.getAmmoId()).isEqualTo(4);
+        softly.assertThat(ammo.getTypeId()).isEqualTo(1);
+        softly.assertThat(ammo.getSize()).isEqualTo(AmmoSize.RIFLE_762MM_ROUND);
+        softly.assertThat(ammo.getType()).isEqualTo(AmmoType.STANDARD);
+
+        softly.assertAll();
     }
 
     @Test
@@ -59,27 +72,19 @@ class UserMapperTest {
 
         Map<Long, Attack> result = UserMapper.ofAttacks(json);
 
-        Attack.Fighter attacker1 = new Attack.Fighter();
-        attacker1.setId(2114440);
-        attacker1.setFaction(20747);
+        SoftAssertions softly = new SoftAssertions();
 
-        Attack.Fighter defender1 = new Attack.Fighter();
-        defender1.setId(2084369);
-        defender1.setFaction(17001);
+        softly.assertThat(result.size()).isEqualTo(3);
+        softly.assertThat(result.containsKey(163385223L)).isTrue();
 
-        Attack attack1 = new Attack();
-        attack1.setCode("539b48279f80d57eece5971054962911");
-        attack1.setTimestampStarted(LocalDateTime.of(2021, 9, 12, 9, 16, 50));
-        attack1.setTimestampEnded(LocalDateTime.of(2021, 9, 12, 9, 16, 55));
-        attack1.setAttacker(attacker1);
-        attack1.setDefender(defender1);
-        attack1.setResult(Attack.AttackResult.ATTACKED);
-        attack1.setStealthed(false);
-        attack1.setRespect(3.39);
-
-        assertThat(result)
-                .hasSize(3)
-                .containsEntry(163385223L, attack1);
+        final Attack attack = result.get(163385223L);
+        softly.assertThat(attack.getCode()).isEqualTo("539b48279f80d57eece5971054962911");
+        softly.assertThat(attack.getTimestampStarted()).isEqualTo(LocalDateTime.of(2021, 9, 12, 9, 16, 50));
+        softly.assertThat(attack.getTimestampEnded()).isEqualTo(LocalDateTime.of(2021, 9, 12, 9, 16, 55));
+        softly.assertThat(attack.getAttacker().getId()).isEqualTo(2114440);
+        softly.assertThat(attack.getAttacker().getFaction()).isEqualTo(20747);
+        softly.assertThat(attack.getDefender().getId()).isEqualTo(2084369);
+        softly.assertThat(attack.getDefender().getFaction()).isEqualTo(17001);
     }
 
     @Test
@@ -89,80 +94,18 @@ class UserMapperTest {
 
         Map<Long, Attack> result = UserMapper.ofAttacks(json);
 
-        Attack.Modifiers attack1Modifiers = new Attack.Modifiers();
-        attack1Modifiers.setFairFight(2.4);
-        attack1Modifiers.setWar(2);
-        attack1Modifiers.setRetaliation(1);
-        attack1Modifiers.setGroupAttack(1);
-        attack1Modifiers.setOverseas(1);
-        attack1Modifiers.setChainBonus(1.13);
+        SoftAssertions softly = new SoftAssertions();
 
-        Attack.Fighter attacker1 = new Attack.Fighter();
-        attacker1.setId(1151690);
-        attacker1.setName("sharkeyfive");
-        attacker1.setFaction(2013);
-        attacker1.setFactionName("Subversive  Alliance");
+        softly.assertThat(result).hasSize(100);
 
-        Attack.Fighter defender1 = new Attack.Fighter();
-        defender1.setId(2114440);
-        defender1.setName("DeKleineKobini");
-        defender1.setFaction(33007);
-        defender1.setFactionName("HAKA");
-
-        Attack attack1 = new Attack();
-        attack1.setCode("51d4d4db0d303be93b6fe3aa3cb28205");
-        attack1.setTimestampStarted(LocalDateTime.of(2021, 11, 15, 10, 35, 34));
-        attack1.setTimestampEnded(LocalDateTime.of(2021, 11, 15, 10, 35, 44));
-        attack1.setAttacker(attacker1);
-        attack1.setDefender(defender1);
-        attack1.setResult(Attack.AttackResult.HOSPITALIZED);
-        attack1.setStealthed(false);
-        attack1.setRespect(0);
-        attack1.setChain(34);
-        attack1.setRaid(true);
-        attack1.setRespectGain(0);
-        attack1.setRespectLoss(0);
-        attack1.setModifiers(attack1Modifiers);
-
-        Attack.Modifiers attack2Modifiers = new Attack.Modifiers();
-        attack2Modifiers.setFairFight(3);
-        attack2Modifiers.setWar(1);
-        attack2Modifiers.setRetaliation(1);
-        attack2Modifiers.setGroupAttack(1);
-        attack2Modifiers.setOverseas(1);
-        attack2Modifiers.setChainBonus(1);
-
-        Attack.Fighter attacker2 = new Attack.Fighter();
-        attacker2.setId(2114440);
-        attacker2.setName("DeKleineKobini");
-        attacker2.setFaction(33007);
-        attacker2.setFactionName("HAKA");
-
-        Attack.Fighter defender2 = new Attack.Fighter();
-        defender2.setId(215524);
-        defender2.setName("B1ade");
-        defender2.setFaction(0);
-        defender2.setFactionName("");
-
-        Attack attack2 = new Attack();
-        attack2.setCode("f5bb3b9042a6958a94a08a8ab2b533b9");
-        attack2.setTimestampStarted(LocalDateTime.of(2021, 11, 17, 19, 26, 55));
-        attack2.setTimestampEnded(LocalDateTime.of(2021, 11, 17, 19, 27, 2));
-        attack2.setAttacker(attacker2);
-        attack2.setDefender(defender2);
-        attack2.setResult(Attack.AttackResult.ATTACKED);
-        attack2.setStealthed(false);
-        attack2.setRespect(3.81);
-        attack2.setChain(9);
-        attack2.setRaid(false);
-        attack2.setRespectGain(3.81);
-        attack2.setRespectLoss(0.95);
-        attack2.setModifiers(attack2Modifiers);
-
-        assertThat(result)
-                .hasSize(100)
-                .containsEntry(173744624L, attack1)
-                .containsEntry(173949571L, attack2);
+        Attack attack = result.get(173744624L);
+        softly.assertThat(attack.getCode()).isEqualTo("539b48279f80d57eece5971054962911");
+        softly.assertThat(attack.getTimestampStarted()).isEqualTo(LocalDateTime.of(2021, 9, 12, 9, 16, 50));
+        softly.assertThat(attack.getTimestampEnded()).isEqualTo(LocalDateTime.of(2021, 9, 12, 9, 16, 55));
+        softly.assertThat(attack.getAttacker().getId()).isEqualTo(2114440);
+        softly.assertThat(attack.getAttacker().getFaction()).isEqualTo(20747);
+        softly.assertThat(attack.getDefender().getId()).isEqualTo(2084369);
+        softly.assertThat(attack.getDefender().getFaction()).isEqualTo(17001);
     }
 
     @Test
@@ -170,45 +113,45 @@ class UserMapperTest {
         ObjectMapper objectMapper = new ObjectMapper();
         JsonNode json = objectMapper.readTree("{\"server_time\":1637502830,\"happy\":{\"current\":4425,\"maximum\":4525,\"increment\":5,\"interval\":900,\"ticktime\":370,\"fulltime\":17470},\"life\":{\"current\":6633,\"maximum\":6633,\"increment\":397,\"interval\":300,\"ticktime\":70,\"fulltime\":0},\"energy\":{\"current\":75,\"maximum\":150,\"increment\":5,\"interval\":600,\"ticktime\":370,\"fulltime\":8770},\"nerve\":{\"current\":33,\"maximum\":105,\"increment\":1,\"interval\":300,\"ticktime\":70,\"fulltime\":21370},\"chain\":{\"current\":0,\"maximum\":25000,\"timeout\":0,\"modifier\":1,\"cooldown\":0}}");
 
-        Bars bars = UserMapper.ofBars(json);
+        Bars result = UserMapper.ofBars(json);
 
         SoftAssertions softly = new SoftAssertions();
 
-        softly.assertThat(bars.getServerTime()).isEqualTo(LocalDateTime.of(2021, 11, 21, 13, 53, 50));
+        softly.assertThat(result.getServerTime()).isEqualTo(LocalDateTime.of(2021, 11, 21, 13, 53, 50));
 
-        softly.assertThat(bars.getHappy().getCurrent()).isEqualTo(4425);
-        softly.assertThat(bars.getHappy().getMaximum()).isEqualTo(4525);
-        softly.assertThat(bars.getHappy().getIncrement()).isEqualTo(5);
-        softly.assertThat(bars.getHappy().getInterval()).hasMinutes(15);
-        softly.assertThat(bars.getHappy().getTicktime()).hasSeconds(370);
-        softly.assertThat(bars.getHappy().getFulltime()).hasSeconds(17470);
+        softly.assertThat(result.getHappy().getCurrent()).isEqualTo(4425);
+        softly.assertThat(result.getHappy().getMaximum()).isEqualTo(4525);
+        softly.assertThat(result.getHappy().getIncrement()).isEqualTo(5);
+        softly.assertThat(result.getHappy().getInterval()).hasMinutes(15);
+        softly.assertThat(result.getHappy().getTickTime()).hasSeconds(370);
+        softly.assertThat(result.getHappy().getFullTime()).hasSeconds(17470);
 
-        softly.assertThat(bars.getLife().getCurrent()).isEqualTo(6633);
-        softly.assertThat(bars.getLife().getMaximum()).isEqualTo(6633);
-        softly.assertThat(bars.getLife().getIncrement()).isEqualTo(397);
-        softly.assertThat(bars.getLife().getInterval()).hasMinutes(5);
-        softly.assertThat(bars.getLife().getTicktime()).hasSeconds(70);
-        softly.assertThat(bars.getLife().getFulltime()).hasSeconds(0);
+        softly.assertThat(result.getLife().getCurrent()).isEqualTo(6633);
+        softly.assertThat(result.getLife().getMaximum()).isEqualTo(6633);
+        softly.assertThat(result.getLife().getIncrement()).isEqualTo(397);
+        softly.assertThat(result.getLife().getInterval()).hasMinutes(5);
+        softly.assertThat(result.getLife().getTickTime()).hasSeconds(70);
+        softly.assertThat(result.getLife().getFullTime()).hasSeconds(0);
 
-        softly.assertThat(bars.getEnergy().getCurrent()).isEqualTo(75);
-        softly.assertThat(bars.getEnergy().getMaximum()).isEqualTo(150);
-        softly.assertThat(bars.getEnergy().getIncrement()).isEqualTo(5);
-        softly.assertThat(bars.getEnergy().getInterval()).hasMinutes(10);
-        softly.assertThat(bars.getEnergy().getTicktime()).hasSeconds(370);
-        softly.assertThat(bars.getEnergy().getFulltime()).hasMinutes(146);
+        softly.assertThat(result.getEnergy().getCurrent()).isEqualTo(75);
+        softly.assertThat(result.getEnergy().getMaximum()).isEqualTo(150);
+        softly.assertThat(result.getEnergy().getIncrement()).isEqualTo(5);
+        softly.assertThat(result.getEnergy().getInterval()).hasMinutes(10);
+        softly.assertThat(result.getEnergy().getTickTime()).hasSeconds(370);
+        softly.assertThat(result.getEnergy().getFullTime()).hasMinutes(146);
 
-        softly.assertThat(bars.getNerve().getCurrent()).isEqualTo(33);
-        softly.assertThat(bars.getNerve().getMaximum()).isEqualTo(105);
-        softly.assertThat(bars.getNerve().getIncrement()).isEqualTo(1);
-        softly.assertThat(bars.getNerve().getInterval()).hasMinutes(5);
-        softly.assertThat(bars.getNerve().getTicktime()).hasSeconds(70);
-        softly.assertThat(bars.getNerve().getFulltime()).hasMinutes(356);
+        softly.assertThat(result.getNerve().getCurrent()).isEqualTo(33);
+        softly.assertThat(result.getNerve().getMaximum()).isEqualTo(105);
+        softly.assertThat(result.getNerve().getIncrement()).isEqualTo(1);
+        softly.assertThat(result.getNerve().getInterval()).hasMinutes(5);
+        softly.assertThat(result.getNerve().getTickTime()).hasSeconds(70);
+        softly.assertThat(result.getNerve().getFullTime()).hasMinutes(356);
 
-        softly.assertThat(bars.getChain().getCurrent()).isEqualTo(0);
-        softly.assertThat(bars.getChain().getMaximum()).isEqualTo(25000);
-        softly.assertThat(bars.getChain().getTimeout()).isEqualTo(0);
-        softly.assertThat(bars.getChain().getModifier()).isEqualTo(1);
-        softly.assertThat(bars.getChain().getCooldown()).isEqualTo(0);
+        softly.assertThat(result.getChain().getCurrent()).isEqualTo(0);
+        softly.assertThat(result.getChain().getMaximum()).isEqualTo(25000);
+        softly.assertThat(result.getChain().getTimeout()).hasSeconds(0);
+        softly.assertThat(result.getChain().getModifier()).isEqualTo(1);
+        softly.assertThat(result.getChain().getCooldown()).hasSeconds(0);
 
         softly.assertAll();
     }
@@ -218,21 +161,20 @@ class UserMapperTest {
         ObjectMapper objectMapper = new ObjectMapper();
         JsonNode json = objectMapper.readTree("{\"level\":94,\"gender\":\"Male\",\"player_id\":2114440,\"name\":\"DeKleineKobini\",\"status\":{\"description\":\"Okay\",\"details\":\"\",\"state\":\"Okay\",\"color\":\"green\",\"until\":0}}");
 
-        Basic basic = UserMapper.ofBasic(json);
+        Basic result = UserMapper.ofBasic(json);
 
         SoftAssertions softly = new SoftAssertions();
 
-        softly.assertThat(basic.getLevel()).isEqualTo(94);
-        softly.assertThat(basic.getGender()).isEqualTo(Gender.MALE);
-        softly.assertThat(basic.getPlayerId()).isEqualTo(2114440);
-        softly.assertThat(basic.getName()).isEqualTo("DeKleineKobini");
-
-        softly.assertThat(basic.getStatus()).isNotNull();
-        softly.assertThat(basic.getStatus().getDescription()).isEqualTo("Okay");
-        softly.assertThat(basic.getStatus().getDetails()).isEqualTo("");
-        softly.assertThat(basic.getStatus().getState()).isEqualTo(Status.State.OKAY);
-        softly.assertThat(basic.getStatus().getColor()).isEqualTo("green");
-        softly.assertThat(basic.getStatus().getUntil()).isEqualTo(Instant.ofEpochSecond(0).atOffset(UTC).toLocalDateTime());
+        softly.assertThat(result.getLevel()).isEqualTo(94);
+        softly.assertThat(result.getGender()).isEqualTo(Gender.MALE);
+        softly.assertThat(result.getPlayerId()).isEqualTo(2114440);
+        softly.assertThat(result.getName()).isEqualTo("DeKleineKobini");
+        softly.assertThat(result.getStatus()).isNotNull();
+        softly.assertThat(result.getStatus().getDescription()).isEqualTo("Okay");
+        softly.assertThat(result.getStatus().getDetails()).isEqualTo("");
+        softly.assertThat(result.getStatus().getState()).isEqualTo(Status.State.OKAY);
+        softly.assertThat(result.getStatus().getColor()).isEqualTo("green");
+        softly.assertThat(result.getStatus().getUntil()).isEqualTo(Instant.ofEpochSecond(0).atOffset(UTC).toLocalDateTime());
 
         softly.assertAll();
     }
@@ -242,24 +184,24 @@ class UserMapperTest {
         ObjectMapper objectMapper = new ObjectMapper();
         JsonNode json = objectMapper.readTree("{\"strength\":1,\"speed\":2,\"dexterity\":3,\"defense\":4,\"total\":10,\"strength_modifier\":5,\"defense_modifier\":5,\"speed_modifier\":5,\"dexterity_modifier\":5,\"strength_info\":[\"+30% to Strength from Merits\",\"+5% to Strength from Education\",\"+1% to Strength from Faction\",\"-14% to Strength from Drug\"],\"defense_info\":[\"+30% to Defense from Merits\",\"+11% to Defense from Education\",\"-18% to Defense from Drug\"],\"speed_info\":[\"+30% to Speed from Merits\",\"+14% to Speed from Education\",\"+1% to Speed from Faction\",\"-25% to Speed from Drug\"],\"dexterity_info\":[\"+30% to Dexterity from Merits\",\"+19% to Dexterity from Education\"]}");
 
-        BattleStats stats = UserMapper.ofBattleStats(json);
+        BattleStats result = UserMapper.ofBattleStats(json);
 
         SoftAssertions softly = new SoftAssertions();
 
-        softly.assertThat(stats).isNotNull();
-        softly.assertThat(stats.getStrength()).isEqualTo(1);
-        softly.assertThat(stats.getSpeed()).isEqualTo(2);
-        softly.assertThat(stats.getDexterity()).isEqualTo(3);
-        softly.assertThat(stats.getDefense()).isEqualTo(4);
-        softly.assertThat(stats.getTotal()).isEqualTo(10);
-        softly.assertThat(stats.getStrengthModifier()).isEqualTo(5);
-        softly.assertThat(stats.getDefenseModifier()).isEqualTo(5);
-        softly.assertThat(stats.getSpeedModifier()).isEqualTo(5);
-        softly.assertThat(stats.getDexterityModifier()).isEqualTo(5);
-        softly.assertThat(stats.getStrengthInfo()).hasSize(4);
-        softly.assertThat(stats.getDefenseInfo()).hasSize(3);
-        softly.assertThat(stats.getSpeedInfo()).hasSize(4);
-        softly.assertThat(stats.getDexterityInfo()).hasSize(2);
+        softly.assertThat(result).isNotNull();
+        softly.assertThat(result.getStrength()).isEqualTo(1);
+        softly.assertThat(result.getSpeed()).isEqualTo(2);
+        softly.assertThat(result.getDexterity()).isEqualTo(3);
+        softly.assertThat(result.getDefense()).isEqualTo(4);
+        softly.assertThat(result.getTotal()).isEqualTo(10);
+        softly.assertThat(result.getStrengthModifier()).isEqualTo(5);
+        softly.assertThat(result.getDefenseModifier()).isEqualTo(5);
+        softly.assertThat(result.getSpeedModifier()).isEqualTo(5);
+        softly.assertThat(result.getDexterityModifier()).isEqualTo(5);
+        softly.assertThat(result.getStrengthInfo()).hasSize(4);
+        softly.assertThat(result.getDefenseInfo()).hasSize(3);
+        softly.assertThat(result.getSpeedInfo()).hasSize(4);
+        softly.assertThat(result.getDexterityInfo()).hasSize(2);
 
         softly.assertAll();
     }
@@ -269,24 +211,24 @@ class UserMapperTest {
         ObjectMapper objectMapper = new ObjectMapper();
         JsonNode json = objectMapper.readTree("{\"strength\":2166691479,\"speed\":1364171599,\"dexterity\":1506931433,\"defense\":520976069394180,\"total\":520981107188691,\"strength_modifier\":5,\"defense_modifier\":5,\"speed_modifier\":5,\"dexterity_modifier\":5,\"strength_info\":[\"+30% to Strength from Merits\",\"+5% to Strength from Education\",\"+1% to Strength from Faction\",\"-14% to Strength from Drug\"],\"defense_info\":[\"+30% to Defense from Merits\",\"+11% to Defense from Education\",\"-18% to Defense from Drug\"],\"speed_info\":[\"+30% to Speed from Merits\",\"+14% to Speed from Education\",\"+1% to Speed from Faction\",\"-25% to Speed from Drug\"],\"dexterity_info\":[\"+30% to Dexterity from Merits\",\"+19% to Dexterity from Education\"]}");
 
-        BattleStats stats = UserMapper.ofBattleStats(json);
+        BattleStats result = UserMapper.ofBattleStats(json);
 
         SoftAssertions softly = new SoftAssertions();
 
-        softly.assertThat(stats).isNotNull();
-        softly.assertThat(stats.getStrength()).isEqualTo(2166691479L);
-        softly.assertThat(stats.getSpeed()).isEqualTo(1364171599L);
-        softly.assertThat(stats.getDexterity()).isEqualTo(1506931433);
-        softly.assertThat(stats.getDefense()).isEqualTo(520976069394180L);
-        softly.assertThat(stats.getTotal()).isEqualTo(520981107188691L);
-        softly.assertThat(stats.getStrengthModifier()).isEqualTo(5);
-        softly.assertThat(stats.getDefenseModifier()).isEqualTo(5);
-        softly.assertThat(stats.getSpeedModifier()).isEqualTo(5);
-        softly.assertThat(stats.getDexterityModifier()).isEqualTo(5);
-        softly.assertThat(stats.getStrengthInfo()).hasSize(4);
-        softly.assertThat(stats.getDefenseInfo()).hasSize(3);
-        softly.assertThat(stats.getSpeedInfo()).hasSize(4);
-        softly.assertThat(stats.getDexterityInfo()).hasSize(2);
+        softly.assertThat(result).isNotNull();
+        softly.assertThat(result.getStrength()).isEqualTo(2166691479L);
+        softly.assertThat(result.getSpeed()).isEqualTo(1364171599L);
+        softly.assertThat(result.getDexterity()).isEqualTo(1506931433);
+        softly.assertThat(result.getDefense()).isEqualTo(520976069394180L);
+        softly.assertThat(result.getTotal()).isEqualTo(520981107188691L);
+        softly.assertThat(result.getStrengthModifier()).isEqualTo(5);
+        softly.assertThat(result.getDefenseModifier()).isEqualTo(5);
+        softly.assertThat(result.getSpeedModifier()).isEqualTo(5);
+        softly.assertThat(result.getDexterityModifier()).isEqualTo(5);
+        softly.assertThat(result.getStrengthInfo()).hasSize(4);
+        softly.assertThat(result.getDefenseInfo()).hasSize(3);
+        softly.assertThat(result.getSpeedInfo()).hasSize(4);
+        softly.assertThat(result.getDexterityInfo()).hasSize(2);
 
         softly.assertAll();
     }
@@ -296,27 +238,29 @@ class UserMapperTest {
         ObjectMapper objectMapper = new ObjectMapper();
         JsonNode json = objectMapper.readTree("{\"bazaar\":[{\"ID\":477,\"name\":\"Black Easter Egg\",\"type\":\"Candy\",\"quantity\":3,\"price\":250000,\"market_price\":166925},{\"ID\":472,\"name\":\"Blue Easter Egg\",\"type\":\"Candy\",\"quantity\":2,\"price\":250000,\"market_price\":167132},{\"ID\":97,\"name\":\"Bunch of Flowers\",\"type\":\"Flower\",\"quantity\":27459,\"price\":700,\"market_price\":245},{\"ID\":48,\"name\":\"Jacket\",\"type\":\"Clothing\",\"quantity\":216151,\"price\":699,\"market_price\":237},{\"ID\":584,\"name\":\"Orange Easter Egg\",\"type\":\"Candy\",\"quantity\":4,\"price\":175000,\"market_price\":164125},{\"ID\":585,\"name\":\"Pink Easter Egg\",\"type\":\"Candy\",\"quantity\":3,\"price\":175000,\"market_price\":166375},{\"ID\":474,\"name\":\"Red Easter Egg\",\"type\":\"Candy\",\"quantity\":3,\"price\":175000,\"market_price\":155189},{\"ID\":203,\"name\":\"Shrooms\",\"type\":\"Drug\",\"quantity\":65,\"price\":24999,\"market_price\":9999},{\"ID\":475,\"name\":\"Yellow Easter Egg\",\"type\":\"Candy\",\"quantity\":1,\"price\":175000,\"market_price\":168683}]}");
 
-        List<BazaarItem> items = UserMapper.ofBazaar(json);
+        List<BazaarItem> result = UserMapper.ofBazaar(json);
 
-        BazaarItem jacket = new BazaarItem();
-        jacket.setId(48);
-        jacket.setName("Jacket");
-        jacket.setType("Clothing");
-        jacket.setQuantity(216151);
-        jacket.setPrice(699);
-        jacket.setMarketPrice(237);
+        SoftAssertions softly = new SoftAssertions();
 
-        BazaarItem bunchOfFlowers = new BazaarItem();
-        bunchOfFlowers.setId(97);
-        bunchOfFlowers.setName("Bunch of Flowers");
-        bunchOfFlowers.setType("Flower");
-        bunchOfFlowers.setQuantity(27459);
-        bunchOfFlowers.setPrice(700);
-        bunchOfFlowers.setMarketPrice(245);
+        softly.assertThat(result).hasSize(9);
 
-        assertThat(items)
-                .hasSize(9)
-                .contains(jacket, bunchOfFlowers);
+        BazaarItem item = result.get(0);
+        softly.assertThat(item.getId()).isEqualTo(477);
+        softly.assertThat(item.getName()).isEqualTo("Black Easter Egg");
+        softly.assertThat(item.getType()).isEqualTo("Candy");
+        softly.assertThat(item.getQuantity()).isEqualTo(3);
+        softly.assertThat(item.getPrice()).isEqualTo(250000);
+        softly.assertThat(item.getMarketPrice()).isEqualTo(166925);
+
+        item = result.get(5);
+        softly.assertThat(item.getId()).isEqualTo(585);
+        softly.assertThat(item.getName()).isEqualTo("Pink Easter Egg");
+        softly.assertThat(item.getType()).isEqualTo("Candy");
+        softly.assertThat(item.getQuantity()).isEqualTo(3);
+        softly.assertThat(item.getPrice()).isEqualTo(175000);
+        softly.assertThat(item.getMarketPrice()).isEqualTo(166375);
+
+        softly.assertAll();
     }
 
     @Test
@@ -324,13 +268,13 @@ class UserMapperTest {
         ObjectMapper objectMapper = new ObjectMapper();
         JsonNode json = objectMapper.readTree("{\"cooldowns\":{\"drug\":27122,\"medical\":0,\"booster\":130277}}");
 
-        Cooldowns cooldowns = UserMapper.ofCooldowns(json);
+        Cooldowns result = UserMapper.ofCooldowns(json);
 
         SoftAssertions softly = new SoftAssertions();
 
-        softly.assertThat(cooldowns.getDrug()).hasHours(7);
-        softly.assertThat(cooldowns.getMedical()).hasSeconds(0);
-        softly.assertThat(cooldowns.getBooster()).hasHours(36);
+        softly.assertThat(result.getDrug()).hasHours(7);
+        softly.assertThat(result.getMedical()).hasSeconds(0);
+        softly.assertThat(result.getBooster()).hasHours(36);
 
         softly.assertAll();
     }
@@ -340,19 +284,19 @@ class UserMapperTest {
         ObjectMapper objectMapper = new ObjectMapper();
         JsonNode json = objectMapper.readTree("{\"criminalrecord\":{\"selling_illegal_products\":5001,\"theft\":2630,\"auto_theft\":208,\"drug_deals\":10003,\"computer_crimes\":10019,\"murder\":9407,\"fraud_crimes\":2551,\"other\":5043,\"total\":44862}}");
 
-        CriminalRecord record = UserMapper.ofCrimes(json);
+        CriminalRecord result = UserMapper.ofCrimes(json);
 
         SoftAssertions softly = new SoftAssertions();
 
-        softly.assertThat(record.getSellingIllegalProducts()).isEqualTo(5001);
-        softly.assertThat(record.getTheft()).isEqualTo(2630);
-        softly.assertThat(record.getAutoTheft()).isEqualTo(208);
-        softly.assertThat(record.getDrugDeals()).isEqualTo(10003);
-        softly.assertThat(record.getComputerCrimes()).isEqualTo(10019);
-        softly.assertThat(record.getMurder()).isEqualTo(9407);
-        softly.assertThat(record.getFraudCrimes()).isEqualTo(2551);
-        softly.assertThat(record.getOther()).isEqualTo(5043);
-        softly.assertThat(record.getTotal()).isEqualTo(44862);
+        softly.assertThat(result.getSellingIllegalProducts()).isEqualTo(5001);
+        softly.assertThat(result.getTheft()).isEqualTo(2630);
+        softly.assertThat(result.getAutoTheft()).isEqualTo(208);
+        softly.assertThat(result.getDrugDeals()).isEqualTo(10003);
+        softly.assertThat(result.getComputerCrimes()).isEqualTo(10019);
+        softly.assertThat(result.getMurder()).isEqualTo(9407);
+        softly.assertThat(result.getFraudCrimes()).isEqualTo(2551);
+        softly.assertThat(result.getOther()).isEqualTo(5043);
+        softly.assertThat(result.getTotal()).isEqualTo(44862);
 
         softly.assertAll();
     }
@@ -362,12 +306,12 @@ class UserMapperTest {
         ObjectMapper objectMapper = new ObjectMapper();
         JsonNode json = objectMapper.readTree("{\"discord\":{\"userID\":2114440,\"discordID\":\"215959283605569537\"}}");
 
-        Discord discord = UserMapper.ofDiscord(json);
+        Discord result = UserMapper.ofDiscord(json);
 
         SoftAssertions softly = new SoftAssertions();
 
-        softly.assertThat(discord.getUserId()).isEqualTo(2114440);
-        softly.assertThat(discord.getDiscordId()).isEqualTo("215959283605569537");
+        softly.assertThat(result.getUserId()).isEqualTo(2114440);
+        softly.assertThat(result.getDiscordId()).isEqualTo("215959283605569537");
 
         softly.assertAll();
     }
@@ -379,25 +323,19 @@ class UserMapperTest {
 
         List<DisplayItem> result = UserMapper.ofDisplay(json);
 
-        DisplayItem candyKisses = new DisplayItem();
-        candyKisses.setId(527);
-        candyKisses.setName("Bag of Candy Kisses");
-        candyKisses.setType("Candy");
-        candyKisses.setQuantity(35);
-        candyKisses.setCirculation(818191);
-        candyKisses.setMarketPrice(26193);
+        SoftAssertions softly = new SoftAssertions();
 
-        DisplayItem medicalMask = new DisplayItem();
-        medicalMask.setId(1143);
-        medicalMask.setName("Medical Mask");
-        medicalMask.setType("Clothing");
-        medicalMask.setQuantity(1);
-        medicalMask.setCirculation(2000);
-        medicalMask.setMarketPrice(0);
+        softly.assertThat(result).hasSize(24);
 
-        assertThat(result)
-                .hasSize(24)
-                .contains(candyKisses, medicalMask);
+        DisplayItem item = result.get(0);
+        softly.assertThat(item.getId()).isEqualTo(634);
+        softly.assertThat(item.getName()).isEqualTo("Bag of Bloody Eyeballs");
+        softly.assertThat(item.getType()).isEqualTo("Candy");
+        softly.assertThat(item.getQuantity()).isEqualTo(1);
+        softly.assertThat(item.getCirculation()).isEqualTo(54795);
+        softly.assertThat(item.getMarketPrice()).isEqualTo(44178);
+
+        softly.assertAll();
     }
 
     @Test
@@ -405,13 +343,13 @@ class UserMapperTest {
         ObjectMapper objectMapper = new ObjectMapper();
         JsonNode json = objectMapper.readTree("{\"education_current\":28,\"education_timeleft\":403870,\"education_completed\":[1,14,15,16,17,18,19,20,21,22,24,25,26,27,32,34,35,36,37,38,39,40,41,42,43,44,45,46,47,48,49,50,51,52,53,54,55,56,57,58,59,60,61,62,63,64,65,66,67,68,69,70,71,72,73,74,75,76,77,78,79,80,81,82,83,84,85,86,87,88,89,90,91,92,93,94,95,96,97,98,99,100,101,102,103,104,105,106,107,108,109,110,112,113,116,119,120,125,126,127]}");
 
-        Education education = UserMapper.ofEducation(json);
+        Education result = UserMapper.ofEducation(json);
 
         SoftAssertions softly = new SoftAssertions();
 
-        softly.assertThat(education.getCurrent()).isEqualTo(28);
-        softly.assertThat(education.getTimeLeft()).hasHours(112);
-        softly.assertThat(education.getCompleted())
+        softly.assertThat(result.getCurrent()).isEqualTo(28);
+        softly.assertThat(result.getTimeLeft()).hasHours(112);
+        softly.assertThat(result.getCompleted())
                 .hasSize(100)
                 .contains(1L, 18L, 35L, 127L);
 
@@ -425,20 +363,14 @@ class UserMapperTest {
 
         Map<Long, Event> result = UserMapper.ofEvents(json);
 
-        Event event1 = new Event();
-        event1.setTimestamp(LocalDateTime.of(2021, 11, 15, 2, 45, 6));
-        event1.setEvent("The trade with <a href = \"http://www.torn.com/profiles.php?XID=2158905\">Johanmans10</a> has expired");
-        event1.setSeen(true);
+        SoftAssertions softly = new SoftAssertions();
 
-        Event event2 = new Event();
-        event2.setTimestamp(LocalDateTime.of(2021, 11, 21, 14, 50, 6));
-        event2.setEvent("You were sent $1,000,000 from <a href = http://www.torn.com/profiles.php?XID=2093418>Traxler</a>.");
-        event2.setSeen(true);
+        Event event = result.get(873413362L);
+        softly.assertThat(event.getTimestamp()).isEqualTo(LocalDateTime.ofInstant(Instant.ofEpochSecond(1636918561), ZoneOffset.UTC));
+        softly.assertThat(event.getEventMessage()).isEqualTo("<a href = \"http://www.torn.com/profiles.php?XID=1629262\">themainman</a>, the director of <a href = \"http://www.torn.com/joblist.php#/p=corpinfo&ID=86818\">Jux @ Law</a>, has trained you from the company. You gained 50 INT and 25 END. ");
+        softly.assertThat(event.hasBeenSeen()).isTrue();
 
-        assertThat(result)
-                .hasSize(100)
-                .containsEntry(873533362L, event1)
-                .containsEntry(875863679L, event2);
+        softly.assertAll();
     }
 
     @Test
@@ -446,9 +378,9 @@ class UserMapperTest {
         ObjectMapper objectMapper = new ObjectMapper();
         JsonNode json = objectMapper.readTree("{\"active_gym\":28}\n");
 
-        Gym gym = UserMapper.ofGym(json);
+        Gym result = UserMapper.ofGym(json);
 
-        assertThat(gym.getActiveGym()).isEqualTo(28);
+        assertThat(result.getActiveGym()).isEqualTo(28);
     }
 
     @Test
@@ -456,25 +388,59 @@ class UserMapperTest {
         ObjectMapper objectMapper = new ObjectMapper();
         JsonNode json = objectMapper.readTree("{\"halloffame\":{\"attacks\":{\"value\":9704,\"rank\":3183},\"battlestats\":{\"value\":1851378691,\"rank\":5878},\"busts\":{\"value\":3050,\"rank\":1773},\"defends\":{\"value\":1254,\"rank\":2272},\"networth\":{\"value\":24559486834,\"rank\":3139},\"offences\":{\"value\":44940,\"rank\":4375},\"revives\":{\"value\":2712,\"rank\":404},\"traveled\":{\"value\":772,\"rank\":16713},\"workstats\":{\"value\":209672,\"rank\":111392},\"level\":{\"value\":94,\"rank\":2462},\"rank\":{\"value\":23,\"rank\":3688},\"respect\":{\"value\":6334187,\"rank\":32}}}");
 
-        Map<String, HOF> result = UserMapper.ofHOF(json);
+        Map<String, Hof> result = UserMapper.ofHOF(json);
 
-        HOF attacks = new HOF();
-        attacks.setValue(9704);
-        attacks.setRank(3183);
+        SoftAssertions softly = new SoftAssertions();
 
-        HOF busts = new HOF();
-        busts.setValue(3050);
-        busts.setRank(1773);
+        Hof attacks = result.get(Hof.ATTACKS);
+        softly.assertThat(attacks.getValue()).isEqualTo(9704);
+        softly.assertThat(attacks.getRank()).isEqualTo(3183);
 
-        HOF revives = new HOF();
-        revives.setValue(2712);
-        revives.setRank(404);
+        Hof battleStats = result.get(Hof.BATTLE_STATS);
+        softly.assertThat(battleStats.getValue()).isEqualTo(1851378691);
+        softly.assertThat(battleStats.getRank()).isEqualTo(5878);
 
-        assertThat(result)
-                .hasSize(12)
-                .containsEntry(HOF.ATTACKS, attacks)
-                .containsEntry(HOF.BUSTS, busts)
-                .containsEntry(HOF.REVIVES, revives);
+        Hof busts = result.get(Hof.BUSTS);
+        softly.assertThat(busts.getValue()).isEqualTo(3050);
+        softly.assertThat(busts.getRank()).isEqualTo(1773);
+
+        Hof defends = result.get(Hof.DEFENDS);
+        softly.assertThat(defends.getValue()).isEqualTo(1254);
+        softly.assertThat(defends.getRank()).isEqualTo(2272);
+
+        Hof networth = result.get(Hof.NETWORTH);
+        softly.assertThat(networth.getValue()).isEqualTo(24559486834L);
+        softly.assertThat(networth.getRank()).isEqualTo(3139);
+
+        Hof offences = result.get(Hof.OFFENCES);
+        softly.assertThat(offences.getValue()).isEqualTo(44940);
+        softly.assertThat(offences.getRank()).isEqualTo(4375);
+
+        Hof revives = result.get(Hof.REVIVES);
+        softly.assertThat(revives.getValue()).isEqualTo(2712);
+        softly.assertThat(revives.getRank()).isEqualTo(404);
+
+        Hof traveled = result.get(Hof.TRAVELED);
+        softly.assertThat(traveled.getValue()).isEqualTo(772);
+        softly.assertThat(traveled.getRank()).isEqualTo(16713);
+
+        Hof workStats = result.get(Hof.WORK_STATS);
+        softly.assertThat(workStats.getValue()).isEqualTo(209672);
+        softly.assertThat(workStats.getRank()).isEqualTo(111392);
+
+        Hof level = result.get(Hof.LEVEL);
+        softly.assertThat(level.getValue()).isEqualTo(94);
+        softly.assertThat(level.getRank()).isEqualTo(2462);
+
+        Hof rank = result.get(Hof.RANK);
+        softly.assertThat(rank.getValue()).isEqualTo(23);
+        softly.assertThat(rank.getRank()).isEqualTo(3688);
+
+        Hof respect = result.get(Hof.RESPECT);
+        softly.assertThat(respect.getValue()).isEqualTo(6334187);
+        softly.assertThat(respect.getRank()).isEqualTo(32);
+
+        softly.assertAll();
     }
 
     @Test
@@ -482,19 +448,15 @@ class UserMapperTest {
         ObjectMapper objectMapper = new ObjectMapper();
         JsonNode json = objectMapper.readTree("{\"honors_awarded\":[1,3,4,6,7,8,9,10,11,12,13,15,16,17,18,19,20,21,22,23,25,27,28,29,30,31,32,33,34,35,36,37,38,39,40,41,42,43,44,45,46,47,48,49,50,53,55,56,57,60,61,63,64,130,131,133,136,137,138,139,140,141,142,143,144,145,146,147,148,149,150,151,152,153,155,157,159,161,162,163,164,212,215,216,217,220,221,222,226,227,228,229,230,232,233,234,236,238,239,240,241,242,243,244,245,246,247,248,249,251,252,253,254,255,256,257,258,259,266,267,268,269,270,271,272,273,274,277,281,283,284,288,297,298,308,309,313,315,316,317,318,322,326,327,338,367,371,375,395,398,406,414,418,427,431,437,443,459,475,477,478,481,488,497,500,505,506,513,515,517,519,520,521,525,534,537,541,542,543,544,546,548,549,552,566,567,571,572,581,601,605,606,607,608,615,617,627,629,631,635,636,639,640,641,643,646,651,653,656,659,665,670,678,679,686,687,694,700,708,716,717,719,720,721,723,729,730,731,734,739,740,742,743,763,781,791,793,800,827,828,838,839,843,844,845,846,853,860,863,870,871,873,882,888,896,902,903,906,916,942,943,944,945,951,955,964,969,1001,1002,1004,1007],\"honors_time\":[1536365631,1551268956,1601366806,1574253436,1558651738,1563101582,1614983287,1540859391,1528549915,1526237590,1585941368,1526487532,1552376677,1610801200,1526213054,1620108352,1524697899,1562771267,1564389418,1614271885,1528589663,1528830423,1537090617,1530292645,1533770106,1537449262,1554397807,1574345810,1571314771,1569742858,1544182324,1530643863,1540570916,1524334752,1524517397,1525765532,1526678145,1529884869,1530644174,1532215120,1547804292,1565310036,1575642453,1593127352,1627557846,1566971455,1579596119,1604678689,1614581874,1540421598,1596035577,1629916642,1551971126,1614670927,1529262841,1625996510,1625468139,1559465561,1584888002,1529584393,1530090456,1531766559,1528820677,1536914013,1532198601,1531297559,1530771867,1530642627,1531304597,1530465426,1530467775,1533160950,1607190307,1559724996,1589701880,1533237776,1623400017,1577549608,1591643024,1548371060,1601366806,1537938286,1619451326,1609730724,1534540801,1629495088,1604766805,1554654055,1537938286,1548548711,1610800586,1572989405,1527917774,1603284824,1527114727,1539076883,1580151496,1604488928,1527624750,1550756597,1556270269,1552381681,1554220937,1578677312,1537871610,1551081990,1532008147,1608924258,1631817909,1559219188,1600968542,1526856364,1525599006,1526856364,1530314836,1526856364,1614983287,1549648362,1563006995,1615459977,1528803592,1530554593,1606003774,1533123625,1528924597,1533695583,1578229384,1605599730,1556212093,1530824553,1556212087,1596011899,1606306350,1587817881,1587817879,1545696026,1600845581,1632392566,1605629881,1568196331,1606306346,1579105990,1535198715,1530883921,1526465629,1529429248,1525080426,1577838459,1528147995,1545440206,1529746006,1603897156,1530910486,1527198207,1526460200,1530503249,1540956579,1542240890,1543925224,1541694317,1547943790,1531846168,1575728746,1563824168,1578394694,1563372348,1581434616,1543429459,1543680789,1543938110,1555153385,1551195961,1564177429,1611947846,1530880905,1530040066,1553601869,1559473162,1568734007,1620108352,1567147726,1620108352,1528828127,1555984015,1583221656,1552985242,1575990962,1568156524,1599589026,1565334428,1563878856,1550608787,1549184496,1605687824,1530231223,1539090814,1565292380,1601845685,1575751802,1573301556,1593064022,1543679898,1577581045,1597764091,1563372351,1581238964,1576850355,1541523387,1636279653,1552376378,1556461062,1594058146,1553612171,1572294329,1536717750,1529510682,1542973849,1618759005,1557760480,1553612186,1553612098,1625933279,1534266478,1599552911,1538491433,1569393252,1569393256,1581669463,1569670565,1563895400,1593246516,1631359661,1574373301,1575617376,1580650453,1600158582,1593197350,1593196825,1597091526,1605732699,1592997284,1617256546,1588603833,1588686593,1591218013,1605448137,1591092511,1593705293,1600872353,1600872334,1595420638,1607583882,1594134123,1594996923,1596555563,1600931965,1598362254,1599570991,1604168654,1601384664,1606138691,1603310504,1601384688,1605627323,1602596657,1604268127,1603834639,1606834850,1606834850,1606834850,1618315610]}");
 
-        List<Honor> honors = UserMapper.ofHonors(json);
+        List<Honor> result = UserMapper.ofHonors(json);
 
-        Honor watchingYou = new Honor();
-        watchingYou.setId(1);
-        watchingYou.setAwarded(LocalDateTime.of(2018, 9, 8, 0, 13, 51));
+        SoftAssertions softly = new SoftAssertions();
 
-        Honor killStreak500 = new Honor();
-        killStreak500.setId(17);
-        killStreak500.setAwarded(LocalDateTime.of(2021, 1, 16, 12, 46, 40));
+        Honor honor = result.get(0);
+        softly.assertThat(honor.getId()).isEqualTo(1);
+        softly.assertThat(honor.getAwarded()).isEqualTo(LocalDateTime.ofInstant(Instant.ofEpochSecond(1536365631L), ZoneOffset.UTC));
 
-        assertThat(honors)
-                .hasSize(271)
-                .contains(watchingYou, killStreak500);
+        softly.assertAll();
     }
 
     @Test
@@ -504,48 +466,15 @@ class UserMapperTest {
 
         Map<String, String> result = UserMapper.ofIcons(json);
 
-        assertThat(result)
-                .hasSize(13)
-                .containsEntry("icon6", "Male")
-                .containsEntry("icon27", "Company - Attorney of Jux @ Law (Law Firm)")
-                .containsEntry("icon35", "Bazaar - You have items in your bazaar")
-                .containsEntry("icon38", "Stock Market - You own shares in the stock market");
-    }
+        SoftAssertions softly = new SoftAssertions();
 
-    @Test
-    void ofInventory() throws JsonProcessingException {
-        ObjectMapper objectMapper = new ObjectMapper();
-        JsonNode json = objectMapper.readTree("{\"inventory\":[{\"ID\":570,\"name\":\"Advanced Driving Manual\",\"type\":\"Enhancer\",\"quantity\":1,\"equipped\":0,\"market_price\":177315},{\"ID\":282,\"name\":\"African Violet\",\"type\":\"Flower\",\"quantity\":18,\"equipped\":0,\"market_price\":57842},{\"ID\":26,\"name\":\"AK-47\",\"type\":\"Primary\",\"quantity\":1,\"equipped\":0,\"market_price\":10569},{\"ID\":399,\"name\":\"ArmaLite M-15A4\",\"type\":\"Primary\",\"quantity\":1,\"equipped\":0,\"market_price\":36883333},{\"ID\":72,\"name\":\"Armored Virus\",\"type\":\"Virus\",\"quantity\":1,\"equipped\":0,\"market_price\":107790},{\"ID\":87,\"name\":\"Audi S4\",\"type\":\"Car\",\"quantity\":1,\"equipped\":0,\"market_price\":12441},{\"ID\":79,\"name\":\"Audi TT Quattro\",\"type\":\"Car\",\"quantity\":54,\"equipped\":0,\"market_price\":54028},{\"ID\":527,\"name\":\"Bag of Candy Kisses\",\"type\":\"Candy\",\"quantity\":1,\"equipped\":0,\"market_price\":26193},{\"ID\":528,\"name\":\"Bag of Tootsie Rolls\",\"type\":\"Candy\",\"quantity\":422,\"equipped\":0,\"market_price\":46049},{\"ID\":569,\"name\":\"Balaclava\",\"type\":\"Enhancer\",\"quantity\":1,\"equipped\":0,\"market_price\":702565},{\"ID\":2,\"name\":\"Baseball Bat\",\"type\":\"Melee\",\"quantity\":1,\"equipped\":3,\"market_price\":188},{\"ID\":327,\"name\":\"Blank Tokens\",\"type\":\"Other\",\"quantity\":1,\"equipped\":0,\"market_price\":42771},{\"ID\":732,\"name\":\"Blood Bag : A+\",\"type\":\"Medical\",\"quantity\":953,\"equipped\":0,\"market_price\":20031},{\"ID\":734,\"name\":\"Blood Bag : B+\",\"type\":\"Medical\",\"quantity\":170,\"equipped\":0,\"market_price\":19566},{\"ID\":1012,\"name\":\"Blood Bag : Irradiated\",\"type\":\"Medical\",\"quantity\":5,\"equipped\":0,\"market_price\":23583},{\"ID\":80,\"name\":\"BMW M5\",\"type\":\"Car\",\"quantity\":2,\"equipped\":0,\"market_price\":42539},{\"ID\":81,\"name\":\"BMW Z8\",\"type\":\"Car\",\"quantity\":49,\"equipped\":0,\"market_price\":79514},{\"ID\":747,\"name\":\"Book : A Job For Your Hands\",\"type\":\"Book\",\"quantity\":1,\"equipped\":0,\"market_price\":0},{\"ID\":776,\"name\":\"Book : Because I'm Happy - The Pharrell Story\",\"type\":\"Book\",\"quantity\":1,\"equipped\":0,\"market_price\":0},{\"ID\":744,\"name\":\"Book : Brawn Over Brains\",\"type\":\"Book\",\"quantity\":1,\"equipped\":0,\"market_price\":0},{\"ID\":786,\"name\":\"Book : Brown-nosing The Boss\",\"type\":\"Book\",\"quantity\":1,\"equipped\":0,\"market_price\":0},{\"ID\":772,\"name\":\"Book : Finders Keepers\",\"type\":\"Book\",\"quantity\":1,\"equipped\":0,\"market_price\":0},{\"ID\":782,\"name\":\"Book : Fuelling Your Way To Failure\",\"type\":\"Book\",\"quantity\":1,\"equipped\":0,\"market_price\":0},{\"ID\":757,\"name\":\"Book : Get Hard Or Go Home\",\"type\":\"Book\",\"quantity\":1,\"equipped\":0,\"market_price\":0},{\"ID\":780,\"name\":\"Book : Going Back For More\",\"type\":\"Book\",\"quantity\":1,\"equipped\":0,\"market_price\":0},{\"ID\":758,\"name\":\"Book : Gym Grunting - Shouting To Success\",\"type\":\"Book\",\"quantity\":1,\"equipped\":0,\"market_price\":0},{\"ID\":750,\"name\":\"Book : High School For Adults\",\"type\":\"Book\",\"quantity\":1,\"equipped\":0,\"market_price\":0},{\"ID\":774,\"name\":\"Book : Higher Daddy, Higher!\",\"type\":\"Book\",\"quantity\":1,\"equipped\":0,\"market_price\":0},{\"ID\":773,\"name\":\"Book : Hot Turkey\",\"type\":\"Book\",\"quantity\":1,\"equipped\":0,\"market_price\":0},{\"ID\":746,\"name\":\"Book : Keeping Your Face Handsome\",\"type\":\"Book\",\"quantity\":1,\"equipped\":0,\"market_price\":0},{\"ID\":761,\"name\":\"Book : Limbo Lovers 101\",\"type\":\"Book\",\"quantity\":1,\"equipped\":0,\"market_price\":0},{\"ID\":766,\"name\":\"Book : Mailing Yourself Abroad\",\"type\":\"Book\",\"quantity\":1,\"equipped\":0,\"market_price\":0},{\"ID\":785,\"name\":\"Book : Memories And Mammaries\",\"type\":\"Book\",\"quantity\":1,\"equipped\":0,\"market_price\":0},{\"ID\":751,\"name\":\"Book : Milk Yourself Sober\",\"type\":\"Book\",\"quantity\":1,\"equipped\":0,\"market_price\":0},{\"ID\":754,\"name\":\"Book : No Shame No Pain\",\"type\":\"Book\",\"quantity\":1,\"equipped\":0,\"market_price\":0},{\"ID\":755,\"name\":\"Book : Run Like The Wind\",\"type\":\"Book\",\"quantity\":1,\"equipped\":0,\"market_price\":0},{\"ID\":787,\"name\":\"Book : Running Away From Trouble\",\"type\":\"Book\",\"quantity\":1,\"equipped\":0,\"market_price\":0},{\"ID\":779,\"name\":\"Book : Self Control Is For Losers\",\"type\":\"Book\",\"quantity\":1,\"equipped\":0,\"market_price\":0},{\"ID\":769,\"name\":\"Book : Shawshank Sure Ain't For Me!\",\"type\":\"Book\",\"quantity\":1,\"equipped\":0,\"market_price\":0},{\"ID\":760,\"name\":\"Book : Speed 3 - The Rejected Script\",\"type\":\"Book\",\"quantity\":1,\"equipped\":0,\"market_price\":0},{\"ID\":775,\"name\":\"Book : The Real Dutch Courage\",\"type\":\"Book\",\"quantity\":1,\"equipped\":0,\"market_price\":0},{\"ID\":745,\"name\":\"Book : Time Is In The Mind\",\"type\":\"Book\",\"quantity\":1,\"equipped\":0,\"market_price\":0},{\"ID\":784,\"name\":\"Book : Ugly Energy\",\"type\":\"Book\",\"quantity\":1,\"equipped\":0,\"market_price\":0},{\"ID\":756,\"name\":\"Book : Weaseling Out Of Trouble\",\"type\":\"Book\",\"quantity\":1,\"equipped\":0,\"market_price\":0},{\"ID\":763,\"name\":\"Book : What Are Old Folk Good For Anyway?\",\"type\":\"Book\",\"quantity\":1,\"equipped\":0,\"market_price\":0},{\"ID\":771,\"name\":\"Book : Winking To Win\",\"type\":\"Book\",\"quantity\":1,\"equipped\":0,\"market_price\":0},{\"ID\":783,\"name\":\"Book : Yes Please Diabetes\",\"type\":\"Book\",\"quantity\":1,\"equipped\":0,\"market_price\":0},{\"ID\":180,\"name\":\"Bottle of Beer\",\"type\":\"Alcohol\",\"quantity\":2935,\"equipped\":0,\"market_price\":4010},{\"ID\":426,\"name\":\"Bottle of Tequila\",\"type\":\"Alcohol\",\"quantity\":1,\"equipped\":0,\"market_price\":3939},{\"ID\":35,\"name\":\"Box of Chocolate Bars\",\"type\":\"Candy\",\"quantity\":1,\"equipped\":0,\"market_price\":525},{\"ID\":364,\"name\":\"Box of Grenades\",\"type\":\"Supply Pack\",\"quantity\":7,\"equipped\":0,\"market_price\":1079097},{\"ID\":365,\"name\":\"Box of Medical Supplies\",\"type\":\"Supply Pack\",\"quantity\":9,\"equipped\":0,\"market_price\":264319},{\"ID\":209,\"name\":\"Box of Sweet Hearts\",\"type\":\"Candy\",\"quantity\":1,\"equipped\":0,\"market_price\":579},{\"ID\":403,\"name\":\"Box of Tissues\",\"type\":\"Other\",\"quantity\":261,\"equipped\":0,\"market_price\":257},{\"ID\":394,\"name\":\"Brick\",\"type\":\"Temporary\",\"quantity\":758,\"equipped\":0,\"market_price\":411},{\"ID\":241,\"name\":\"Bushmaster Carbon 15\",\"type\":\"Primary\",\"quantity\":1,\"equipped\":0,\"market_price\":9863},{\"ID\":384,\"name\":\"Camel Plushie\",\"type\":\"Plushie\",\"quantity\":29,\"equipped\":0,\"market_price\":90423},{\"ID\":985,\"name\":\"Can of Goose Juice\",\"type\":\"Energy Drink\",\"quantity\":1,\"equipped\":0,\"market_price\":324641},{\"ID\":530,\"name\":\"Can of Munster\",\"type\":\"Energy Drink\",\"quantity\":2,\"equipped\":0,\"market_price\":1574843},{\"ID\":533,\"name\":\"Can of Taurine Elite\",\"type\":\"Energy Drink\",\"quantity\":1,\"equipped\":0,\"market_price\":4015024},{\"ID\":196,\"name\":\"Cannabis\",\"type\":\"Drug\",\"quantity\":367,\"equipped\":0,\"market_price\":6234},{\"ID\":271,\"name\":\"Ceibo Flower\",\"type\":\"Flower\",\"quantity\":1249,\"equipped\":0,\"market_price\":42253},{\"ID\":10,\"name\":\"Chainsaw\",\"type\":\"Melee\",\"quantity\":1,\"equipped\":0,\"market_price\":11186},{\"ID\":273,\"name\":\"Chamois Plushie\",\"type\":\"Plushie\",\"quantity\":1107,\"equipped\":0,\"market_price\":45547},{\"ID\":277,\"name\":\"Cherry Blossom\",\"type\":\"Flower\",\"quantity\":58,\"equipped\":0,\"market_price\":61452},{\"ID\":92,\"name\":\"Chevrolet Cavalier\",\"type\":\"Car\",\"quantity\":6,\"equipped\":0,\"market_price\":5136},{\"ID\":576,\"name\":\"Chloroform\",\"type\":\"Enhancer\",\"quantity\":1,\"equipped\":0,\"market_price\":125626},{\"ID\":494,\"name\":\"Citroen Saxo\",\"type\":\"Car\",\"quantity\":2,\"equipped\":0,\"market_price\":7956},{\"ID\":96,\"name\":\"Coat Hanger\",\"type\":\"Other\",\"quantity\":1,\"equipped\":0,\"market_price\":570949},{\"ID\":653,\"name\":\"Combat Boots\",\"type\":\"Defensive\",\"quantity\":1,\"equipped\":8,\"market_price\":2798374},{\"ID\":654,\"name\":\"Combat Gloves\",\"type\":\"Defensive\",\"quantity\":2,\"equipped\":9,\"market_price\":2715451},{\"ID\":652,\"name\":\"Combat Pants\",\"type\":\"Defensive\",\"quantity\":2,\"equipped\":7,\"market_price\":2792430},{\"ID\":643,\"name\":\"Construction Helmet\",\"type\":\"Defensive\",\"quantity\":1,\"equipped\":0,\"market_price\":13524},{\"ID\":263,\"name\":\"Crocus\",\"type\":\"Flower\",\"quantity\":58,\"equipped\":0,\"market_price\":10069},{\"ID\":567,\"name\":\"Cut-Throat Razor\",\"type\":\"Enhancer\",\"quantity\":1,\"equipped\":0,\"market_price\":180558},{\"ID\":260,\"name\":\"Dahlia\",\"type\":\"Flower\",\"quantity\":29,\"equipped\":0,\"market_price\":2723},{\"ID\":1049,\"name\":\"Denim Jacket\",\"type\":\"Clothing\",\"quantity\":1,\"equipped\":10,\"market_price\":0},{\"ID\":614,\"name\":\"Diamond Bladed Knife\",\"type\":\"Melee\",\"quantity\":27,\"equipped\":0,\"market_price\":800318},{\"ID\":83,\"name\":\"Dodge Charger\",\"type\":\"Car\",\"quantity\":92,\"equipped\":0,\"market_price\":68445},{\"ID\":283,\"name\":\"Donator Pack\",\"type\":\"Special\",\"quantity\":40,\"equipped\":0,\"market_price\":23020888},{\"ID\":129,\"name\":\"Dozen Roses\",\"type\":\"Flower\",\"quantity\":1,\"equipped\":0,\"market_price\":808},{\"ID\":370,\"name\":\"Drug Pack\",\"type\":\"Supply Pack\",\"quantity\":16,\"equipped\":0,\"market_price\":4239410},{\"ID\":21,\"name\":\"Dual 92G Berettas\",\"type\":\"Secondary\",\"quantity\":1,\"equipped\":2,\"market_price\":2971653},{\"ID\":578,\"name\":\"Duct Tape\",\"type\":\"Enhancer\",\"quantity\":1,\"equipped\":0,\"market_price\":121468},{\"ID\":272,\"name\":\"Edelweiss\",\"type\":\"Flower\",\"quantity\":67,\"equipped\":0,\"market_price\":31823},{\"ID\":731,\"name\":\"Empty Blood Bag\",\"type\":\"Medical\",\"quantity\":91,\"equipped\":0,\"market_price\":17288},{\"ID\":219,\"name\":\"Enfield SA-80\",\"type\":\"Primary\",\"quantity\":1,\"equipped\":0,\"market_price\":201939},{\"ID\":571,\"name\":\"Ergonomic Keyboard\",\"type\":\"Enhancer\",\"quantity\":1,\"equipped\":0,\"market_price\":264785},{\"ID\":366,\"name\":\"Erotic DVD\",\"type\":\"Booster\",\"quantity\":8,\"equipped\":0,\"market_price\":2193369},{\"ID\":574,\"name\":\"Fanny Pack\",\"type\":\"Enhancer\",\"quantity\":1,\"equipped\":0,\"market_price\":111271},{\"ID\":367,\"name\":\"Feathery Hotel Coupon\",\"type\":\"Booster\",\"quantity\":14,\"equipped\":0,\"market_price\":13747745},{\"ID\":67,\"name\":\"First Aid Kit\",\"type\":\"Medical\",\"quantity\":1138,\"equipped\":0,\"market_price\":8555},{\"ID\":178,\"name\":\"Flak Jacket\",\"type\":\"Defensive\",\"quantity\":1,\"equipped\":0,\"market_price\":4251},{\"ID\":255,\"name\":\"Flamethrower\",\"type\":\"Secondary\",\"quantity\":1,\"equipped\":0,\"market_price\":2525014},{\"ID\":222,\"name\":\"Flash Grenade\",\"type\":\"Temporary\",\"quantity\":1,\"equipped\":0,\"market_price\":50374},{\"ID\":85,\"name\":\"Ford GT40\",\"type\":\"Car\",\"quantity\":78,\"equipped\":0,\"market_price\":119653},{\"ID\":93,\"name\":\"Ford Mustang\",\"type\":\"Car\",\"quantity\":7,\"equipped\":0,\"market_price\":16539},{\"ID\":49,\"name\":\"Full Body Armor\",\"type\":\"Defensive\",\"quantity\":1,\"equipped\":4,\"market_price\":59428},{\"ID\":172,\"name\":\"Gas Can\",\"type\":\"Other\",\"quantity\":1,\"equipped\":0,\"market_price\":851027},{\"ID\":816,\"name\":\"Glass of Beer\",\"type\":\"Alcohol\",\"quantity\":16,\"equipped\":0,\"market_price\":0},{\"ID\":564,\"name\":\"Glasses\",\"type\":\"Enhancer\",\"quantity\":1,\"equipped\":0,\"market_price\":113878},{\"ID\":53,\"name\":\"Gold Ring\",\"type\":\"Jewelry\",\"quantity\":1,\"equipped\":0,\"market_price\":284},{\"ID\":588,\"name\":\"Goodie Bag\",\"type\":\"Supply Pack\",\"quantity\":1,\"equipped\":0,\"market_price\":32517331},{\"ID\":1009,\"name\":\"Halloween Basket : Horrifying\",\"type\":\"Special\",\"quantity\":1,\"equipped\":0,\"market_price\":0},{\"ID\":1,\"name\":\"Hammer\",\"type\":\"Melee\",\"quantity\":1,\"equipped\":0,\"market_price\":79},{\"ID\":577,\"name\":\"Heavy Duty Padlock\",\"type\":\"Enhancer\",\"quantity\":2,\"equipped\":0,\"market_price\":101272},{\"ID\":242,\"name\":\"HEG\",\"type\":\"Temporary\",\"quantity\":25,\"equipped\":0,\"market_price\":15002},{\"ID\":565,\"name\":\"High-Speed Drive\",\"type\":\"Enhancer\",\"quantity\":1,\"equipped\":0,\"market_price\":100800},{\"ID\":95,\"name\":\"Holden SS\",\"type\":\"Car\",\"quantity\":12,\"equipped\":0,\"market_price\":24824},{\"ID\":89,\"name\":\"Honda Accord\",\"type\":\"Car\",\"quantity\":132,\"equipped\":0,\"market_price\":22817},{\"ID\":90,\"name\":\"Honda Civic\",\"type\":\"Car\",\"quantity\":3,\"equipped\":0,\"market_price\":8862},{\"ID\":78,\"name\":\"Honda NSX\",\"type\":\"Car\",\"quantity\":246,\"equipped\":0,\"market_price\":31819},{\"ID\":86,\"name\":\"Hummer H3\",\"type\":\"Car\",\"quantity\":4,\"equipped\":0,\"market_price\":19923},{\"ID\":252,\"name\":\"Ithaca 37\",\"type\":\"Primary\",\"quantity\":1,\"equipped\":0,\"market_price\":6304},{\"ID\":48,\"name\":\"Jacket\",\"type\":\"Clothing\",\"quantity\":2000,\"equipped\":0,\"market_price\":240},{\"ID\":223,\"name\":\"Jackhammer\",\"type\":\"Primary\",\"quantity\":1,\"equipped\":1,\"market_price\":4104882},{\"ID\":237,\"name\":\"Kodachi\",\"type\":\"Melee\",\"quantity\":2,\"equipped\":0,\"market_price\":84040},{\"ID\":154,\"name\":\"Laptop\",\"type\":\"Electronic\",\"quantity\":1,\"equipped\":0,\"market_price\":713852},{\"ID\":421,\"name\":\"Large Suitcase\",\"type\":\"Enhancer\",\"quantity\":1,\"equipped\":0,\"market_price\":10153820},{\"ID\":281,\"name\":\"Lion Plushie\",\"type\":\"Plushie\",\"quantity\":29,\"equipped\":0,\"market_price\":69646},{\"ID\":369,\"name\":\"Lottery Voucher\",\"type\":\"Supply Pack\",\"quantity\":8,\"equipped\":0,\"market_price\":913663},{\"ID\":29,\"name\":\"M16 A2 Rifle\",\"type\":\"Primary\",\"quantity\":1,\"equipped\":0,\"market_price\":35352},{\"ID\":31,\"name\":\"M249 SAW\",\"type\":\"Primary\",\"quantity\":1,\"equipped\":0,\"market_price\":684413},{\"ID\":225,\"name\":\"Mag 7\",\"type\":\"Primary\",\"quantity\":1,\"equipped\":0,\"market_price\":49991},{\"ID\":791,\"name\":\"Mediocre T-Shirt\",\"type\":\"Clothing\",\"quantity\":1,\"equipped\":0,\"market_price\":2013},{\"ID\":395,\"name\":\"Metal Nunchakus\",\"type\":\"Melee\",\"quantity\":1,\"equipped\":0,\"market_price\":346472},{\"ID\":63,\"name\":\"Minigun\",\"type\":\"Primary\",\"quantity\":1,\"equipped\":0,\"market_price\":1309365},{\"ID\":269,\"name\":\"Monkey Plushie\",\"type\":\"Plushie\",\"quantity\":1000,\"equipped\":0,\"market_price\":46554},{\"ID\":66,\"name\":\"Morphine\",\"type\":\"Medical\",\"quantity\":147,\"equipped\":0,\"market_price\":18035},{\"ID\":642,\"name\":\"Motorcycle Helmet\",\"type\":\"Defensive\",\"quantity\":1,\"equipped\":6,\"market_price\":33100434},{\"ID\":566,\"name\":\"Mountain Bike\",\"type\":\"Enhancer\",\"quantity\":1,\"equipped\":0,\"market_price\":443813},{\"ID\":266,\"name\":\"Nessie Plushie\",\"type\":\"Plushie\",\"quantity\":29,\"equipped\":0,\"market_price\":40083},{\"ID\":239,\"name\":\"Ninja Star\",\"type\":\"Temporary\",\"quantity\":1,\"equipped\":0,\"market_price\":1143},{\"ID\":524,\"name\":\"Nissan GT-R\",\"type\":\"Car\",\"quantity\":1,\"equipped\":0,\"market_price\":83800},{\"ID\":806,\"name\":\"Old Lady Mask\",\"type\":\"Clothing\",\"quantity\":1,\"equipped\":0,\"market_price\":24611},{\"ID\":264,\"name\":\"Orchid\",\"type\":\"Flower\",\"quantity\":29,\"equipped\":0,\"market_price\":29320},{\"ID\":201,\"name\":\"PCP\",\"type\":\"Drug\",\"quantity\":1,\"equipped\":0,\"market_price\":99690},{\"ID\":392,\"name\":\"Pepper Spray\",\"type\":\"Temporary\",\"quantity\":902,\"equipped\":0,\"market_price\":1733},{\"ID\":498,\"name\":\"Peugeot 106\",\"type\":\"Car\",\"quantity\":1,\"equipped\":0,\"market_price\":5492},{\"ID\":820,\"name\":\"Piggy Bank\",\"type\":\"Special\",\"quantity\":1,\"equipped\":0,\"market_price\":0},{\"ID\":440,\"name\":\"Pillow\",\"type\":\"Melee\",\"quantity\":1,\"equipped\":0,\"market_price\":400571},{\"ID\":84,\"name\":\"Pontiac Firebird\",\"type\":\"Car\",\"quantity\":13,\"equipped\":0,\"market_price\":57455},{\"ID\":874,\"name\":\"Prototype\",\"type\":\"Secondary\",\"quantity\":1,\"equipped\":0,\"market_price\":0},{\"ID\":248,\"name\":\"Qsz-92\",\"type\":\"Secondary\",\"quantity\":1,\"equipped\":0,\"market_price\":69917},{\"ID\":268,\"name\":\"Red Fox Plushie\",\"type\":\"Plushie\",\"quantity\":74,\"equipped\":0,\"market_price\":41147},{\"ID\":147,\"name\":\"Rusty Sword\",\"type\":\"Melee\",\"quantity\":1,\"equipped\":0,\"market_price\":74829},{\"ID\":811,\"name\":\"Scarred Man Mask\",\"type\":\"Clothing\",\"quantity\":2,\"equipped\":0,\"market_price\":26333},{\"ID\":573,\"name\":\"Screwdriver\",\"type\":\"Enhancer\",\"quantity\":2,\"equipped\":0,\"market_price\":203361},{\"ID\":186,\"name\":\"Sheep Plushie\",\"type\":\"Plushie\",\"quantity\":3000,\"equipped\":0,\"market_price\":727},{\"ID\":56,\"name\":\"Silver Necklace\",\"type\":\"Jewelry\",\"quantity\":1,\"equipped\":0,\"market_price\":1016},{\"ID\":709,\"name\":\"Silver Ribbon\",\"type\":\"Collectible\",\"quantity\":1,\"equipped\":0,\"market_price\":0},{\"ID\":183,\"name\":\"Single Red Rose\",\"type\":\"Flower\",\"quantity\":1,\"equipped\":0,\"market_price\":499},{\"ID\":817,\"name\":\"Six Pack of Alcohol\",\"type\":\"Supply Pack\",\"quantity\":8,\"equipped\":0,\"market_price\":1149974},{\"ID\":818,\"name\":\"Six Pack of Energy Drink\",\"type\":\"Supply Pack\",\"quantity\":8,\"equipped\":0,\"market_price\":15024596},{\"ID\":568,\"name\":\"Slim Crowbar\",\"type\":\"Enhancer\",\"quantity\":1,\"equipped\":0,\"market_price\":124682},{\"ID\":393,\"name\":\"Slingshot\",\"type\":\"Secondary\",\"quantity\":1,\"equipped\":0,\"market_price\":2200},{\"ID\":380,\"name\":\"Small Explosive Device\",\"type\":\"Special\",\"quantity\":1,\"equipped\":0,\"market_price\":2570133},{\"ID\":68,\"name\":\"Small First Aid Kit\",\"type\":\"Medical\",\"quantity\":507,\"equipped\":0,\"market_price\":4930},{\"ID\":226,\"name\":\"Smoke Grenade\",\"type\":\"Temporary\",\"quantity\":1,\"equipped\":0,\"market_price\":99930},{\"ID\":412,\"name\":\"Sports Shades\",\"type\":\"Clothing\",\"quantity\":1,\"equipped\":0,\"market_price\":3117},{\"ID\":59,\"name\":\"Stainless Steel Watch\",\"type\":\"Jewelry\",\"quantity\":1,\"equipped\":0,\"market_price\":3512},{\"ID\":73,\"name\":\"Stealth Virus\",\"type\":\"Virus\",\"quantity\":1,\"equipped\":0,\"market_price\":196172},{\"ID\":30,\"name\":\"Steyr AUG\",\"type\":\"Primary\",\"quantity\":12,\"equipped\":0,\"market_price\":74159},{\"ID\":834,\"name\":\"Sweatpants\",\"type\":\"Clothing\",\"quantity\":1,\"equipped\":10,\"market_price\":1001273},{\"ID\":256,\"name\":\"Tear Gas\",\"type\":\"Temporary\",\"quantity\":4,\"equipped\":0,\"market_price\":62130},{\"ID\":187,\"name\":\"Teddy Bear Plushie\",\"type\":\"Plushie\",\"quantity\":2000,\"equipped\":0,\"market_price\":742},{\"ID\":257,\"name\":\"Throwing Knife\",\"type\":\"Temporary\",\"quantity\":1,\"equipped\":0,\"market_price\":29394},{\"ID\":77,\"name\":\"Toyota MR2\",\"type\":\"Car\",\"quantity\":293,\"equipped\":0,\"market_price\":28591},{\"ID\":572,\"name\":\"Tracking Device\",\"type\":\"Enhancer\",\"quantity\":1,\"equipped\":0,\"market_price\":137361},{\"ID\":385,\"name\":\"Tribulus Omanense\",\"type\":\"Flower\",\"quantity\":19,\"equipped\":0,\"market_price\":75335},{\"ID\":616,\"name\":\"Trout\",\"type\":\"Temporary\",\"quantity\":366,\"equipped\":5,\"market_price\":19108},{\"ID\":575,\"name\":\"Tumble Dryer\",\"type\":\"Enhancer\",\"quantity\":1,\"equipped\":0,\"market_price\":106866},{\"ID\":205,\"name\":\"Vicodin\",\"type\":\"Drug\",\"quantity\":3,\"equipped\":0,\"market_price\":2072},{\"ID\":91,\"name\":\"Volkswagen Beetle\",\"type\":\"Car\",\"quantity\":5,\"equipped\":0,\"market_price\":7133},{\"ID\":579,\"name\":\"Wireless Dongle\",\"type\":\"Enhancer\",\"quantity\":1,\"equipped\":0,\"market_price\":204183},{\"ID\":261,\"name\":\"Wolverine Plushie\",\"type\":\"Plushie\",\"quantity\":1058,\"equipped\":0,\"market_price\":11472},{\"ID\":206,\"name\":\"Xanax\",\"type\":\"Drug\",\"quantity\":254,\"equipped\":0,\"market_price\":841716}]}");
+        softly.assertThat(result.get("icon51")).isEqualTo("Drug Cooldown - Under the influence of Xanax - 0 days, 1 hours, 41 minutes and 59 seconds");
+        softly.assertThat(result.get("icon38")).isEqualTo("Stock Market - You own shares in the stock market");
+        softly.assertThat(result.get("icon19")).isEqualTo("Education - Currently completing the Trigonometry course - 17 days, 16 hours, 25 minutes and 2 seconds");
+        softly.assertThat(result.get("icon85")).isEqualTo("Organized Crime - Hijack a plane - REDACTED");
+        softly.assertThat(result.get("icon27")).isEqualTo("Company - Attorney of Jux @ Law (Law Firm)");
 
-        List<InventoryItem> result = UserMapper.ofInventory(json);
-
-        InventoryItem advancedDrivingManual = new InventoryItem();
-        advancedDrivingManual.setId(570);
-        advancedDrivingManual.setName("Advanced Driving Manual");
-        advancedDrivingManual.setType("Enhancer");
-        advancedDrivingManual.setQuantity(1);
-        advancedDrivingManual.setEquipped(0);
-        advancedDrivingManual.setMarketPrice(177315);
-
-        InventoryItem balaclava = new InventoryItem();
-        balaclava.setId(569);
-        balaclava.setName("Balaclava");
-        balaclava.setType("Enhancer");
-        balaclava.setQuantity(1);
-        balaclava.setEquipped(0);
-        balaclava.setMarketPrice(702565);
-
-        InventoryItem goodieBag = new InventoryItem();
-        goodieBag.setId(588);
-        goodieBag.setName("Goodie Bag");
-        goodieBag.setType("Supply Pack");
-        goodieBag.setQuantity(1);
-        goodieBag.setEquipped(0);
-        goodieBag.setMarketPrice(32517331);
-
-        assertThat(result)
-                .hasSize(177)
-                .contains(advancedDrivingManual, balaclava, goodieBag);
+        softly.assertAll();
     }
 
     @Test
@@ -555,27 +484,17 @@ class UserMapperTest {
 
         JobPoints result = UserMapper.ofJobPoints(json);
 
-        JobPoints.CompanyPoints hairSalon = new JobPoints.CompanyPoints();
-        hairSalon.setName("Hair Salon");
-        hairSalon.setJobPoints(9);
+        SoftAssertions softly = new SoftAssertions();
 
-        JobPoints.CompanyPoints adultNovelties = new JobPoints.CompanyPoints();
-        adultNovelties.setName("Adult Novelties");
-        adultNovelties.setJobPoints(3);
+        Map<String, Long> jobs = result.getJobs();
+        softly.assertThat(jobs.get("law")).isEqualTo(2);
 
-        JobPoints.CompanyPoints televisionNetwork = new JobPoints.CompanyPoints();
-        televisionNetwork.setName("Television Network");
-        televisionNetwork.setJobPoints(24);
+        Map<Long, CompanyPoints> companies = result.getCompanies();
+        CompanyPoints company = companies.get(1L);
+        softly.assertThat(company.getName()).isEqualTo("Hair Salon");
+        softly.assertThat(company.getJobPoints()).isEqualTo(9);
 
-        assertThat(result.getJobs())
-                .hasSize(1)
-                .containsEntry("law", 2L);
-
-        assertThat(result.getCompanies())
-                .hasSize(8)
-                .containsEntry(1L, hairSalon)
-                .containsEntry(10L, adultNovelties)
-                .containsEntry(16L, televisionNetwork);
+        softly.assertAll();
     }
 
     @Test
@@ -585,31 +504,16 @@ class UserMapperTest {
 
         Map<String, Log> result = UserMapper.ofLog(json);
 
-        Map<String, Object> data1 = new HashMap<>();
-        data1.put("user", 1765316);
-        data1.put("nerve_used", 3);
+        SoftAssertions softly = new SoftAssertions();
 
-        Log log1 = new Log();
-        log1.setLog(5360);
-        log1.setTitle("Bust success");
-        log1.setTimestamp(LocalDateTime.of(2021, 12, 16, 17, 25, 52));
-        log1.setCategory("Jail");
-        log1.setData(data1);
+        Log log = result.get("tjCRrodPc4sKU27QV7Co");
+        softly.assertThat(log.getLogType()).isEqualTo(7815);
+        softly.assertThat(log.getTitle()).isEqualTo("Missions complete");
+        softly.assertThat(log.getTimestamp()).isEqualTo(LocalDateTime.ofInstant(Instant.ofEpochSecond(1639681245L), ZoneOffset.UTC));
+        softly.assertThat(log.getCategory()).isEqualTo("Missions");
+        softly.assertThat(log.getData().get("type")).isEqualTo("contract");
 
-        Map<String, Object> data2 = new HashMap<>();
-        data2.put("type", "image captcha");
-
-        Log log2 = new Log();
-        log2.setLog(500);
-        log2.setTitle("Captcha validation success");
-        log2.setTimestamp(LocalDateTime.of(2021, 12, 16, 16, 31, 34));
-        log2.setCategory("Captcha");
-        log2.setData(data2);
-
-        assertThat(result)
-                .hasSize(66)
-                .containsEntry("OiOdU5FuZAYcnHDyP0gG", log1)
-                .containsEntry("m8z5BUColXf0ltTrgZCh", log2);
+        softly.assertAll();
     }
 
     @Test
@@ -627,9 +531,21 @@ class UserMapperTest {
     void ofMedals() {
     }
 
-    @Disabled("Not yet implemented.")
     @Test
-    void ofMerits() {
+    void ofMerits() throws JsonProcessingException {
+        ObjectMapper objectMapper = new ObjectMapper();
+        JsonNode json = objectMapper.readTree("{\"merits\": {\"Nerve Bar\": 0,\"Critical Hit Rate\": 0,\"Life Points\": 7,\"Crime XP\": 4,\"Education Length\": 8,\"Awareness\": 2,\"Bank Interest\": 8,\"Masterful Looting\": 0,\"Stealth\": 0,\"Hospitalizing\": 5,\"Addiction Mitigation\": 0,\"Employee Effectiveness\": 3,\"Brawn\": 5,\"Protection\": 6,\"Sharpness\": 5,\"Evasion\": 6,\"Heavy Artillery Mastery\": 0,\"Machine Gun Mastery\": 0,\"Rifle Mastery\": 0,\"SMG Mastery\": 0,\"Shotgun Mastery\": 0,\"Pistol Mastery\": 0,\"Club Mastery\": 0,\"Piercing Mastery\": 0,\"Slashing Mastery\": 0,\"Mechanical Mastery\": 0,\"Temporary Mastery\": 0}}");
+
+        Map<MeritPerk, Short> result = UserMapper.ofMerit(json);
+
+        SoftAssertions softly = new SoftAssertions();
+
+        softly.assertThat(result.get(MeritPerk.NERVE_BAR)).isEqualTo((short) 0);
+        softly.assertThat(result.get(MeritPerk.CRITICAL_HIT_RATE)).isEqualTo((short) 0);
+        softly.assertThat(result.get(MeritPerk.LIFE_POINTS)).isEqualTo((short) 7);
+        softly.assertThat(result.get(MeritPerk.CRIME_XP)).isEqualTo((short) 4);
+
+        softly.assertAll();
     }
 
     @Test
@@ -639,28 +555,18 @@ class UserMapperTest {
 
         Map<String, Message> result = UserMapper.ofMessages(json);
 
-        Message message1 = new Message();
-        message1.setTimestamp(LocalDateTime.of(2021, 11, 5, 13, 5, 57));
-        message1.setId(445764);
-        message1.setName("Silver");
-        message1.setType("Faction newsletter");
-        message1.setTitle("Why we fight ");
-        message1.setSeen(true);
-        message1.setRead(true);
+        SoftAssertions softly = new SoftAssertions();
 
-        Message message2 = new Message();
-        message2.setTimestamp(LocalDateTime.of(2021, 12, 19, 9, 8, 21));
-        message2.setId(1232819);
-        message2.setName("badger1965");
-        message2.setType("User message");
-        message2.setTitle("Jail");
-        message2.setSeen(true);
-        message2.setRead(true);
+        Message message = result.get("224840179");
+        softly.assertThat(message.getTimestamp()).isEqualTo(LocalDateTime.ofInstant(Instant.ofEpochSecond(1636117557L), ZoneOffset.UTC));
+        softly.assertThat(message.getId()).isEqualTo(445764);
+        softly.assertThat(message.getName()).isEqualTo("Silver");
+        softly.assertThat(message.getType()).isEqualTo("Faction newsletter");
+        softly.assertThat(message.getTitle()).isEqualTo("Why we fight ");
+        softly.assertThat(message.hasBeenSeen()).isTrue();
+        softly.assertThat(message.hasBeenRead()).isTrue();
 
-        assertThat(result)
-                .hasSize(100)
-                .containsEntry("224840179", message1)
-                .containsEntry("225894184", message2);
+        softly.assertAll();
     }
 
     @Test
@@ -689,21 +595,20 @@ class UserMapperTest {
         ObjectMapper objectMapper = new ObjectMapper();
         JsonNode json = objectMapper.readTree("{\"missions\":{\"Duke\":[{\"title\":\"Marriage Counseling\",\"status\":\"completed\"},{\"title\":\"Hammer Time\",\"status\":\"failed\"},{\"title\":\"Drug Problem\",\"status\":\"completed\"},{\"title\":\"A Problem at the Tracks\",\"status\":\"failed\"},{\"title\":\"Get Things Jumping\",\"status\":\"completed\"},{\"title\":\"Graffiti\",\"status\":\"completed\"},{\"title\":\"Family Ties\",\"status\":\"accepted\"},{\"title\":\"Bountiful\",\"status\":\"completed\"},{\"title\":\"Estranged\",\"status\":\"notAccepted\"}]}}");
 
-        var result = UserMapper.ofMissions(json);
-
-        Missions.Mission dukeMission1 = new Missions.Mission();
-        dukeMission1.setTitle("Marriage Counseling");
-        dukeMission1.setStatus(Missions.Mission.Status.COMPLETED);
-
-        Missions.Mission dukeMission2 = new Missions.Mission();
-        dukeMission2.setTitle("Estranged");
-        dukeMission2.setStatus(Missions.Mission.Status.NOT_ACCEPTED);
+        Map<String, List<Mission>> result = UserMapper.ofMissions(json);
 
         SoftAssertions softly = new SoftAssertions();
 
-        softly.assertThat(result.getDuke())
-                .hasSize(9)
-                .contains(dukeMission1, dukeMission2);
+        List<Mission> missions = result.get("Duke");
+        softly.assertThat(missions).hasSize(9);
+
+        Mission mission = missions.get(0);
+        softly.assertThat(mission.getTitle()).isEqualTo("Marriage Counseling");
+        softly.assertThat(mission.getStatus()).isEqualTo(MissionStatus.COMPLETED);
+
+        mission = missions.get(1);
+        softly.assertThat(mission.getTitle()).isEqualTo("Hammer Time");
+        softly.assertThat(mission.getStatus()).isEqualTo(MissionStatus.FAILED);
 
         softly.assertAll();
     }
@@ -713,32 +618,32 @@ class UserMapperTest {
         ObjectMapper objectMapper = new ObjectMapper();
         JsonNode json = objectMapper.readTree("{\"networth\":{\"pending\":0,\"wallet\":26701291,\"bank\":2369400000,\"points\":4522425700,\"cayman\":0,\"vault\":0,\"piggybank\":3400000,\"items\":1108257117,\"displaycase\":0,\"bazaar\":3397614,\"trade\":0,\"itemmarket\":123393098,\"properties\":7323892500,\"stockmarket\":31596135000,\"auctionhouse\":0,\"company\":0,\"bookie\":0,\"enlistedcars\":35922746,\"loan\":0,\"unpaidfees\":0,\"total\":47112925066,\"parsetime\":0.05828404426574707,\"timestamp\":1729793700}}");
 
-        Networth networth = UserMapper.ofNetworth(json);
+        Networth result = UserMapper.ofNetworth(json);
 
         SoftAssertions softly = new SoftAssertions();
 
-        softly.assertThat(networth.getPending()).isEqualTo(0);
-        softly.assertThat(networth.getWallet()).isEqualTo(26701291);
-        softly.assertThat(networth.getBank()).isEqualTo(2369400000L);
-        softly.assertThat(networth.getPoints()).isEqualTo(4522425700L);
-        softly.assertThat(networth.getCayman()).isEqualTo(0);
-        softly.assertThat(networth.getVault()).isEqualTo(0);
-        softly.assertThat(networth.getPiggyBank()).isEqualTo(3400000);
-        softly.assertThat(networth.getItems()).isEqualTo(1108257117L);
-        softly.assertThat(networth.getDisplayCase()).isEqualTo(0);
-        softly.assertThat(networth.getBazaar()).isEqualTo(3397614);
-        softly.assertThat(networth.getItemMarket()).isEqualTo(123393098);
-        softly.assertThat(networth.getProperties()).isEqualTo(7323892500L);
-        softly.assertThat(networth.getStockMarket()).isEqualTo(31596135000L);
-        softly.assertThat(networth.getAuctionHouse()).isEqualTo(0);
-        softly.assertThat(networth.getCompany()).isEqualTo(0);
-        softly.assertThat(networth.getBookie()).isEqualTo(0);
-        softly.assertThat(networth.getEnlistedCars()).isEqualTo(35922746);
-        softly.assertThat(networth.getLoan()).isEqualTo(0);
-        softly.assertThat(networth.getUnpaidFees()).isEqualTo(0);
-        softly.assertThat(networth.getTotal()).isEqualTo(47112925066L);
-        softly.assertThat(networth.getParseTime()).isEqualTo(0.05828404426574707);
-        softly.assertThat(networth.getTimestamp()).isEqualTo(ofInstant(ofEpochMilli(1729793700000L), UTC));
+        softly.assertThat(result.getPending()).isEqualTo(0);
+        softly.assertThat(result.getWallet()).isEqualTo(26701291);
+        softly.assertThat(result.getBank()).isEqualTo(2369400000L);
+        softly.assertThat(result.getPoints()).isEqualTo(4522425700L);
+        softly.assertThat(result.getCayman()).isEqualTo(0);
+        softly.assertThat(result.getVault()).isEqualTo(0);
+        softly.assertThat(result.getPiggyBank()).isEqualTo(3400000);
+        softly.assertThat(result.getItems()).isEqualTo(1108257117L);
+        softly.assertThat(result.getDisplayCase()).isEqualTo(0);
+        softly.assertThat(result.getBazaar()).isEqualTo(3397614);
+        softly.assertThat(result.getItemMarket()).isEqualTo(123393098);
+        softly.assertThat(result.getProperties()).isEqualTo(7323892500L);
+        softly.assertThat(result.getStockMarket()).isEqualTo(31596135000L);
+        softly.assertThat(result.getAuctionHouse()).isEqualTo(0);
+        softly.assertThat(result.getCompany()).isEqualTo(0);
+        softly.assertThat(result.getBookie()).isEqualTo(0);
+        softly.assertThat(result.getEnlistedCars()).isEqualTo(35922746);
+        softly.assertThat(result.getLoan()).isEqualTo(0);
+        softly.assertThat(result.getUnpaidFees()).isEqualTo(0);
+        softly.assertThat(result.getTotal()).isEqualTo(47112925066L);
+        softly.assertThat(result.getParseTime()).isEqualTo(0.05828404426574707);
+        softly.assertThat(result.getTimestamp()).isEqualTo(ofInstant(ofEpochMilli(1729793700000L), UTC));
 
         softly.assertAll();
     }
@@ -1174,8 +1079,8 @@ class UserMapperTest {
         softly.assertThat(profile.getLife().getMaximum()).isEqualTo(6633);
         softly.assertThat(profile.getLife().getIncrement()).isEqualTo(397);
         softly.assertThat(profile.getLife().getInterval()).hasMinutes(5);
-        softly.assertThat(profile.getLife().getTicktime()).hasSeconds(278);
-        softly.assertThat(profile.getLife().getFulltime()).hasSeconds(0);
+        softly.assertThat(profile.getLife().getTickTime()).hasSeconds(278);
+        softly.assertThat(profile.getLife().getFullTime()).hasSeconds(0);
 
         softly.assertThat(profile.getStatus()).isNotNull();
         softly.assertThat(profile.getStatus().getDescription()).isEqualTo("Okay");
@@ -1257,8 +1162,8 @@ class UserMapperTest {
         softly.assertThat(profile.getLife().getMaximum()).isEqualTo(6633);
         softly.assertThat(profile.getLife().getIncrement()).isEqualTo(397);
         softly.assertThat(profile.getLife().getInterval()).hasMinutes(5);
-        softly.assertThat(profile.getLife().getTicktime()).hasSeconds(278);
-        softly.assertThat(profile.getLife().getFulltime()).hasSeconds(0);
+        softly.assertThat(profile.getLife().getTickTime()).hasSeconds(278);
+        softly.assertThat(profile.getLife().getFullTime()).hasSeconds(0);
 
         softly.assertThat(profile.getStatus()).isNotNull();
         softly.assertThat(profile.getStatus().getDescription()).isEqualTo("In jail for 2 hrs 5 mins ");
@@ -1316,41 +1221,38 @@ class UserMapperTest {
 
         Map<Long, Property> result = UserMapper.ofProperties(json);
 
-        Property.Modifications property1Modifications = new Property.Modifications();
-        property1Modifications.setInterior(2);
-        property1Modifications.setHotTub(true);
-        property1Modifications.setSauna(true);
-        property1Modifications.setPool(3);
-        property1Modifications.setOpenBar(true);
-        property1Modifications.setShootingRange(true);
-        property1Modifications.setVault(4);
-        property1Modifications.setMedicalFacility(true);
-        property1Modifications.setAirstrip(true);
-        property1Modifications.setYacht(false);
+        SoftAssertions softly = new SoftAssertions();
 
-        Property.Staff property1Staff = new Property.Staff();
-        property1Staff.setMaid(4);
-        property1Staff.setGuard(5);
-        property1Staff.setPilot(true);
-        property1Staff.setButler(3);
-        property1Staff.setDoctor(true);
+        softly.assertThat(result).hasSize(11);
 
-        Property property1 = new Property();
-        property1.setOwnerId(2122347);
-        property1.setPropertyType(13);
-        property1.setProperty("Private Island");
-        property1.setStatus("Owned by their spouse");
-        property1.setHappy(4525);
-        property1.setUpkeep(100000);
-        property1.setStaffCost(252500);
-        property1.setCost(500000000);
-        property1.setMarketPrice(1057788000);
-        property1.setModifications(property1Modifications);
-        property1.setStaff(property1Staff);
+        Property property = result.get(2102352L);
+        softly.assertThat(property).isNotNull();
+        softly.assertThat(property.getOwnerId()).isEqualTo(2122347);
+        softly.assertThat(property.getPropertyType()).isEqualTo(11);
+        softly.assertThat(property.getProperty()).isEqualTo("Palace");
+        softly.assertThat(property.getStatus()).isEqualTo("Owned by their spouse");
+        softly.assertThat(property.getHappy()).isEqualTo(1125);
+        softly.assertThat(property.getUpkeep()).isEqualTo(3000);
+        softly.assertThat(property.getStaffCost()).isEqualTo(0);
+        softly.assertThat(property.getCost()).isEqualTo(65000000);
+        softly.assertThat(property.getMarketPrice()).isEqualTo(280000000);
+        softly.assertThat(property.getModifications().getInterior()).isEqualTo(0);
+        softly.assertThat(property.getModifications().hasHotTub()).isFalse();
+        softly.assertThat(property.getModifications().hasSauna()).isFalse();
+        softly.assertThat(property.getModifications().getPool()).isEqualTo(0);
+        softly.assertThat(property.getModifications().hasOpenBar()).isFalse();
+        softly.assertThat(property.getModifications().hasShootingRange()).isFalse();
+        softly.assertThat(property.getModifications().getVault()).isEqualTo(4);
+        softly.assertThat(property.getModifications().hasMedicalFacility()).isFalse();
+        softly.assertThat(property.getModifications().hasAirstrip()).isFalse();
+        softly.assertThat(property.getModifications().hasYacht()).isFalse();
+        softly.assertThat(property.getStaff().getMaid()).isEqualTo(0);
+        softly.assertThat(property.getStaff().getGuard()).isEqualTo(0);
+        softly.assertThat(property.getStaff().hasPilot()).isFalse();
+        softly.assertThat(property.getStaff().getButler()).isEqualTo(0);
+        softly.assertThat(property.getStaff().hasDoctor()).isFalse();
 
-        assertThat(result)
-                .hasSize(11)
-                .containsEntry(3150854L, property1);
+        softly.assertAll();
     }
 
     @Test
@@ -1377,38 +1279,16 @@ class UserMapperTest {
 
         List<Report> result = UserMapper.ofReports(json);
 
-        Report.ReportDetails reportDetails1 = new Report.ReportDetails();
-        reportDetails1.setStrength(10095484);
-        reportDetails1.setSpeed(10022851);
-        reportDetails1.setDexterity(4828144);
-        reportDetails1.setDefense(13230202);
-        reportDetails1.setTotalBattleStats(38176681);
+        SoftAssertions softly = new SoftAssertions();
 
-        Report report1 = new Report();
-        report1.setId("619bc6a27e9adc6ad73b6bc1");
-        report1.setUserId(2114440);
-        report1.setTarget(2616736);
-        report1.setType(Report.ReportType.STATS);
-        report1.setReport(reportDetails1);
-        report1.setTimestamp(LocalDateTime.of(2021, 11, 22, 16, 34, 42));
+        Report report = result.get(0);
+        softly.assertThat(report.getId()).isEqualTo("619bc6a27e9adc6ad73b6bc1");
+        softly.assertThat(report.getUserId()).isEqualTo(2114440L);
+        softly.assertThat(report.getTarget()).isEqualTo(2616736L);
+        softly.assertThat(report.getType()).isEqualTo(ReportType.STATS);
+        softly.assertThat(report.getTimestamp()).isEqualTo(LocalDateTime.ofInstant(Instant.ofEpochSecond(1637598882), ZoneOffset.UTC));
 
-        Report.ReportDetails reportDetails2 = new Report.ReportDetails();
-        reportDetails2.setStrength(537214725);
-        reportDetails2.setSpeed(343973904);
-        reportDetails2.setDexterity(810461471);
-        reportDetails2.setTotalBattleStats(2047708930);
-
-        Report report2 = new Report();
-        report2.setId("618d074e144bea637f73f46c");
-        report2.setUserId(2114440);
-        report2.setTarget(443688);
-        report2.setType(Report.ReportType.STATS);
-        report2.setReport(reportDetails2);
-        report2.setTimestamp(LocalDateTime.of(2021, 11, 11, 12, 6, 38));
-
-        assertThat(result)
-                .hasSize(100)
-                .contains(report1, report2);
+        softly.assertAll();
     }
 
     @Test
@@ -1418,43 +1298,22 @@ class UserMapperTest {
 
         Map<Long, Revive> result = UserMapper.ofRevives(json);
 
-        Revive.LastAction reviveLastAction1 = new Revive.LastAction();
-        reviveLastAction1.setStatus(LastActionStatus.ONLINE);
-        reviveLastAction1.setTimestamp(LocalDateTime.of(2021, 11, 6, 1, 6, 23));
+        SoftAssertions softly = new SoftAssertions();
 
+        Revive revive = result.get(4521338L);
+        softly.assertThat(revive.getTimestamp()).isEqualTo(LocalDateTime.ofInstant(Instant.ofEpochSecond(1636160789), ZoneOffset.UTC));
+        softly.assertThat(revive.getResult()).isEqualTo(ReviveResult.SUCCESS);
+        softly.assertThat(revive.getChance()).isEqualTo(100);
+        softly.assertThat(revive.getReviverId()).isEqualTo(2235232);
+        softly.assertThat(revive.getReviverFaction()).isEqualTo(17133);
+        softly.assertThat(revive.getTargetId()).isEqualTo(2114440);
+        softly.assertThat(revive.getTargetFaction()).isEqualTo(33007);
+        softly.assertThat(revive.getTargetHospitalReason()).isEqualTo("Hospitalized by <a href = \"http://www.torn.com/profiles.php?XID=734492\">BabyLuST</a>");
+        softly.assertThat(revive.isTargetEarlyDischarge()).isFalse();
+        softly.assertThat(revive.getTargetLastAction().getStatus()).isEqualTo(LastActionStatus.ONLINE);
+        softly.assertThat(revive.getTargetLastAction().getTimestamp()).isEqualTo(LocalDateTime.ofInstant(Instant.ofEpochSecond(1636160783), ZoneOffset.UTC));
 
-        Revive revive1 = new Revive();
-        revive1.setTimestamp(LocalDateTime.of(2021, 11, 6, 1, 6, 29));
-        revive1.setResult(Revive.Result.SUCCESS);
-        revive1.setChance(100);
-        revive1.setReviverId(2235232);
-        revive1.setReviverFaction(17133);
-        revive1.setTargetId(2114440);
-        revive1.setTargetFaction(33007);
-        revive1.setTargetHospitalReason("Hospitalized by <a href = \"http://www.torn.com/profiles.php?XID=734492\">BabyLuST</a>");
-        revive1.setTargetEarlyDischarge(false);
-        revive1.setTargetLastAction(reviveLastAction1);
-
-        Revive.LastAction reviveLastAction2 = new Revive.LastAction();
-        reviveLastAction2.setStatus(LastActionStatus.OFFLINE);
-        reviveLastAction2.setTimestamp(LocalDateTime.of(2021, 11, 21, 22, 30, 44));
-
-        Revive revive2 = new Revive();
-        revive2.setTimestamp(LocalDateTime.of(2021, 11, 21, 23, 9, 34));
-        revive2.setResult(Revive.Result.SUCCESS);
-        revive2.setChance(96.11);
-        revive2.setReviverId(363281);
-        revive2.setReviverFaction(17133);
-        revive2.setTargetId(2114440);
-        revive2.setTargetFaction(33007);
-        revive2.setTargetHospitalReason("Hospitalized by <a href = \"http://www.torn.com/profiles.php?XID=1456295\">Nepy</a>");
-        revive2.setTargetEarlyDischarge(false);
-        revive2.setTargetLastAction(reviveLastAction2);
-
-        assertThat(result)
-                .hasSize(3)
-                .containsEntry(4521338L, revive1)
-                .containsEntry(4648307L, revive2);
+        softly.assertAll();
     }
 
     @Test
@@ -1464,50 +1323,26 @@ class UserMapperTest {
 
         Map<Long, Revive> result = UserMapper.ofRevives(json);
 
-        Revive.LastAction reviveLastAction1 = new Revive.LastAction();
-        reviveLastAction1.setStatus(LastActionStatus.ONLINE);
-        reviveLastAction1.setTimestamp(LocalDateTime.of(2021, 11, 6, 1, 6, 23));
+        SoftAssertions softly = new SoftAssertions();
 
-        Revive revive1 = new Revive();
-        revive1.setTimestamp(LocalDateTime.of(2021, 11, 6, 1, 6, 29));
-        revive1.setResult(Revive.Result.SUCCESS);
-        revive1.setChance(100);
-        revive1.setReviverId(2235232);
-        revive1.setReviverName("ScarletStorm");
-        revive1.setReviverFaction(17133);
-        revive1.setReviverFactionName("Torn Medical");
-        revive1.setTargetId(2114440);
-        revive1.setTargetName("DeKleineKobini");
-        revive1.setTargetFaction(33007);
-        revive1.setTargetFactionName("HAKA");
-        revive1.setTargetHospitalReason("Hospitalized by <a href = \"http://www.torn.com/profiles.php?XID=734492\">BabyLuST</a>");
-        revive1.setTargetEarlyDischarge(false);
-        revive1.setTargetLastAction(reviveLastAction1);
+        Revive revive = result.get(4521338L);
+        softly.assertThat(revive.getTimestamp()).isEqualTo(LocalDateTime.ofInstant(Instant.ofEpochSecond(1636160789), ZoneOffset.UTC));
+        softly.assertThat(revive.getResult()).isEqualTo(ReviveResult.SUCCESS);
+        softly.assertThat(revive.getChance()).isEqualTo(100);
+        softly.assertThat(revive.getReviverId()).isEqualTo(2235232);
+        softly.assertThat(revive.getReviverName()).isEqualTo("ScarletStorm");
+        softly.assertThat(revive.getReviverFaction()).isEqualTo(17133);
+        softly.assertThat(revive.getReviverFactionName()).isEqualTo("Torn Medical");
+        softly.assertThat(revive.getTargetId()).isEqualTo(2114440);
+        softly.assertThat(revive.getTargetName()).isEqualTo("DeKleineKobini");
+        softly.assertThat(revive.getTargetFaction()).isEqualTo(33007);
+        softly.assertThat(revive.getTargetFactionName()).isEqualTo("HAKA");
+        softly.assertThat(revive.getTargetHospitalReason()).isEqualTo("Hospitalized by <a href = \"http://www.torn.com/profiles.php?XID=734492\">BabyLuST</a>");
+        softly.assertThat(revive.isTargetEarlyDischarge()).isFalse();
+        softly.assertThat(revive.getTargetLastAction().getStatus()).isEqualTo(LastActionStatus.ONLINE);
+        softly.assertThat(revive.getTargetLastAction().getTimestamp()).isEqualTo(LocalDateTime.ofInstant(Instant.ofEpochSecond(1636160783), ZoneOffset.UTC));
 
-        Revive.LastAction reviveLastAction2 = new Revive.LastAction();
-        reviveLastAction2.setStatus(LastActionStatus.OFFLINE);
-        reviveLastAction2.setTimestamp(LocalDateTime.of(2021, 11, 21, 22, 30, 44));
-
-        Revive revive2 = new Revive();
-        revive2.setTimestamp(LocalDateTime.of(2021, 11, 21, 23, 9, 34));
-        revive2.setResult(Revive.Result.SUCCESS);
-        revive2.setChance(96.11);
-        revive2.setReviverId(363281);
-        revive2.setReviverName("goobs");
-        revive2.setReviverFaction(17133);
-        revive2.setReviverFactionName("Torn Medical");
-        revive2.setTargetId(2114440);
-        revive2.setTargetName("DeKleineKobini");
-        revive2.setTargetFaction(33007);
-        revive2.setTargetFactionName("HAKA");
-        revive2.setTargetHospitalReason("Hospitalized by <a href = \"http://www.torn.com/profiles.php?XID=1456295\">Nepy</a>");
-        revive2.setTargetEarlyDischarge(false);
-        revive2.setTargetLastAction(reviveLastAction2);
-
-        assertThat(result)
-                .hasSize(3)
-                .containsEntry(4521338L, revive1)
-                .containsEntry(4648307L, revive2);
+        softly.assertAll();
     }
 
     @Test
@@ -1534,48 +1369,35 @@ class UserMapperTest {
 
         Map<Long, Stock> result = UserMapper.ofStocks(json);
 
-        Stock.Dividend tsbDividend = new Stock.Dividend();
-        tsbDividend.setReady(false);
-        tsbDividend.setIncrement(1);
-        tsbDividend.setProgress(25);
-        tsbDividend.setFrequency(31);
+        SoftAssertions softly = new SoftAssertions();
 
-        Stock.Transaction tsbTransaction = new Stock.Transaction();
-        tsbTransaction.setShares(3000000);
-        tsbTransaction.setBoughtPrice(885.61f);
-        tsbTransaction.setTimeBought(LocalDateTime.of(2021, 10, 2, 13, 28, 41));
+        softly.assertThat(result.size()).isEqualTo(15);
 
-        Stock tsb = new Stock();
-        tsb.setStockId(1);
-        tsb.setTotalShares(3000000);
-        tsb.setDividend(tsbDividend);
-        tsb.setTransactions(new HashMap<>() {{
-            put(1680534L, tsbTransaction);
-        }});
+        Stock stock = result.get(1L);
+        softly.assertThat(stock.getStockId()).isEqualTo(1);
+        softly.assertThat(stock.getTotalShares()).isEqualTo(3000000);
+        softly.assertThat(stock.getDividend().isReady()).isFalse();
+        softly.assertThat(stock.getDividend().getIncrement()).isEqualTo(1);
+        softly.assertThat(stock.getDividend().getProgress()).isEqualTo(25);
+        softly.assertThat(stock.getDividend().getFrequency()).isEqualTo(31);
+        softly.assertThat(stock.getTransactions()).hasSize(1);
+        softly.assertThat(stock.getTransactions().get(1680534L).getShares()).isEqualTo(3000000);
+        softly.assertThat(stock.getTransactions().get(1680534L).getBoughtPrice()).isEqualTo(885.61f);
+        softly.assertThat(stock.getTransactions().get(1680534L).getTimeBought()).isEqualTo(LocalDateTime.of(2021, 10, 2, 13, 28, 41));
 
-        Stock.Dividend tmiDividend = new Stock.Dividend();
-        tmiDividend.setReady(false);
-        tmiDividend.setIncrement(1);
-        tmiDividend.setProgress(18);
-        tmiDividend.setFrequency(31);
+        stock = result.get(12L);
+        softly.assertThat(stock.getStockId()).isEqualTo(12);
+        softly.assertThat(stock.getTotalShares()).isEqualTo(6000000);
+        softly.assertThat(stock.getDividend().isReady()).isFalse();
+        softly.assertThat(stock.getDividend().getIncrement()).isEqualTo(1);
+        softly.assertThat(stock.getDividend().getProgress()).isEqualTo(18);
+        softly.assertThat(stock.getDividend().getFrequency()).isEqualTo(31);
+        softly.assertThat(stock.getTransactions()).hasSize(1);
+        softly.assertThat(stock.getTransactions().get(682860L).getShares()).isEqualTo(6000000);
+        softly.assertThat(stock.getTransactions().get(682860L).getBoughtPrice()).isEqualTo(150.36f);
+        softly.assertThat(stock.getTransactions().get(682860L).getTimeBought()).isEqualTo(LocalDateTime.of(2021, 5, 7, 12, 28, 49));
 
-        Stock.Transaction tmiTransaction = new Stock.Transaction();
-        tmiTransaction.setShares(6000000);
-        tmiTransaction.setBoughtPrice(150.36f);
-        tmiTransaction.setTimeBought(LocalDateTime.of(2021, 5, 7, 12, 28, 49));
-
-        Stock tmi = new Stock();
-        tmi.setStockId(12);
-        tmi.setTotalShares(6000000);
-        tmi.setDividend(tmiDividend);
-        tmi.setTransactions(new HashMap<>() {{
-            put(682860L, tmiTransaction);
-        }});
-
-        assertThat(result)
-                .hasSize(15)
-                .containsEntry(1L, tsb)
-                .containsEntry(12L, tmi);
+        softly.assertAll();
     }
 
     @Test
@@ -1583,44 +1405,45 @@ class UserMapperTest {
         ObjectMapper objectMapper = new ObjectMapper();
         JsonNode json = objectMapper.readTree("{\"travel\":{\"destination\":\"Switzerland\",\"method\":\"Airstrip\",\"timestamp\":1637448692,\"departed\":1637441492,\"time_left\":7190}}");
 
-        Travel travel = UserMapper.ofTravel(json);
+        Travel result = UserMapper.ofTravel(json);
 
         SoftAssertions softly = new SoftAssertions();
 
-        softly.assertThat(travel.getDestination()).isEqualTo("Switzerland");
-        softly.assertThat(travel.getMethod()).isEqualTo(Travel.TravelMethod.AIRSTRIP);
-        softly.assertThat(travel.getTimestamp()).isEqualTo(LocalDateTime.of(2021, 11, 20, 22, 51, 32));
-        softly.assertThat(travel.getDeparted()).isEqualTo(LocalDateTime.of(2021, 11, 20, 20, 51, 32));
-        softly.assertThat(travel.getTimeLeft()).hasMinutes(119);
+        softly.assertThat(result.getDestination()).isEqualTo("Switzerland");
+        softly.assertThat(result.getMethod()).isEqualTo(TravelMethod.AIRSTRIP);
+        softly.assertThat(result.getTimestamp()).isEqualTo(LocalDateTime.of(2021, 11, 20, 22, 51, 32));
+        softly.assertThat(result.getDeparted()).isEqualTo(LocalDateTime.of(2021, 11, 20, 20, 51, 32));
+        softly.assertThat(result.getTimeLeft()).hasMinutes(119);
 
         softly.assertAll();
     }
 
     @Test
-    void ofWeaponExp() throws JsonProcessingException {
+    void ofWeaponExp() throws JsonProcessingException, NoSuchMethodException, InvocationTargetException, InstantiationException, IllegalAccessException, NoSuchFieldException {
         ObjectMapper objectMapper = new ObjectMapper();
         JsonNode json = objectMapper.readTree("{\"weaponexp\":[{\"itemID\":175,\"name\":\"Taser\",\"exp\":100},{\"itemID\":8,\"name\":\"Axe\",\"exp\":100},{\"itemID\":10,\"name\":\"Chainsaw\",\"exp\":100},{\"itemID\":237,\"name\":\"Kodachi\",\"exp\":100},{\"itemID\":255,\"name\":\"Flamethrower\",\"exp\":100},{\"itemID\":395,\"name\":\"Metal Nunchakus\",\"exp\":100},{\"itemID\":614,\"name\":\"Diamond Bladed Knife\",\"exp\":100},{\"itemID\":399,\"name\":\"ArmaLite M-15A4\",\"exp\":100},{\"itemID\":147,\"name\":\"Rusty Sword\",\"exp\":100},{\"itemID\":26,\"name\":\"AK-47\",\"exp\":67},{\"itemID\":233,\"name\":\"BT MP9\",\"exp\":43},{\"itemID\":805,\"name\":\"Duke's Hammer\",\"exp\":42},{\"itemID\":792,\"name\":\"Penelope\",\"exp\":39},{\"itemID\":63,\"name\":\"Minigun\",\"exp\":38},{\"itemID\":440,\"name\":\"Pillow\",\"exp\":30},{\"itemID\":616,\"name\":\"Trout\",\"exp\":26},{\"itemID\":223,\"name\":\"Jackhammer\",\"exp\":25},{\"itemID\":21,\"name\":\"Dual 92G Berettas\",\"exp\":24},{\"itemID\":394,\"name\":\"Brick\",\"exp\":17},{\"itemID\":1,\"name\":\"Hammer\",\"exp\":13},{\"itemID\":219,\"name\":\"Enfield SA-80\",\"exp\":13},{\"itemID\":2,\"name\":\"Baseball Bat\",\"exp\":7},{\"itemID\":220,\"name\":\"Grenade\",\"exp\":5},{\"itemID\":22,\"name\":\"Sawed-Off Shotgun\",\"exp\":4},{\"itemID\":24,\"name\":\"MP5 Navy\",\"exp\":3},{\"itemID\":29,\"name\":\"M16 A2 Rifle\",\"exp\":3},{\"itemID\":483,\"name\":\"MP5k\",\"exp\":3},{\"itemID\":27,\"name\":\"M4A1 Colt Carbine\",\"exp\":2},{\"itemID\":232,\"name\":\"SIG 550\",\"exp\":2},{\"itemID\":241,\"name\":\"Bushmaster Carbon 15\",\"exp\":2},{\"itemID\":6,\"name\":\"Kitchen Knife\",\"exp\":2},{\"itemID\":248,\"name\":\"Qsz-92\",\"exp\":1},{\"itemID\":18,\"name\":\"Fiveseven\",\"exp\":1},{\"itemID\":487,\"name\":\"Thompson\",\"exp\":1},{\"itemID\":402,\"name\":\"Ice Pick\",\"exp\":1},{\"itemID\":484,\"name\":\"AK74U\",\"exp\":1},{\"itemID\":490,\"name\":\"Blunderbuss\",\"exp\":1},{\"itemID\":249,\"name\":\"SKS Carbine\",\"exp\":1}]}");
 
         List<WeaponExperience> result = UserMapper.ofWeaponExp(json);
 
-        WeaponExperience taser = new WeaponExperience();
-        taser.setItemId(175);
-        taser.setName("Taser");
-        taser.setExp((byte) 100);
+        SoftAssertions softly = new SoftAssertions();
 
-        WeaponExperience ak47 = new WeaponExperience();
-        ak47.setItemId(26);
-        ak47.setName("AK-47");
-        ak47.setExp((byte) 67);
+        softly.assertThat(result).hasSize(38);
 
-        WeaponExperience sksCarbine = new WeaponExperience();
-        sksCarbine.setItemId(249);
-        sksCarbine.setName("SKS Carbine");
-        sksCarbine.setExp((byte) 1);
+        softly.assertThat(result.get(0).getItemId()).isEqualTo(175);
+        softly.assertThat(result.get(0).getName()).isEqualTo("Taser");
+        softly.assertThat(result.get(0).getExp()).isEqualTo((byte) 100);
 
-        assertThat(result)
-                .hasSize(38)
-                .contains(taser, ak47, sksCarbine);
+        // test 12th item
+        softly.assertThat(result.get(11).getItemId()).isEqualTo(805);
+        softly.assertThat(result.get(11).getName()).isEqualTo("Duke's Hammer");
+        softly.assertThat(result.get(11).getExp()).isEqualTo((byte) 42);
+
+        // test 38th item
+        softly.assertThat(result.get(37).getItemId()).isEqualTo(249);
+        softly.assertThat(result.get(37).getName()).isEqualTo("SKS Carbine");
+        softly.assertThat(result.get(37).getExp()).isEqualTo((byte) 1);
+
+        softly.assertAll();
     }
 
     @Test
@@ -1628,13 +1451,13 @@ class UserMapperTest {
         ObjectMapper objectMapper = new ObjectMapper();
         JsonNode json = objectMapper.readTree("{\"manual_labor\":18325,\"intelligence\":70312,\"endurance\":120589}");
 
-        WorkStats stats = UserMapper.ofWorkStats(json);
+        WorkStats result = UserMapper.ofWorkStats(json);
 
         SoftAssertions softly = new SoftAssertions();
 
-        softly.assertThat(stats.getManualLabor()).isEqualTo(18325);
-        softly.assertThat(stats.getIntelligence()).isEqualTo(70312);
-        softly.assertThat(stats.getEndurance()).isEqualTo(120589);
+        softly.assertThat(result.getManualLabor()).isEqualTo(18325);
+        softly.assertThat(result.getIntelligence()).isEqualTo(70312);
+        softly.assertThat(result.getEndurance()).isEqualTo(120589);
 
         softly.assertAll();
     }

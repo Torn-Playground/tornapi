@@ -1,138 +1,64 @@
 package eu.tornplayground.tornapi.models.user;
 
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import eu.tornplayground.tornapi.models.Model;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import eu.tornplayground.tornapi.models.converters.StatInfoConverter;
+import eu.tornplayground.tornapi.models.user.battlestats.StatInfoType;
+import eu.tornplayground.tornapi.models.user.battlestats.statinfo.BattleStat;
+import eu.tornplayground.tornapi.models.user.battlestats.statinfo.StatInfo;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 import java.util.List;
 import java.util.Objects;
 
+@Getter
+@NoArgsConstructor(access = lombok.AccessLevel.PROTECTED)
 public class BattleStats extends Model {
 
+    @JsonProperty("strength")
     private long strength;
+
+    @JsonProperty("speed")
     private long speed;
+
+    @JsonProperty("dexterity")
     private long dexterity;
+
+    @JsonProperty("defense")
     private long defense;
+
+    @JsonProperty("total")
     private long total;
+
     @JsonProperty("strength_modifier")
     private int strengthModifier;
+
     @JsonProperty("defense_modifier")
     private int defenseModifier;
+
     @JsonProperty("speed_modifier")
     private int speedModifier;
+
     @JsonProperty("dexterity_modifier")
     private int dexterityModifier;
+
     @JsonProperty("strength_info")
-    private List<String> strengthInfo;
+    @JsonDeserialize(contentConverter = StatInfoConverter.class)
+    private List<StatInfo> strengthInfo;
+
     @JsonProperty("defense_info")
-    private List<String> defenseInfo;
+    @JsonDeserialize(contentConverter = StatInfoConverter.class)
+    private List<StatInfo> defenseInfo;
+
     @JsonProperty("speed_info")
-    private List<String> speedInfo;
+    @JsonDeserialize(contentConverter = StatInfoConverter.class)
+    private List<StatInfo> speedInfo;
+
     @JsonProperty("dexterity_info")
-    private List<String> dexterityInfo;
-
-    public long getStrength() {
-        return strength;
-    }
-
-    public void setStrength(long strength) {
-        this.strength = strength;
-    }
-
-    public long getSpeed() {
-        return speed;
-    }
-
-    public void setSpeed(long speed) {
-        this.speed = speed;
-    }
-
-    public long getDexterity() {
-        return dexterity;
-    }
-
-    public void setDexterity(long dexterity) {
-        this.dexterity = dexterity;
-    }
-
-    public long getDefense() {
-        return defense;
-    }
-
-    public void setDefense(long defense) {
-        this.defense = defense;
-    }
-
-    public long getTotal() {
-        return total;
-    }
-
-    public void setTotal(long total) {
-        this.total = total;
-    }
-
-    public int getStrengthModifier() {
-        return strengthModifier;
-    }
-
-    public void setStrengthModifier(int strengthModifier) {
-        this.strengthModifier = strengthModifier;
-    }
-
-    public int getDefenseModifier() {
-        return defenseModifier;
-    }
-
-    public void setDefenseModifier(int defenseModifier) {
-        this.defenseModifier = defenseModifier;
-    }
-
-    public int getSpeedModifier() {
-        return speedModifier;
-    }
-
-    public void setSpeedModifier(int speedModifier) {
-        this.speedModifier = speedModifier;
-    }
-
-    public int getDexterityModifier() {
-        return dexterityModifier;
-    }
-
-    public void setDexterityModifier(int dexterityModifier) {
-        this.dexterityModifier = dexterityModifier;
-    }
-
-    public List<String> getStrengthInfo() {
-        return strengthInfo;
-    }
-
-    public void setStrengthInfo(List<String> strengthInfo) {
-        this.strengthInfo = strengthInfo;
-    }
-
-    public List<String> getDefenseInfo() {
-        return defenseInfo;
-    }
-
-    public void setDefenseInfo(List<String> defenseInfo) {
-        this.defenseInfo = defenseInfo;
-    }
-
-    public List<String> getSpeedInfo() {
-        return speedInfo;
-    }
-
-    public void setSpeedInfo(List<String> speedInfo) {
-        this.speedInfo = speedInfo;
-    }
-
-    public List<String> getDexterityInfo() {
-        return dexterityInfo;
-    }
-
-    public void setDexterityInfo(List<String> dexterityInfo) {
-        this.dexterityInfo = dexterityInfo;
-    }
+    @JsonDeserialize(contentConverter = StatInfoConverter.class)
+    private List<StatInfo> dexterityInfo;
 
     @Override
     public boolean equals(Object o) {

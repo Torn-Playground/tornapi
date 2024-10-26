@@ -2,70 +2,42 @@ package eu.tornplayground.tornapi.models.user;
 
 import eu.tornplayground.tornapi.models.Model;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import eu.tornplayground.tornapi.models.user.ammo.AmmoSize;
+import eu.tornplayground.tornapi.models.user.ammo.AmmoType;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 import java.util.Objects;
 
+@Getter
+@NoArgsConstructor(access = lombok.AccessLevel.PROTECTED)
 public class Ammo extends Model {
 
     @JsonProperty("ammoID")
     private long ammoId;
+
     @JsonProperty("typeID")
     private long typeId;
-    private String size;
-    private String type;
+
+    @JsonProperty("size")
+    private AmmoSize size;
+
+    @JsonProperty("type")
+    private AmmoType type;
+
+    @JsonProperty("equipped")
     private boolean equipped;
-
-    public long getAmmoId() {
-        return ammoId;
-    }
-
-    public void setAmmoId(long ammoId) {
-        this.ammoId = ammoId;
-    }
-
-    public long getTypeId() {
-        return typeId;
-    }
-
-    public void setTypeId(long typeId) {
-        this.typeId = typeId;
-    }
-
-    public String getSize() {
-        return size;
-    }
-
-    public void setSize(String size) {
-        this.size = size;
-    }
-
-    public String getType() {
-        return type;
-    }
-
-    public void setType(String type) {
-        this.type = type;
-    }
-
-    public boolean isEquipped() {
-        return equipped;
-    }
-
-    public void setEquipped(boolean equipped) {
-        this.equipped = equipped;
-    }
 
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
+        if (!(o instanceof Ammo)) return false;
         Ammo ammo = (Ammo) o;
-        return ammoId == ammo.ammoId && typeId == ammo.typeId && equipped == ammo.equipped && Objects.equals(size, ammo.size) && Objects.equals(type, ammo.type);
+        return ammoId == ammo.ammoId && typeId == ammo.typeId && equipped == ammo.equipped && size == ammo.size && type == ammo.type;
     }
 
     @Override
     public int hashCode() {
         return Objects.hash(ammoId, typeId, size, type, equipped);
     }
-
 }

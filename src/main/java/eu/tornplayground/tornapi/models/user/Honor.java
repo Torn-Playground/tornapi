@@ -1,30 +1,24 @@
 package eu.tornplayground.tornapi.models.user;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import eu.tornplayground.tornapi.models.Model;
+import eu.tornplayground.tornapi.models.converters.EpochLocalDateTimeConverter;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 import java.time.LocalDateTime;
 import java.util.Objects;
 
+@Getter
+@NoArgsConstructor(access = lombok.AccessLevel.PROTECTED)
 public class Honor extends Model {
 
+    @JsonProperty("ID")
     private long id;
+
+    @JsonProperty("awarded")
     private LocalDateTime awarded;
-
-    public long getId() {
-        return id;
-    }
-
-    public void setId(long id) {
-        this.id = id;
-    }
-
-    public LocalDateTime getAwarded() {
-        return awarded;
-    }
-
-    public void setAwarded(LocalDateTime awarded) {
-        this.awarded = awarded;
-    }
 
     @Override
     public boolean equals(Object o) {

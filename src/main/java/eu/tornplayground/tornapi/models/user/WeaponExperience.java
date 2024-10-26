@@ -2,39 +2,23 @@ package eu.tornplayground.tornapi.models.user;
 
 import eu.tornplayground.tornapi.models.Model;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 import java.util.Objects;
 
+@Getter
+@NoArgsConstructor(access = lombok.AccessLevel.PROTECTED)
 public class WeaponExperience extends Model {
 
     @JsonProperty("itemID")
     private long itemId;
+
+    @JsonProperty("name")
     private String name;
+
+    @JsonProperty("exp")
     private byte exp;
-
-    public long getItemId() {
-        return itemId;
-    }
-
-    public void setItemId(long itemId) {
-        this.itemId = itemId;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public byte getExp() {
-        return exp;
-    }
-
-    public void setExp(byte exp) {
-        this.exp = exp;
-    }
 
     @Override
     public boolean equals(Object o) {

@@ -2,58 +2,32 @@ package eu.tornplayground.tornapi.models.user.partial;
 
 import eu.tornplayground.tornapi.models.Model;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 import java.util.Objects;
 
+@Getter
+@NoArgsConstructor(access = lombok.AccessLevel.PROTECTED)
 public abstract class BaseItem extends Model {
 
     @JsonProperty("ID")
     private long id;
+
+    @JsonProperty("name")
     private String name;
+
+    @JsonProperty("type")
     private String type;
+
+    @JsonProperty("quantity")
     private long quantity;
+
     @JsonProperty("market_price")
     private long marketPrice;
 
-    public long getId() {
-        return id;
-    }
-
-    public void setId(long id) {
-        this.id = id;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public String getType() {
-        return type;
-    }
-
-    public void setType(String type) {
-        this.type = type;
-    }
-
-    public long getQuantity() {
-        return quantity;
-    }
-
-    public void setQuantity(long quantity) {
-        this.quantity = quantity;
-    }
-
-    public long getMarketPrice() {
-        return marketPrice;
-    }
-
-    public void setMarketPrice(long marketPrice) {
-        this.marketPrice = marketPrice;
-    }
+    @JsonProperty("UID")
+    private Integer uid;
 
     @Override
     public boolean equals(Object o) {

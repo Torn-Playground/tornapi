@@ -69,7 +69,7 @@ class TornApiTest {
     void fetchCurrentUser() throws IOException, InterruptedException, TornHttpException {
         api
                 .forUsers()
-                .withSelections(UserSelections.PROFILE, UserSelections.PERSONALSTATS)
+                .withSelections(UserSelections.PROFILE, UserSelections.PERSONAL_STATS)
                 .withSelections("anything")
                 .key("test-key")
                 .fetch();
@@ -94,7 +94,7 @@ class TornApiTest {
         when(keyProvider.next()).thenReturn("key-provider");
         api
                 .forUsers()
-                .withSelections(UserSelections.PROFILE, UserSelections.PERSONALSTATS)
+                .withSelections(UserSelections.PROFILE, UserSelections.PERSONAL_STATS)
                 .withSelections("anything")
                 .consumeKey()
                 .fetch();
@@ -113,7 +113,7 @@ class TornApiTest {
     void fetchCurrentUserWithParameters() throws IOException, InterruptedException, TornHttpException {
         api
                 .forUsers()
-                .withSelections(UserSelections.PROFILE, UserSelections.PERSONALSTATS)
+                .withSelections(UserSelections.PROFILE, UserSelections.PERSONAL_STATS)
                 .withSelections("anything")
                 .withParameter("from", 1577836800)
                 .withParameter("to", 1609459199)
@@ -137,7 +137,7 @@ class TornApiTest {
         api
                 .forUsers()
                 .id(1)
-                .withSelections(UserSelections.PROFILE, UserSelections.PERSONALSTATS)
+                .withSelections(UserSelections.PROFILE, UserSelections.PERSONAL_STATS)
                 .withSelections("anything")
                 .key("test-key")
                 .fetch();
@@ -176,7 +176,7 @@ class TornApiTest {
         api
                 .forUsers()
                 .id(1)
-                .withSelections(UserSelections.PROFILE, UserSelections.PERSONALSTATS)
+                .withSelections(UserSelections.PROFILE, UserSelections.PERSONAL_STATS)
                 .withSelections("anything")
                 .withParameter("from", 1577836800)
                 .withParameter("to", 1609459199)

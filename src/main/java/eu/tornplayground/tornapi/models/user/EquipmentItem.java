@@ -1,27 +1,25 @@
 package eu.tornplayground.tornapi.models.user;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import eu.tornplayground.tornapi.models.user.partial.BaseItem;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 import java.util.Objects;
 
-public class InventoryItem extends BaseItem {
+@Getter
+@NoArgsConstructor(access = lombok.AccessLevel.PROTECTED)
+public class EquipmentItem extends BaseItem {
 
-    private long equipped;
-
-    public long getEquipped() {
-        return equipped;
-    }
-
-    public void setEquipped(long equipped) {
-        this.equipped = equipped;
-    }
+    @JsonProperty("equipped")
+    public boolean equipped;
 
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
+        if (!(o instanceof EquipmentItem)) return false;
         if (!super.equals(o)) return false;
-        InventoryItem that = (InventoryItem) o;
+        EquipmentItem that = (EquipmentItem) o;
         return equipped == that.equipped;
     }
 
@@ -29,5 +27,4 @@ public class InventoryItem extends BaseItem {
     public int hashCode() {
         return Objects.hash(super.hashCode(), equipped);
     }
-
 }

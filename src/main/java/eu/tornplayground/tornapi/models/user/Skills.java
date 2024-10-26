@@ -2,48 +2,26 @@ package eu.tornplayground.tornapi.models.user;
 
 import eu.tornplayground.tornapi.models.Model;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 import java.util.Objects;
 
+@Getter
+@NoArgsConstructor(access = lombok.AccessLevel.PROTECTED)
 public class Skills extends Model {
 
+    @JsonProperty("reviving")
     private double reviving;
+
+    @JsonProperty("hunting")
     private double hunting;
+
+    @JsonProperty("racing")
     private double racing;
+
     @JsonProperty("player_id")
     private long playerId;
-
-    public double getReviving() {
-        return reviving;
-    }
-
-    public void setReviving(double reviving) {
-        this.reviving = reviving;
-    }
-
-    public double getHunting() {
-        return hunting;
-    }
-
-    public void setHunting(double hunting) {
-        this.hunting = hunting;
-    }
-
-    public double getRacing() {
-        return racing;
-    }
-
-    public void setRacing(double racing) {
-        this.racing = racing;
-    }
-
-    public long getPlayerId() {
-        return playerId;
-    }
-
-    public void setPlayerId(long playerId) {
-        this.playerId = playerId;
-    }
 
     @Override
     public boolean equals(Object o) {

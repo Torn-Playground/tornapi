@@ -2,31 +2,20 @@ package eu.tornplayground.tornapi.models.user;
 
 import eu.tornplayground.tornapi.models.Model;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 import java.util.Objects;
 
+@Getter
+@NoArgsConstructor(access = lombok.AccessLevel.PROTECTED)
 public class Discord extends Model {
 
     @JsonProperty("userID")
     private long userId;
+
     @JsonProperty("discordID")
     private String discordId;
-
-    public long getUserId() {
-        return userId;
-    }
-
-    public void setUserId(long userId) {
-        this.userId = userId;
-    }
-
-    public String getDiscordId() {
-        return discordId;
-    }
-
-    public void setDiscordId(String discordId) {
-        this.discordId = discordId;
-    }
 
     @Override
     public boolean equals(Object o) {

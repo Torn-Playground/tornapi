@@ -2,39 +2,23 @@ package eu.tornplayground.tornapi.models.user;
 
 import eu.tornplayground.tornapi.models.Model;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 import java.util.Objects;
 
+@Getter
+@NoArgsConstructor(access = lombok.AccessLevel.PROTECTED)
 public class WorkStats extends Model {
 
     @JsonProperty("manual_labor")
     private long manualLabor;
+
+    @JsonProperty("intelligence")
     private long intelligence;
+
+    @JsonProperty("endurance")
     private long endurance;
-
-    public long getManualLabor() {
-        return manualLabor;
-    }
-
-    public void setManualLabor(long manualLabor) {
-        this.manualLabor = manualLabor;
-    }
-
-    public long getIntelligence() {
-        return intelligence;
-    }
-
-    public void setIntelligence(long intelligence) {
-        this.intelligence = intelligence;
-    }
-
-    public long getEndurance() {
-        return endurance;
-    }
-
-    public void setEndurance(long endurance) {
-        this.endurance = endurance;
-    }
 
     @Override
     public boolean equals(Object o) {

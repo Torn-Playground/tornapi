@@ -2,51 +2,26 @@ package eu.tornplayground.tornapi.models.user;
 
 import eu.tornplayground.tornapi.models.Model;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 import java.util.Objects;
 
+@Getter
+@NoArgsConstructor(access = lombok.AccessLevel.PROTECTED)
 public class Refills extends Model {
 
     @JsonProperty("energy_refill_used")
     private boolean energyRefillUsed;
+
     @JsonProperty("nerve_refill_used")
     private boolean nerveRefillUsed;
+
     @JsonProperty("token_refill_used")
     private boolean tokenRefillUsed;
+
     @JsonProperty("special_refills_available")
     private int specialRefillsAvailable;
-
-    public boolean isEnergyRefillUsed() {
-        return energyRefillUsed;
-    }
-
-    public void setEnergyRefillUsed(boolean energyRefillUsed) {
-        this.energyRefillUsed = energyRefillUsed;
-    }
-
-    public boolean isNerveRefillUsed() {
-        return nerveRefillUsed;
-    }
-
-    public void setNerveRefillUsed(boolean nerveRefillUsed) {
-        this.nerveRefillUsed = nerveRefillUsed;
-    }
-
-    public boolean isTokenRefillUsed() {
-        return tokenRefillUsed;
-    }
-
-    public void setTokenRefillUsed(boolean tokenRefillUsed) {
-        this.tokenRefillUsed = tokenRefillUsed;
-    }
-
-    public int getSpecialRefillsAvailable() {
-        return specialRefillsAvailable;
-    }
-
-    public void setSpecialRefillsAvailable(int specialRefillsAvailable) {
-        this.specialRefillsAvailable = specialRefillsAvailable;
-    }
 
     @Override
     public boolean equals(Object o) {
@@ -60,5 +35,4 @@ public class Refills extends Model {
     public int hashCode() {
         return Objects.hash(energyRefillUsed, nerveRefillUsed, tokenRefillUsed, specialRefillsAvailable);
     }
-
 }

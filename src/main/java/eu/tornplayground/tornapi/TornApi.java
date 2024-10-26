@@ -4,9 +4,12 @@ import com.fasterxml.jackson.databind.JsonNode;
 import eu.tornplayground.tornapi.cache.DefaultResponseCache;
 import eu.tornplayground.tornapi.cache.ResponseCache;
 import eu.tornplayground.tornapi.connector.ApiConnector;
+import eu.tornplayground.tornapi.connector.HttpClientConnector;
 import eu.tornplayground.tornapi.connector.TornHttpException;
 import eu.tornplayground.tornapi.keyprovider.KeyProvider;
+import eu.tornplayground.tornapi.keyprovider.SingleKeyProvider;
 import eu.tornplayground.tornapi.mappers.ModelMapper;
+import eu.tornplayground.tornapi.mappers.UserMapper;
 import eu.tornplayground.tornapi.selections.*;
 import net.moznion.uribuildertiny.URIBuilderTiny;
 

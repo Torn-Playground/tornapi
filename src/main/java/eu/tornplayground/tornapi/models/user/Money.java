@@ -2,6 +2,7 @@ package eu.tornplayground.tornapi.models.user;
 
 import eu.tornplayground.tornapi.models.Model;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import eu.tornplayground.tornapi.models.user.money.Bank;
 
 import java.time.Duration;
 import java.util.Objects;
@@ -90,42 +91,4 @@ public class Money extends Model {
     public int hashCode() {
         return Objects.hash(points, caymanBank, vault, companyFunds, moneyOnHand, cityBank);
     }
-
-    public static class Bank {
-
-        private long amount;
-        @JsonProperty("time_left")
-        private Duration timeLeft;
-
-        public long getAmount() {
-            return amount;
-        }
-
-        public void setAmount(long amount) {
-            this.amount = amount;
-        }
-
-        public Duration getTimeLeft() {
-            return timeLeft;
-        }
-
-        public void setTimeLeft(Duration timeLeft) {
-            this.timeLeft = timeLeft;
-        }
-
-        @Override
-        public boolean equals(Object o) {
-            if (this == o) return true;
-            if (o == null || getClass() != o.getClass()) return false;
-            Bank bank = (Bank) o;
-            return amount == bank.amount && Objects.equals(timeLeft, bank.timeLeft);
-        }
-
-        @Override
-        public int hashCode() {
-            return Objects.hash(amount, timeLeft);
-        }
-
-    }
-
 }

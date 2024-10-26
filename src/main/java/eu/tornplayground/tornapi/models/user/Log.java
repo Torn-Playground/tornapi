@@ -1,84 +1,51 @@
 package eu.tornplayground.tornapi.models.user;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import eu.tornplayground.tornapi.models.Model;
 import eu.tornplayground.tornapi.models.converters.EpochLocalDateTimeConverter;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 import java.time.LocalDateTime;
 import java.util.Map;
 import java.util.Objects;
 
+@Getter
+@NoArgsConstructor(access = lombok.AccessLevel.PROTECTED)
 public class Log extends Model {
 
-    private long log;
+    @JsonProperty("log")
+    private long logType;
+
+    @JsonProperty("title")
     private String title;
+
+    @JsonProperty("timestamp")
     @JsonDeserialize(converter = EpochLocalDateTimeConverter.class)
     private LocalDateTime timestamp;
+
+    @JsonProperty("category")
     private String category;
+
+    @JsonProperty("data")
     private Map<String, Object> data;
-    @JsonIgnore // FIXME - Implement after Torn solves the type.
+
+    @JsonProperty("params")
+    @JsonIgnore // TODO add when torn fixed their s**t
     private Map<String, String> params;
-
-    public long getLog() {
-        return log;
-    }
-
-    public void setLog(long log) {
-        this.log = log;
-    }
-
-    public String getTitle() {
-        return title;
-    }
-
-    public void setTitle(String title) {
-        this.title = title;
-    }
-
-    public LocalDateTime getTimestamp() {
-        return timestamp;
-    }
-
-    public void setTimestamp(LocalDateTime timestamp) {
-        this.timestamp = timestamp;
-    }
-
-    public String getCategory() {
-        return category;
-    }
-
-    public void setCategory(String category) {
-        this.category = category;
-    }
-
-    public Map<String, Object> getData() {
-        return data;
-    }
-
-    public void setData(Map<String, Object> data) {
-        this.data = data;
-    }
-
-    public Map<String, String> getParams() {
-        return params;
-    }
-
-    public void setParams(Map<String, String> params) {
-        this.params = params;
-    }
 
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        Log log1 = (Log) o;
-        return log == log1.log && Objects.equals(title, log1.title) && Objects.equals(timestamp, log1.timestamp) && Objects.equals(category, log1.category) && Objects.equals(data, log1.data) && Objects.equals(params, log1.params);
+        if (!(o instanceof Log)) return false;
+        Log log = (Log) o;
+        return logType == log.logType && Objects.equals(title, log.title) && Objects.equals(timestamp, log.timestamp) && Objects.equals(category, log.category) && Objects.equals(data, log.data) && Objects.equals(params, log.params);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(log, title, timestamp, category, data, params);
+        return Objects.hash(logType, title, timestamp, category, data, params);
     }
-
 }

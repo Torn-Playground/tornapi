@@ -1,39 +1,31 @@
 package eu.tornplayground.tornapi.models;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+
 import java.util.Objects;
 
+@Getter
+@NoArgsConstructor(access = lombok.AccessLevel.PROTECTED)
 public class TornError extends Model {
 
+    @JsonProperty("code")
     private long code;
-    private String error;
 
-    public long getCode() {
-        return code;
-    }
-
-    public void setCode(long code) {
-        this.code = code;
-    }
-
-    public String getError() {
-        return error;
-    }
-
-    public void setError(String error) {
-        this.error = error;
-    }
+    @JsonProperty("error")
+    private TornErrorType error;
 
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
+        if (!(o instanceof TornError)) return false;
         TornError tornError = (TornError) o;
-        return code == tornError.code && Objects.equals(error, tornError.error);
+        return code == tornError.code && error == tornError.error;
     }
 
     @Override
     public int hashCode() {
         return Objects.hash(code, error);
     }
-
 }

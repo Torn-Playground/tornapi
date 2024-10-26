@@ -2,21 +2,17 @@ package eu.tornplayground.tornapi.models.user;
 
 import eu.tornplayground.tornapi.models.Model;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 import java.util.Objects;
 
+@Getter
+@NoArgsConstructor(access = lombok.AccessLevel.PROTECTED)
 public class Gym extends Model {
 
     @JsonProperty("active_gym")
     private long activeGym;
-
-    public long getActiveGym() {
-        return activeGym;
-    }
-
-    public void setActiveGym(long activeGym) {
-        this.activeGym = activeGym;
-    }
 
     @Override
     public boolean equals(Object o) {
