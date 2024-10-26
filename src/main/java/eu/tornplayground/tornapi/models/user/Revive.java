@@ -3,7 +3,6 @@ package eu.tornplayground.tornapi.models.user;
 import eu.tornplayground.tornapi.models.Model;
 import eu.tornplayground.tornapi.models.common.LastAction;
 import eu.tornplayground.tornapi.models.converters.EpochLocalDateTimeConverter;
-import eu.tornplayground.tornapi.models.user.partial.LastActionStatus;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import eu.tornplayground.tornapi.models.user.revive.ReviveResult;

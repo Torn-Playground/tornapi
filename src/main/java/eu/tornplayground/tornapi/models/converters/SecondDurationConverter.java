@@ -7,8 +7,8 @@ import java.time.Duration;
 public class SecondDurationConverter extends StdConverter<Long, Duration> {
 
     @Override
-    public Duration convert(Long aLong) {
-        return Duration.ofSeconds(aLong);
+    public Duration convert(Long value) {
+        return Duration.ofSeconds(value);
     }
 
 }

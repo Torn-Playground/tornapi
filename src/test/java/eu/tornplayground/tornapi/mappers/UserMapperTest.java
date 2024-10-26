@@ -3,6 +3,7 @@ package eu.tornplayground.tornapi.mappers;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import eu.tornplayground.tornapi.models.common.OnlineStatus;
 import eu.tornplayground.tornapi.models.user.*;
 import eu.tornplayground.tornapi.models.user.Bars;
 import eu.tornplayground.tornapi.models.user.ammo.AmmoSize;
@@ -10,7 +11,6 @@ import eu.tornplayground.tornapi.models.user.ammo.AmmoType;
 import eu.tornplayground.tornapi.models.user.jobpoints.CompanyPoints;
 import eu.tornplayground.tornapi.models.user.mission.MissionStatus;
 import eu.tornplayground.tornapi.models.user.partial.Gender;
-import eu.tornplayground.tornapi.models.user.partial.LastActionStatus;
 import eu.tornplayground.tornapi.models.user.partial.Status;
 import eu.tornplayground.tornapi.models.user.report.ReportType;
 import eu.tornplayground.tornapi.models.user.revive.ReviveResult;
@@ -1124,7 +1124,7 @@ class UserMapperTest {
         softly.assertThat(profile.getStates().getJailTimestamp()).isEqualTo(0);
 
         softly.assertThat(profile.getLastAction()).isNotNull();
-        softly.assertThat(profile.getLastAction().getStatus()).isEqualTo(LastActionStatus.IDLE);
+        softly.assertThat(profile.getLastAction().getStatus()).isEqualTo(OnlineStatus.IDLE);
         softly.assertThat(profile.getLastAction().getTimestamp()).isEqualTo(LocalDateTime.of(2021, 11, 19, 22, 49, 40));
         softly.assertThat(profile.getLastAction().getRelative()).isEqualTo("1 hour ago");
 
@@ -1207,7 +1207,7 @@ class UserMapperTest {
         softly.assertThat(profile.getStates().getJailTimestamp()).isEqualTo(0);
 
         softly.assertThat(profile.getLastAction()).isNotNull();
-        softly.assertThat(profile.getLastAction().getStatus()).isEqualTo(LastActionStatus.IDLE);
+        softly.assertThat(profile.getLastAction().getStatus()).isEqualTo(OnlineStatus.IDLE);
         softly.assertThat(profile.getLastAction().getTimestamp()).isEqualTo(LocalDateTime.of(2021, 11, 19, 22, 49, 40));
         softly.assertThat(profile.getLastAction().getRelative()).isEqualTo("1 hour ago");
 

@@ -4,7 +4,6 @@ import eu.tornplayground.tornapi.models.common.LastAction;
 import eu.tornplayground.tornapi.models.converters.DayDurationConverter;
 import eu.tornplayground.tornapi.models.converters.EpochLocalDateTimeConverter;
 import eu.tornplayground.tornapi.models.converters.SignupLocalDateTimeConverter;
-import eu.tornplayground.tornapi.models.user.partial.LastActionStatus;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import eu.tornplayground.tornapi.models.user.profile.*;
