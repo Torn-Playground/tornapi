@@ -6,6 +6,9 @@ import eu.tornplayground.tornapi.cache.ResponseCache;
 import eu.tornplayground.tornapi.connector.ApiConnector;
 import eu.tornplayground.tornapi.connector.TornHttpException;
 import eu.tornplayground.tornapi.keyprovider.KeyProvider;
+import eu.tornplayground.tornapi.limiter.DefaultRequestLimiter;
+import eu.tornplayground.tornapi.limiter.RequestLimitReachedException;
+import eu.tornplayground.tornapi.limiter.RequestLimiter;
 import eu.tornplayground.tornapi.mappers.ModelMapper;
 import eu.tornplayground.tornapi.selections.*;
 import net.moznion.uribuildertiny.URIBuilderTiny;
@@ -13,6 +16,8 @@ import net.moznion.uribuildertiny.URIBuilderTiny;
 import java.io.IOException;
 import java.net.URI;
 import java.util.*;
+import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.CompletionException;
 import java.util.stream.Collectors;
 
 public class TornApi {
@@ -20,6 +25,7 @@ public class TornApi {
     private final ApiConnector connector;
     private final KeyProvider keyProvider;
     private String defaultComment;
+    private RequestLimiter requestLimiter;
     private ResponseCache responseCache;
 
     public TornApi(ApiConnector connector, KeyProvider keyProvider) {
@@ -31,11 +37,27 @@ public class TornApi {
         this(connector, null);
     }
 
+    public TornApi withRequestLimiter(RequestLimiter requestLimiter) {
+        this.requestLimiter = requestLimiter;
+        return this;
+    }
+
+    /**
+     * Uses the default request limiter. {@link DefaultRequestLimiter}
+     */
+    public TornApi withDefaultRequestLimiter() {
+        return withRequestLimiter(new DefaultRequestLimiter());
+    }
+
+
     public TornApi withResponseCache(ResponseCache cache) {
         this.responseCache = cache;
         return this;
     }
 
+    /**
+     * Uses the default cache. {@link DefaultResponseCache}
+     */
     public TornApi withDefaultResponseCache() {
         this.responseCache = new DefaultResponseCache();
         return this;
@@ -233,15 +255,18 @@ public class TornApi {
             return uriBuilder.build();
         }
 
-        public JsonNode fetch() throws IOException, InterruptedException, TornHttpException {
+        public JsonNode fetch() throws IOException, InterruptedException, TornHttpException, RequestLimitReachedException {
             RequestData request = new RequestData(key, id, section, selections, parameters);
 
             if (responseCache != null && responseCache.contains(request.cacheHash())) {
                 return responseCache.get(request.cacheHash());
             }
 
-            URI uri = buildUri();
+            if (requestLimiter != null) {
+                requestLimiter.handleRequest(key);
+            }
 
+            URI uri = buildUri();
             JsonNode result = connector.connect(uri.toString());
 
             if (responseCache != null && !ModelMapper.hasError(result)) {
@@ -253,6 +278,19 @@ public class TornApi {
             }
 
             return result;
+        }
+
+        public CompletableFuture<JsonNode> fetchAsync() {
+            return CompletableFuture.supplyAsync(() -> {
+                try {
+                    return fetch();
+                } catch (InterruptedException e) {
+                    Thread.currentThread().interrupt();
+                    throw new CompletionException(e);
+                } catch (IOException | TornHttpException | RequestLimitReachedException e) {
+                    throw new CompletionException(e);
+                }
+            });
         }
     }
 }
