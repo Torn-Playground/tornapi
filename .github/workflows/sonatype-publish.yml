@@ -3,7 +3,7 @@ name: Maven Library Publish
 on:
   release:
     types:
-      - created
+      - published
 
 jobs:
   publish:
