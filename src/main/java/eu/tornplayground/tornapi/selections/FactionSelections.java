@@ -29,6 +29,7 @@ public enum FactionSelections  implements Selection {
     POSITIONS,
     REPORTS,
     REVIVES,
+    RANKEDWARS,
     REVIVESFULL,
     STATS,
     TEMPORARY,
