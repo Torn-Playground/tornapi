@@ -6,7 +6,7 @@
 
     <groupId>eu.tornplayground</groupId>
     <artifactId>tornapi</artifactId>
-    <version>0.7.0</version>
+    <version>0.8.0</version>
 
     <name>TornAPI Wrapper</name>
     <description>Wrapper for the Torn API.</description>
