@@ -1,13 +1,13 @@
 package eu.tornplayground.tornapi.keyprovider;
 
 import com.fasterxml.jackson.databind.JsonNode;
-import eu.tornplayground.tornapi.TornApi;
+import eu.tornplayground.tornapi.RequestData;
 
 public interface KeyProvider {
 
     String next();
 
-    default void listener(TornApi.RequestData request, JsonNode data) {
+    default void listener(RequestData request, JsonNode data) {
     }
 
 }

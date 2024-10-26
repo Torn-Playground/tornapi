@@ -3,6 +3,7 @@ package eu.tornplayground.tornapi;
 import eu.tornplayground.tornapi.connector.ApiConnector;
 import eu.tornplayground.tornapi.connector.TornHttpException;
 import eu.tornplayground.tornapi.keyprovider.KeyProvider;
+import eu.tornplayground.tornapi.limiter.RequestLimitReachedException;
 import eu.tornplayground.tornapi.selections.*;
 import org.assertj.core.api.AbstractUriAssert;
 import org.junit.jupiter.api.BeforeEach;
@@ -29,7 +30,7 @@ class TornApiTest {
 
     private TornApi api;
 
-    private URI captureUri() throws IOException, InterruptedException, TornHttpException {
+    private URI captureUri() throws IOException, InterruptedException, TornHttpException, TornApiErrorException, RequestLimitReachedException {
         ArgumentCaptor<String> argumentCaptorUrl = ArgumentCaptor.forClass(String.class);
 
         verify(connector).connect(argumentCaptorUrl.capture());
@@ -62,16 +63,16 @@ class TornApiTest {
 
     @BeforeEach
     void setUp() {
-        this.api = new TornApi(connector);
+        this.api = new TornApi(connector, null);
     }
 
     @Test
-    void fetchCurrentUser() throws IOException, InterruptedException, TornHttpException {
+    void fetchCurrentUser() throws IOException, InterruptedException, TornHttpException, TornApiErrorException, RequestLimitReachedException {
         api
-                .forUsers()
+                .forUser()
                 .withSelections(UserSelections.PROFILE, UserSelections.PERSONALSTATS)
                 .withSelections("anything")
-                .key("test-key")
+                .withKey("test-key")
                 .fetch();
 
         URI uri = captureUri();
@@ -86,14 +87,14 @@ class TornApiTest {
 
 
     @Test
-    void fetchCurrentUserWithKeyProvider() throws IOException, InterruptedException, TornHttpException {
+    void fetchCurrentUserWithKeyProvider() throws IOException, InterruptedException, TornHttpException, TornApiErrorException, RequestLimitReachedException {
         KeyProvider keyProvider = Mockito.mock(KeyProvider.class);
 
         TornApi api = new TornApi(connector, keyProvider);
 
         when(keyProvider.next()).thenReturn("key-provider");
         api
-                .forUsers()
+                .forUser()
                 .withSelections(UserSelections.PROFILE, UserSelections.PERSONALSTATS)
                 .withSelections("anything")
                 .consumeKey()
@@ -110,14 +111,14 @@ class TornApiTest {
     }
 
     @Test
-    void fetchCurrentUserWithParameters() throws IOException, InterruptedException, TornHttpException {
+    void fetchCurrentUserWithParameters() throws IOException, InterruptedException, TornHttpException, TornApiErrorException, RequestLimitReachedException {
         api
-                .forUsers()
+                .forUser()
                 .withSelections(UserSelections.PROFILE, UserSelections.PERSONALSTATS)
                 .withSelections("anything")
                 .withParameter("from", 1577836800)
                 .withParameter("to", 1609459199)
-                .key("test-key")
+                .withKey("test-key")
                 .fetch();
 
         URI uri = captureUri();
@@ -133,13 +134,13 @@ class TornApiTest {
     }
 
     @Test
-    void fetchUser() throws IOException, InterruptedException, TornHttpException {
+    void fetchUser() throws IOException, InterruptedException, TornHttpException, TornApiErrorException, RequestLimitReachedException {
         api
-                .forUsers()
+                .forUser()
                 .id(1)
                 .withSelections(UserSelections.PROFILE, UserSelections.PERSONALSTATS)
                 .withSelections("anything")
-                .key("test-key")
+                .withKey("test-key")
                 .fetch();
 
         URI uri = captureUri();
@@ -153,12 +154,12 @@ class TornApiTest {
     }
 
     @Test
-    void fetchUserWithStringId() throws IOException, InterruptedException, TornHttpException {
+    void fetchUserWithStringId() throws IOException, InterruptedException, TornHttpException, TornApiErrorException, RequestLimitReachedException {
         api
-                .forUsers()
+                .forUser()
                 .id("discord-id")
                 .withSelections(UserSelections.DISCORD)
-                .key("test-key")
+                .withKey("test-key")
                 .fetch();
 
         URI uri = captureUri();
@@ -172,15 +173,15 @@ class TornApiTest {
     }
 
     @Test
-    void fetchUserWithParameters() throws IOException, InterruptedException, TornHttpException {
+    void fetchUserWithParameters() throws IOException, InterruptedException, TornHttpException, TornApiErrorException, RequestLimitReachedException {
         api
-                .forUsers()
+                .forUser()
                 .id(1)
                 .withSelections(UserSelections.PROFILE, UserSelections.PERSONALSTATS)
                 .withSelections("anything")
                 .withParameter("from", 1577836800)
                 .withParameter("to", 1609459199)
-                .key("test-key")
+                .withKey("test-key")
                 .fetch();
 
         URI uri = captureUri();
@@ -196,14 +197,14 @@ class TornApiTest {
     }
 
     @Test
-    void fetchUserWithParametersAndStringId() throws IOException, InterruptedException, TornHttpException {
+    void fetchUserWithParametersAndStringId() throws IOException, InterruptedException, TornHttpException, TornApiErrorException, RequestLimitReachedException {
         api
-                .forUsers()
+                .forUser()
                 .id("discord-id")
                 .withSelections(UserSelections.DISCORD)
                 .withParameter("from", 1577836800)
                 .withParameter("to", 1609459199)
-                .key("test-key")
+                .withKey("test-key")
                 .fetch();
 
         URI uri = captureUri();
@@ -219,11 +220,11 @@ class TornApiTest {
     }
 
     @Test
-    void fetchCurrentProperty() throws IOException, InterruptedException, TornHttpException {
+    void fetchCurrentProperty() throws IOException, InterruptedException, TornHttpException, TornApiErrorException, RequestLimitReachedException {
         api
                 .forProperties()
                 .withSelections(PropertiesSelections.PROPERTY)
-                .key("test-key")
+                .withKey("test-key")
                 .fetch();
 
         URI uri = captureUri();
@@ -237,11 +238,11 @@ class TornApiTest {
     }
 
     @Test
-    void fetchCurrentFaction() throws IOException, InterruptedException, TornHttpException {
+    void fetchCurrentFaction() throws IOException, InterruptedException, TornHttpException, TornApiErrorException, RequestLimitReachedException {
         api
                 .forFaction()
                 .withSelections(FactionSelections.BASIC, FactionSelections.TERRITORY)
-                .key("test-key")
+                .withKey("test-key")
                 .fetch();
 
         URI uri = captureUri();
@@ -255,11 +256,11 @@ class TornApiTest {
     }
 
     @Test
-    void fetchCurrentCompany() throws IOException, InterruptedException, TornHttpException {
+    void fetchCurrentCompany() throws IOException, InterruptedException, TornHttpException, TornApiErrorException, RequestLimitReachedException {
         api
                 .forCompany()
                 .withSelections(CompanySelections.PROFILE, CompanySelections.EMPLOYEES)
-                .key("test-key")
+                .withKey("test-key")
                 .fetch();
 
         URI uri = captureUri();
@@ -273,12 +274,12 @@ class TornApiTest {
     }
 
     @Test
-    void fetchMultipleItems() throws IOException, InterruptedException, TornHttpException {
+    void fetchMultipleItems() throws IOException, InterruptedException, TornHttpException, TornApiErrorException, RequestLimitReachedException {
         api
                 .forMarket()
                 .id("1,2,3")
                 .withSelections(ItemMarketSelections.BAZAAR, ItemMarketSelections.ITEMMARKET)
-                .key("test-key")
+                .withKey("test-key")
                 .fetch();
 
         URI uri = captureUri();
@@ -292,11 +293,11 @@ class TornApiTest {
     }
 
     @Test
-    void fetchAllEducations() throws IOException, InterruptedException, TornHttpException {
+    void fetchAllEducations() throws IOException, InterruptedException, TornHttpException, TornApiErrorException, RequestLimitReachedException {
         api
                 .forTorn()
                 .withSelections(TornSelections.EDUCATION)
-                .key("test-key")
+                .withKey("test-key")
                 .fetch();
 
         URI uri = captureUri();
@@ -310,11 +311,11 @@ class TornApiTest {
     }
 
     @Test
-    void fetchKeyInformation() throws IOException, InterruptedException, TornHttpException {
+    void fetchKeyInformation() throws IOException, InterruptedException, TornHttpException, TornApiErrorException, RequestLimitReachedException {
         api
                 .forKey()
                 .withSelections(KeySelections.INFO)
-                .key("test-key")
+                .withKey("test-key")
                 .fetch();
 
         URI uri = captureUri();
@@ -328,10 +329,10 @@ class TornApiTest {
     }
 
     @Test
-    void givenNoDefaultComment_whenFetchWithoutComment_thenNoComment() throws IOException, InterruptedException, TornHttpException {
+    void givenNoDefaultComment_whenFetchWithoutComment_thenNoComment() throws IOException, InterruptedException, TornHttpException, TornApiErrorException, RequestLimitReachedException {
         api
-                .forUsers()
-                .key("test-key")
+                .forUser()
+                .withKey("test-key")
                 .fetch();
 
         URI uri = captureUri();
@@ -341,11 +342,11 @@ class TornApiTest {
     }
 
     @Test
-    void givenDefaultComment_whenFetchWithoutComment_thenDefaultComment() throws IOException, InterruptedException, TornHttpException {
-        api.setDefaultComment("testing-default");
+    void givenDefaultComment_whenFetchWithoutComment_thenDefaultComment() throws IOException, InterruptedException, TornHttpException, TornApiErrorException, RequestLimitReachedException {
+        api.withComment("testing-default");
         api
-                .forUsers()
-                .key("test-key")
+                .forUser()
+                .withKey("test-key")
                 .fetch();
 
         URI uri = captureUri();
@@ -355,11 +356,11 @@ class TornApiTest {
     }
 
     @Test
-    void givenDefaultComment_whenFetchWithComment_thenComment() throws IOException, InterruptedException, TornHttpException {
-        api.setDefaultComment("testing-default");
+    void givenDefaultComment_whenFetchWithComment_thenComment() throws IOException, InterruptedException, TornHttpException, TornApiErrorException, RequestLimitReachedException {
+        api.withComment("testing-default");
         api
-                .forUsers()
-                .key("test-key")
+                .forUser()
+                .withKey("test-key")
                 .withComment("testing")
                 .fetch();
 
@@ -370,10 +371,10 @@ class TornApiTest {
     }
 
     @Test
-    void givenNoDefaultComment_whenFetchWithComment_thenComment() throws IOException, InterruptedException, TornHttpException {
+    void givenNoDefaultComment_whenFetchWithComment_thenComment() throws IOException, InterruptedException, TornHttpException, TornApiErrorException, RequestLimitReachedException {
         api
-                .forUsers()
-                .key("test-key")
+                .forUser()
+                .withKey("test-key")
                 .withComment("testing")
                 .fetch();
 
