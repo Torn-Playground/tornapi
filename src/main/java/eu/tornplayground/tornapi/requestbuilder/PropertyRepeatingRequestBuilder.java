@@ -10,8 +10,8 @@ public class PropertyRepeatingRequestBuilder extends RequestBuilder<PropertiesSe
     }
 
     @Override
-    public PropertyRepeatingRequestBuilder throwTornError() {
-        super.throwTornError();
+    public PropertyRepeatingRequestBuilder withTornErrorException(boolean throwError) {
+        super.withTornErrorException(throwError);
         return this;
     }
 }

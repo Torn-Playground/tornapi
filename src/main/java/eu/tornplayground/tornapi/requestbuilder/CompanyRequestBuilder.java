@@ -10,8 +10,8 @@ public class CompanyRequestBuilder extends RequestBuilder<CompanySelections> {
     }
 
     @Override
-    public CompanyRequestBuilder throwTornError() {
-        super.throwTornError();
+    public CompanyRequestBuilder withTornErrorException(boolean throwError) {
+        super.withTornErrorException(throwError);
         return this;
     }
 }

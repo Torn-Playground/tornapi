@@ -17,8 +17,8 @@ public class MarketAsyncRequestBuilder extends RequestBuilder<ItemMarketSelectio
     }
 
     @Override
-    public MarketAsyncRequestBuilder throwTornError() {
-        super.throwTornError();
+    public MarketAsyncRequestBuilder withTornErrorException(boolean throwError) {
+        super.withTornErrorException(throwError);
         return this;
     }
 

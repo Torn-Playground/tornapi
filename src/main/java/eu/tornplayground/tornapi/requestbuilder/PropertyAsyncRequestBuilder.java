@@ -10,8 +10,8 @@ public class PropertyAsyncRequestBuilder extends RequestBuilder<PropertiesSelect
     }
 
     @Override
-    public PropertyAsyncRequestBuilder throwTornError() {
-        super.throwTornError();
+    public PropertyAsyncRequestBuilder withTornErrorException(boolean throwError) {
+        super.withTornErrorException(throwError);
         return this;
     }
 }

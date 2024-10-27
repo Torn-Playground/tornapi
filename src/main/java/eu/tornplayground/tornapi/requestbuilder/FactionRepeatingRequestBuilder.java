@@ -16,8 +16,8 @@ public class FactionRepeatingRequestBuilder extends RequestBuilder<FactionSelect
     }
 
     @Override
-    public FactionRepeatingRequestBuilder throwTornError() {
-        super.throwTornError();
+    public FactionRepeatingRequestBuilder withTornErrorException(boolean throwError) {
+        super.withTornErrorException(throwError);
         return this;
     }
 

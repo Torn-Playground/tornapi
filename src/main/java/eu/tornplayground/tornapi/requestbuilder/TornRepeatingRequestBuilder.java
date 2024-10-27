@@ -17,8 +17,8 @@ public class TornRepeatingRequestBuilder extends RequestBuilder<TornSelections> 
     }
 
     @Override
-    public TornRepeatingRequestBuilder throwTornError() {
-        super.throwTornError();
+    public TornRepeatingRequestBuilder withTornErrorException(boolean throwError) {
+        super.withTornErrorException(throwError);
         return this;
     }
 

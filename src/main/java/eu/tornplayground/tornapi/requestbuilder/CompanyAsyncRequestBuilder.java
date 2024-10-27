@@ -10,8 +10,8 @@ public class CompanyAsyncRequestBuilder extends RequestBuilder<CompanySelections
     }
 
     @Override
-    public CompanyAsyncRequestBuilder throwTornError() {
-        super.throwTornError();
+    public CompanyAsyncRequestBuilder withTornErrorException(boolean throwError) {
+        super.withTornErrorException(throwError);
         return this;
     }
 }

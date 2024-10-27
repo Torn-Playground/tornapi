@@ -15,8 +15,8 @@ public class FactionAsyncRequestBuilder extends RequestBuilder<FactionSelections
     }
 
     @Override
-    public FactionAsyncRequestBuilder throwTornError() {
-        super.throwTornError();
+    public FactionAsyncRequestBuilder withTornErrorException(boolean throwError) {
+        super.withTornErrorException(throwError);
         return this;
     }
 

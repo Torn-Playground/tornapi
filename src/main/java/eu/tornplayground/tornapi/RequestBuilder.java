@@ -1,12 +1,10 @@
 package eu.tornplayground.tornapi;
 
 import com.fasterxml.jackson.databind.JsonNode;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import eu.tornplayground.tornapi.connector.TornHttpException;
 import eu.tornplayground.tornapi.limiter.RequestLimitReachedException;
 import eu.tornplayground.tornapi.limiter.RequestLimiter;
 import eu.tornplayground.tornapi.mappers.ModelMapper;
-import eu.tornplayground.tornapi.models.TornError;
 import eu.tornplayground.tornapi.selections.Selection;
 import net.moznion.uribuildertiny.URIBuilderTiny;
 
@@ -30,6 +28,7 @@ public abstract class RequestBuilder<T extends Selection> {
     private final Map<String, Object> parameters = new HashMap<>();
 
     private String key;
+    private String overwrittenKey;
     private String id;
     private String comment;
 
@@ -100,7 +99,7 @@ public abstract class RequestBuilder<T extends Selection> {
      * Set key to be used by the connection.
      */
     public RequestBuilder<T> withKey(String key) {
-        this.key = key;
+        this.overwrittenKey = key;
         usedProvider = false;
         return this;
     }
@@ -116,16 +115,20 @@ public abstract class RequestBuilder<T extends Selection> {
         return this;
     }
 
+    protected String getKey() {
+        return overwrittenKey == null ? key : overwrittenKey;
+    }
+
     /**
-     * Ignore Torn API errors and return the response as is.
+     * Catch torn errors and throw a {@link TornErrorException} instead of returning the error in the JsonNode.
      */
-    public RequestBuilder<T> throwTornError() {
-        this.throwTornError = true;
+    public RequestBuilder<T> withTornErrorException(boolean throwTornError) {
+        this.throwTornError = throwTornError;
         return this;
     }
 
     protected URI buildUri() {
-        Objects.requireNonNull(key);
+        Objects.requireNonNull(getKey());
 
         URIBuilderTiny uriBuilder = new URIBuilderTiny()
                 .setScheme("https")
@@ -137,36 +140,52 @@ public abstract class RequestBuilder<T extends Selection> {
         uriBuilder.setQueryParameters(parameters);
         if (comment != null) uriBuilder.addQueryParameter("comment", comment);
         uriBuilder.addQueryParameter("selections", String.join(",", selections));
-        uriBuilder.addQueryParameter("key", key);
+        uriBuilder.addQueryParameter("key", getKey());
 
         return uriBuilder.build();
     }
 
-    public JsonNode fetch() throws IOException, InterruptedException, TornHttpException, TornApiErrorException, RequestLimitReachedException {
-        if (tornApi.hasAutomaticKeyConsumption()) {
+    /**
+     * Fetch data from the API.
+     */
+    public JsonNode fetch() throws TornHttpException, RequestLimitReachedException, IOException, TornErrorException {
+        if (overwrittenKey == null && tornApi.hasAutomaticKeyConsumption()) {
             consumeKey();
         }
 
-        RequestData request = new RequestData(key, id, section, selections, parameters);
+        final RequestData request = new RequestData(getKey(), id, section, selections, parameters);
 
         if (tornApi.getResponseCache() != null && tornApi.getResponseCache().contains(request.cacheHash())) {
             return tornApi.getResponseCache().get(request.cacheHash());
         }
 
         if (tornApi.getRequestLimiter() != null) {
-            tornApi.getRequestLimiter().handleRequest(key);
+            try {
+                tornApi.getRequestLimiter().handleRequest(getKey());
+            } catch (InterruptedException e) {
+                Thread.currentThread().interrupt();
+                // at this point there is an issue with the wrapper itself and the user should not have to "handle" that, because he can't really do anything about it
+                throw new RuntimeException("Something went horribly wrong, while waiting for the limiter", e);
+            }
         }
 
-        URI uri = buildUri();
-        JsonNode result = tornApi.getConnector().connect(uri.toString());
+        final URI uri = buildUri();
+        final JsonNode result;
 
-        if (usedProvider) {
-            tornApi.getKeyProvider().listener(request, result);
+        try {
+            result = tornApi.getConnector().connect(uri.toString());
+        } catch (InterruptedException e) {
+            Thread.currentThread().interrupt();
+            // at this point there is an issue with the wrapper itself and the user should not have to "handle" that, because he can't really do anything about it
+            throw new RuntimeException("Something went horribly wrong, while trying to fetch the data", e);
         }
 
         if (throwTornError && ModelMapper.hasError(result)) {
-            TornError tornError = ModelMapper.ofError(result);
-            throw new TornApiErrorException(tornError);
+            throw new TornErrorException(ModelMapper.ofError(result));
+        }
+
+        if (usedProvider) {
+            tornApi.getKeyProvider().listener(request, result);
         }
 
         if (tornApi.getResponseCache() != null && !ModelMapper.hasError(result)) {
@@ -176,7 +195,7 @@ public abstract class RequestBuilder<T extends Selection> {
         return result;
     }
 
-    protected <V> V fetch(T selection, Function<JsonNode, V> mapping) throws IOException, TornHttpException, InterruptedException, TornApiErrorException, RequestLimitReachedException {
+    protected <V> V fetch(T selection, Function<JsonNode, V> mapping) throws IOException, TornHttpException, RequestLimitReachedException, TornErrorException {
         withSelections(selection);
         return mapping.apply(fetch());
     }
@@ -185,10 +204,7 @@ public abstract class RequestBuilder<T extends Selection> {
         return CompletableFuture.supplyAsync(() -> {
             try {
                 return fetch();
-            } catch (InterruptedException e) {
-                Thread.currentThread().interrupt();
-                throw new CompletionException(e);
-            } catch (IOException | TornHttpException | RequestLimitReachedException | TornApiErrorException e) {
+            } catch (Exception e) {
                 throw new CompletionException(e);
             }
         });
@@ -202,12 +218,12 @@ public abstract class RequestBuilder<T extends Selection> {
     /**
      * Repeatedly fetch data from the API and consume it.
      * Does not ignore the {@link RequestLimiter}, if one is configured.
-     * Enabled {@link RequestBuilder#throwTornError()} automaically for handling them in {@link RepeatingRequestTask#handleTornError(BiConsumer)}.
+     * Enabled {@link RequestBuilder#withTornErrorException(boolean)} automaically for handling them in {@link RepeatingRequestTask#handleTornError(BiConsumer)}.
      *
      * @param intervalInSeconds in milliseconds
      */
     public RepeatingRequestTask<JsonNode> repeating(long intervalInSeconds, Consumer<JsonNode> consumer) {
-        throwTornError();
+        withTornErrorException(true);
         return new RepeatingRequestTask<>(intervalInSeconds, this, consumer);
     }
 

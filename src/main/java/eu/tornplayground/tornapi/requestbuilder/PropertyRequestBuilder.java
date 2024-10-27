@@ -10,8 +10,8 @@ public class PropertyRequestBuilder extends RequestBuilder<PropertiesSelections>
     }
 
     @Override
-    public PropertyRequestBuilder throwTornError() {
-        super.throwTornError();
+    public PropertyRequestBuilder withTornErrorException(boolean throwError) {
+        super.withTornErrorException(throwError);
         return this;
     }
 }

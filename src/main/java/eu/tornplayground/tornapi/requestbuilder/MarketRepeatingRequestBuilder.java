@@ -18,8 +18,8 @@ public class MarketRepeatingRequestBuilder extends RequestBuilder<ItemMarketSele
     }
 
     @Override
-    public MarketRepeatingRequestBuilder throwTornError() {
-        super.throwTornError();
+    public MarketRepeatingRequestBuilder withTornErrorException(boolean throwError) {
+        super.withTornErrorException(throwError);
         return this;
     }
 

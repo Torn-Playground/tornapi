@@ -36,7 +36,7 @@ public class RepeatingRequestTask<T> {
     }
 
     /**
-     * @param tornErrorHandler handle {@link TornApiErrorException}
+     * @param tornErrorHandler handle {@link TornErrorException}
      */
     public RepeatingRequestTask<T> handleTornError(BiConsumer<TornError, RepeatingRequestTask<T>> tornErrorHandler) {
         this.tornErrorHandler = tornErrorHandler;
@@ -65,7 +65,7 @@ public class RepeatingRequestTask<T> {
                     if (resultConsumer != null) {
                         resultConsumer.accept(mapping.apply(result));
                     }
-                } catch (TornApiErrorException e) {
+                } catch (TornErrorException e) {
                     if (tornErrorHandler != null) {
                         tornErrorHandler.accept(e.getTornError(), this);
                     }

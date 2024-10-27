@@ -3,7 +3,6 @@ package eu.tornplayground.tornapi.requestbuilder;
 import eu.tornplayground.tornapi.RequestBuilder;
 import eu.tornplayground.tornapi.TornApi;
 import eu.tornplayground.tornapi.mappers.UserMapper;
-import eu.tornplayground.tornapi.models.Timestamp;
 import eu.tornplayground.tornapi.models.user.*;
 import eu.tornplayground.tornapi.selections.UserSelections;
 
@@ -17,8 +16,8 @@ public class UserAsyncRequestBuilder extends RequestBuilder<UserSelections> {
     }
 
     @Override
-    public UserAsyncRequestBuilder throwTornError() {
-        super.throwTornError();
+    public UserAsyncRequestBuilder withTornErrorException(boolean throwError) {
+        super.withTornErrorException(throwError);
         return this;
     }
 

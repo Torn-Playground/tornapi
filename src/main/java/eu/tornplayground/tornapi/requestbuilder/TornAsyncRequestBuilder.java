@@ -16,8 +16,8 @@ public class TornAsyncRequestBuilder extends RequestBuilder<TornSelections> {
     }
 
     @Override
-    public TornAsyncRequestBuilder throwTornError() {
-        super.throwTornError();
+    public TornAsyncRequestBuilder withTornErrorException(boolean throwError) {
+        super.withTornErrorException(throwError);
         return this;
     }
 

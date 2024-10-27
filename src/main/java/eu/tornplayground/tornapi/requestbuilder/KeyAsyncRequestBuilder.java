@@ -14,8 +14,8 @@ public class KeyAsyncRequestBuilder extends RequestBuilder<KeySelections> {
     }
 
     @Override
-    public KeyAsyncRequestBuilder throwTornError() {
-        super.throwTornError();
+    public KeyAsyncRequestBuilder withTornErrorException(boolean throwError) {
+        super.withTornErrorException(throwError);
         return this;
     }
 

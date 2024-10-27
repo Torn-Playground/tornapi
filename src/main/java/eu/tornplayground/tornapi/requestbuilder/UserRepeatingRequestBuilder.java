@@ -17,8 +17,8 @@ public class UserRepeatingRequestBuilder extends RequestBuilder<UserSelections> 
     }
 
     @Override
-    public UserRepeatingRequestBuilder throwTornError() {
-        super.throwTornError();
+    public UserRepeatingRequestBuilder withTornErrorException(boolean throwError) {
+        super.withTornErrorException(throwError);
         return this;
     }
 

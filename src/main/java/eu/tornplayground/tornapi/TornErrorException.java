@@ -2,11 +2,11 @@ package eu.tornplayground.tornapi;
 
 import eu.tornplayground.tornapi.models.TornError;
 
-public class TornApiErrorException extends Exception{
+public class TornErrorException extends Exception{
 
     private final TornError tornError;
 
-    public TornApiErrorException(TornError tornError) {
+    public TornErrorException(TornError tornError) {
         super(tornError.getError());
         this.tornError = tornError;
     }

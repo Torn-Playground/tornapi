@@ -15,8 +15,8 @@ public class KeyRepeatingRequestBuilder extends RequestBuilder<KeySelections> {
     }
 
     @Override
-    public KeyRepeatingRequestBuilder throwTornError() {
-        super.throwTornError();
+    public KeyRepeatingRequestBuilder withTornErrorException(boolean throwError) {
+        super.withTornErrorException(throwError);
         return this;
     }
 
