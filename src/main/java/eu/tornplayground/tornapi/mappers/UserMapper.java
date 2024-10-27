@@ -96,25 +96,11 @@ public class UserMapper extends ModelMapper {
 
         List<Honor> honors = new ArrayList<>();
         for (int i = 0; i < awarded.size(); i++) {
-            try {
-                Constructor<Honor> honorConstructor = Honor.class.getDeclaredConstructor();
-                honorConstructor.setAccessible(true);
-
-                Honor honor = honorConstructor.newInstance();
-
-                Field idField = Honor.class.getDeclaredField("id");
-                idField.setAccessible(true);
-                idField.set(honor, awarded.get(i));
-
-                Field awardedField = Honor.class.getDeclaredField("awarded");
-                awardedField.setAccessible(true);
-                awardedField.set(honor, times.get(i));
-
-                honors.add(honor);
-            } catch (NoSuchMethodException | NoSuchFieldException | InvocationTargetException | InstantiationException |
-                     IllegalAccessException e) {
-                throw new RuntimeException(e);
-            }
+            honors.add(Honor.builder()
+                    .id(awarded.get(i))
+                    .awarded(times.get(i))
+                    .build()
+            );
         }
 
         return honors;

@@ -8,14 +8,17 @@ import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import eu.tornplayground.tornapi.models.user.attacks.AttackResult;
 import eu.tornplayground.tornapi.models.user.attacks.Fighter;
 import eu.tornplayground.tornapi.models.user.attacks.Modifiers;
+import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.experimental.SuperBuilder;
 
 import java.time.LocalDateTime;
 import java.util.Objects;
 
 @Getter
-@NoArgsConstructor(access = lombok.AccessLevel.PROTECTED)
+@SuperBuilder
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class Attack extends Model {
 
     @JsonProperty("code")

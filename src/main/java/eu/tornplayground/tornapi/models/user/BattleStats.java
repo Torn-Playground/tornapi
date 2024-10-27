@@ -7,14 +7,17 @@ import eu.tornplayground.tornapi.models.converters.StatInfoConverter;
 import eu.tornplayground.tornapi.models.user.battlestats.StatInfoType;
 import eu.tornplayground.tornapi.models.user.battlestats.statinfo.BattleStat;
 import eu.tornplayground.tornapi.models.user.battlestats.statinfo.StatInfo;
+import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.experimental.SuperBuilder;
 
 import java.util.List;
 import java.util.Objects;
 
 @Getter
-@NoArgsConstructor(access = lombok.AccessLevel.PROTECTED)
+@SuperBuilder
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class BattleStats extends Model {
 
     @JsonProperty("strength")

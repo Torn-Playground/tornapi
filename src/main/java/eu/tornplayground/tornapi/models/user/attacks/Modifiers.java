@@ -1,14 +1,17 @@
 package eu.tornplayground.tornapi.models.user.attacks;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.experimental.SuperBuilder;
 import org.checkerframework.checker.regex.qual.Regex;
 
 import java.util.Objects;
 
 @Getter
-@NoArgsConstructor(access = lombok.AccessLevel.PROTECTED)
+@SuperBuilder
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class Modifiers {
 
     @JsonProperty("fair_fight")

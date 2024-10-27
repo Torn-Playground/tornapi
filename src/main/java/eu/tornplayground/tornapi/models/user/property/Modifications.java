@@ -2,14 +2,17 @@ package eu.tornplayground.tornapi.models.user.property;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import eu.tornplayground.tornapi.models.Model;
+import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.experimental.Accessors;
+import lombok.experimental.SuperBuilder;
 
 import java.util.Objects;
 
-@Getter()
-@NoArgsConstructor(access = lombok.AccessLevel.PROTECTED)
+@Getter
+@SuperBuilder
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class Modifications extends Model {
 
     @JsonProperty("airstrip")

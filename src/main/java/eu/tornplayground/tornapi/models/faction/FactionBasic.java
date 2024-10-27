@@ -9,8 +9,10 @@ import eu.tornplayground.tornapi.models.faction.basic.Member;
 import eu.tornplayground.tornapi.models.faction.basic.RaidWars;
 import eu.tornplayground.tornapi.models.faction.basic.FactionRank;
 import eu.tornplayground.tornapi.models.faction.basic.TerritoryWars;
+import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.experimental.SuperBuilder;
 
 import java.time.Duration;
 import java.time.LocalDateTime;
@@ -19,7 +21,8 @@ import java.util.Map;
 import java.util.Objects;
 
 @Getter
-@NoArgsConstructor(access = lombok.AccessLevel.PROTECTED)
+@SuperBuilder
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class FactionBasic extends Model {
     @JsonProperty("ID")
     private int id;

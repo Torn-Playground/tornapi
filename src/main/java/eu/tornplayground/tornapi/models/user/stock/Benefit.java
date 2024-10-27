@@ -3,9 +3,16 @@ package eu.tornplayground.tornapi.models.user.stock;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import eu.tornplayground.tornapi.models.Model;
+import lombok.AccessLevel;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.experimental.SuperBuilder;
 
 import java.util.Objects;
 
+@Getter
+@SuperBuilder
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class Benefit extends Model {
 
     @JsonProperty("ready")
@@ -19,25 +26,6 @@ public class Benefit extends Model {
 
     @JsonProperty("frequency")
     private int frequency;
-
-    protected Benefit() {
-    }
-
-    public boolean isReady() {
-        return ready;
-    }
-
-    public int getIncrement() {
-        return increment;
-    }
-
-    public int getProgress() {
-        return progress;
-    }
-
-    public int getFrequency() {
-        return frequency;
-    }
 
     @Override
     public boolean equals(Object o) {

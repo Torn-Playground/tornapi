@@ -2,13 +2,16 @@ package eu.tornplayground.tornapi.models.user.battlestats.statinfo;
 
 import eu.tornplayground.tornapi.models.Model;
 import eu.tornplayground.tornapi.models.user.battlestats.StatInfoType;
+import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.experimental.SuperBuilder;
 
 import java.util.Objects;
 
 @Getter
-@NoArgsConstructor(access = lombok.AccessLevel.PROTECTED)
+@SuperBuilder
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class StatInfo extends Model {
     private String message;
     private short percentage;

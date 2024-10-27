@@ -1,14 +1,20 @@
 package eu.tornplayground.tornapi.models.user.stock;
 
-
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import eu.tornplayground.tornapi.models.Model;
 import eu.tornplayground.tornapi.models.converters.EpochLocalDateTimeConverter;
+import lombok.AccessLevel;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.experimental.SuperBuilder;
 
 import java.time.LocalDateTime;
 import java.util.Objects;
 
+@Getter
+@SuperBuilder
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class Transaction extends Model {
 
     @JsonProperty("shares")
@@ -20,21 +26,6 @@ public class Transaction extends Model {
     @JsonProperty("time_bought")
     @JsonDeserialize(converter = EpochLocalDateTimeConverter.class)
     private LocalDateTime timeBought;
-
-    protected Transaction() {
-    }
-
-    public long getShares() {
-        return shares;
-    }
-
-    public float getBoughtPrice() {
-        return boughtPrice;
-    }
-
-    public LocalDateTime getTimeBought() {
-        return timeBought;
-    }
 
     @Override
     public boolean equals(Object o) {

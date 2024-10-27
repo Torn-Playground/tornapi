@@ -7,11 +7,18 @@ import eu.tornplayground.tornapi.models.converters.StringDateTimeConverter;
 import eu.tornplayground.tornapi.models.user.report.reportdata.FriendOrFoeUser;
 import eu.tornplayground.tornapi.models.user.report.reportdata.Reference;
 import eu.tornplayground.tornapi.models.user.report.reportdata.Warrant;
+import lombok.AccessLevel;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.experimental.SuperBuilder;
 
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Objects;
 
+@Getter
+@SuperBuilder
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class ReportData extends Model {
 
     @JsonProperty("bounties")
@@ -62,73 +69,6 @@ public class ReportData extends Model {
 
     @JsonProperty("true_level")
     private short trueLevel;
-
-    protected ReportData() {
-    }
-
-    public List<String> getBounties() {
-        return bounties;
-    }
-
-    public List<Reference> getCompanyHistory() {
-        return companyHistory;
-    }
-
-    public long getDefense() {
-        return defense;
-    }
-
-    public long getDexterity() {
-        return dexterity;
-    }
-
-    public List<FriendOrFoeUser> getEnemyList() {
-        return enemyList;
-    }
-
-    public List<Reference> getFactionHistory() {
-        return factionHistory;
-    }
-
-    public List<FriendOrFoeUser> getFriendList() {
-        return friendList;
-    }
-
-    public int getInvestedAmount() {
-        return investedAmount;
-    }
-
-    public LocalDateTime getInvestedCompletion() {
-        return investedCompletion;
-    }
-
-    public long getMoney() {
-        return money;
-    }
-
-    public List<Warrant> getOtherList() {
-        return otherList;
-    }
-
-    public long getSpeed() {
-        return speed;
-    }
-
-    public long getStrength() {
-        return strength;
-    }
-
-    public List<Warrant> getTopList() {
-        return topList;
-    }
-
-    public String getTotalBattleStats() {
-        return totalBattleStats;
-    }
-
-    public short getTrueLevel() {
-        return trueLevel;
-    }
 
     @Override
     public boolean equals(Object o) {

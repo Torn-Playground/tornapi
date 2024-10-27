@@ -1,7 +1,9 @@
 package eu.tornplayground.tornapi.models.common;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
+import lombok.Getter;
 
+@Getter
 public enum AttackResult {
     ARRESTED("Arrested"),
     ASSIST("Assist"),

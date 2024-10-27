@@ -4,10 +4,17 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import eu.tornplayground.tornapi.models.Model;
 import eu.tornplayground.tornapi.models.converters.StringDateConverter;
+import lombok.AccessLevel;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.experimental.SuperBuilder;
 
 import java.time.LocalDate;
 import java.util.Objects;
 
+@Getter
+@SuperBuilder
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class Reference extends Model {
 
     @JsonProperty("joined")
@@ -20,21 +27,6 @@ public class Reference extends Model {
 
     @JsonProperty("name")
     private String name;
-
-    protected Reference() {
-    }
-
-    public LocalDate getJoined() {
-        return joined;
-    }
-
-    public LocalDate getLeft() {
-        return left;
-    }
-
-    public String getName() {
-        return name;
-    }
 
     @Override
     public boolean equals(Object o) {

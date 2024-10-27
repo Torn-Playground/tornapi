@@ -5,13 +5,17 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import eu.tornplayground.tornapi.models.user.property.Modifications;
 import eu.tornplayground.tornapi.models.user.property.RentedInfo;
 import eu.tornplayground.tornapi.models.user.property.Staff;
+import lombok.AccessLevel;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.experimental.SuperBuilder;
 
 import java.util.Objects;
 
 @Getter
-@NoArgsConstructor(access = lombok.AccessLevel.PROTECTED)
+@SuperBuilder
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class Property extends Model {
 
     @JsonProperty("owner_id")

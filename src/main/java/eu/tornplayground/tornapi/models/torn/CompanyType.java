@@ -5,14 +5,17 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import eu.tornplayground.tornapi.models.torn.companytype.CompanyPosition;
 import eu.tornplayground.tornapi.models.torn.companytype.CompanySpecial;
 import eu.tornplayground.tornapi.models.torn.companytype.CompanyStock;
+import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.experimental.SuperBuilder;
 
 import java.util.Map;
 import java.util.Objects;
 
 @Getter
-@NoArgsConstructor(access = lombok.AccessLevel.PROTECTED)
+@SuperBuilder
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class CompanyType extends Model {
 
     @JsonProperty("name")

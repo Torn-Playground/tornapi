@@ -4,6 +4,8 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import eu.tornplayground.tornapi.models.common.OnlineStatus;
+import eu.tornplayground.tornapi.models.common.PlayerState;
+import eu.tornplayground.tornapi.models.faction.basic.member.Color;
 import eu.tornplayground.tornapi.models.user.*;
 import eu.tornplayground.tornapi.models.user.Bars;
 import eu.tornplayground.tornapi.models.user.ammo.AmmoSize;
@@ -172,8 +174,8 @@ class UserMapperTest {
         softly.assertThat(result.getStatus()).isNotNull();
         softly.assertThat(result.getStatus().getDescription()).isEqualTo("Okay");
         softly.assertThat(result.getStatus().getDetails()).isEqualTo("");
-        softly.assertThat(result.getStatus().getState()).isEqualTo(Status.State.OKAY);
-        softly.assertThat(result.getStatus().getColor()).isEqualTo("green");
+        softly.assertThat(result.getStatus().getState()).isEqualTo(PlayerState.OKAY);
+        softly.assertThat(result.getStatus().getColor()).isEqualTo(Color.GREEN);
         softly.assertThat(result.getStatus().getUntil()).isEqualTo(Instant.ofEpochSecond(0).atOffset(UTC).toLocalDateTime());
 
         softly.assertAll();
@@ -1085,8 +1087,8 @@ class UserMapperTest {
         softly.assertThat(profile.getStatus()).isNotNull();
         softly.assertThat(profile.getStatus().getDescription()).isEqualTo("Okay");
         softly.assertThat(profile.getStatus().getDetails()).isEqualTo("");
-        softly.assertThat(profile.getStatus().getState()).isEqualTo(Status.State.OKAY);
-        softly.assertThat(profile.getStatus().getColor()).isEqualTo("green");
+        softly.assertThat(profile.getStatus().getState()).isEqualTo(PlayerState.OKAY);
+        softly.assertThat(profile.getStatus().getColor()).isEqualTo(Color.GREEN);
         softly.assertThat(profile.getStatus().getUntil()).isEqualTo(Instant.ofEpochSecond(0).atOffset(UTC).toLocalDateTime());
 
         softly.assertThat(profile.getJob()).isNotNull();
@@ -1168,8 +1170,8 @@ class UserMapperTest {
         softly.assertThat(profile.getStatus()).isNotNull();
         softly.assertThat(profile.getStatus().getDescription()).isEqualTo("In jail for 2 hrs 5 mins ");
         softly.assertThat(profile.getStatus().getDetails()).isEqualTo("Was caught trying to break out <a class='t-blue' href = http://www.torn.com/profiles.php?XID=1043531>Warrior</a>.");
-        softly.assertThat(profile.getStatus().getState()).isEqualTo(Status.State.JAIL);
-        softly.assertThat(profile.getStatus().getColor()).isEqualTo("red");
+        softly.assertThat(profile.getStatus().getState()).isEqualTo(PlayerState.JAIL);
+        softly.assertThat(profile.getStatus().getColor()).isEqualTo(Color.RED);
         softly.assertThat(profile.getStatus().getUntil()).isEqualTo(LocalDateTime.of(2021, 11, 20, 22, 18, 15));
 
         softly.assertThat(profile.getJob()).isNotNull();
