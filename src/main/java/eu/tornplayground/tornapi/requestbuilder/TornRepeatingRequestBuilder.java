@@ -16,6 +16,12 @@ public class TornRepeatingRequestBuilder extends RequestBuilder<TornSelections> 
         super(tornApi, "torn");
     }
 
+    @Override
+    public TornRepeatingRequestBuilder throwTornError() {
+        super.throwTornError();
+        return this;
+    }
+
     public RepeatingRequestTask<Map<Long, CompanyType>> repeatCompanies(int intervalInSeconds, Consumer<Map<Long, CompanyType>> consumer) {
         return repeating(TornSelections.COMPANIES, intervalInSeconds,TornMapper::ofCompanies, consumer);
     }

@@ -19,6 +19,12 @@ public class UserRequestBuilder extends RequestBuilder<UserSelections> {
         super(tornApi, "user");
     }
 
+    @Override
+    public UserRequestBuilder throwTornError() {
+        super.throwTornError();
+        return this;
+    }
+
     public List<Ammo> fetchAmmo() throws IOException, TornHttpException, InterruptedException, TornApiErrorException, RequestLimitReachedException {
         return fetch(UserSelections.AMMO, UserMapper::ofAmmo);
     }

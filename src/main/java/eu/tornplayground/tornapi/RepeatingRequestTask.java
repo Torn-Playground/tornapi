@@ -1,35 +1,32 @@
 package eu.tornplayground.tornapi;
 
 import com.fasterxml.jackson.databind.JsonNode;
-import eu.tornplayground.tornapi.connector.TornHttpException;
 import eu.tornplayground.tornapi.limiter.RequestLimitReachedException;
 import eu.tornplayground.tornapi.models.TornError;
 
-import java.io.IOException;
-import java.util.concurrent.Executors;
-import java.util.concurrent.ScheduledExecutorService;
-import java.util.concurrent.ScheduledFuture;
-import java.util.concurrent.TimeUnit;
 import java.util.function.BiConsumer;
 import java.util.function.Consumer;
 import java.util.function.Function;
 
 public class RepeatingRequestTask<T> {
-    private static final ScheduledExecutorService scheduler = Executors.newScheduledThreadPool(Runtime.getRuntime().availableProcessors() * 2);
+    private static int counter = 0;
     private final long intervalInSeconds;
-    private Consumer<T> resultConsumer;
+    private final Consumer<T> resultConsumer;
+    private final RequestBuilder<?> requestBuilder;
+    private boolean taskStopped = false;
+
     private BiConsumer<TornError, RepeatingRequestTask<T>> tornErrorHandler;
     private BiConsumer<Exception, RepeatingRequestTask<T>> exceptionHandler;
     private Consumer<RepeatingRequestTask<T>> requestLimitReachedHandler;
-    private ScheduledFuture<?> scheduledFuture;
-    private final RequestBuilder<?> requestBuilder;
     private Function<JsonNode, T> mapping;
+
 
     public RepeatingRequestTask(long intervalInSeconds, RequestBuilder<?> requestBuilder, Consumer<T> consumer) {
         this.intervalInSeconds = intervalInSeconds;
         this.requestBuilder = requestBuilder;
         this.resultConsumer = consumer;
     }
+
     /**
      * @param exceptionHandler BiConsumer to handle exceptions which are not handled in {@link RepeatingRequestTask#handleTornError}
      */
@@ -59,39 +56,43 @@ public class RepeatingRequestTask<T> {
         return this;
     }
 
-    public RepeatingRequestTask<T> start() {
-        scheduledFuture = scheduler.scheduleAtFixedRate(() -> {
-            try {
-                if (requestBuilder.getTornApi().hasAutomaticKeyConsumption()) requestBuilder.consumeKey();
-
-                final JsonNode result = requestBuilder.fetch();
-                if (resultConsumer != null) {
-                    resultConsumer.accept(mapping.apply(result));
-                }
-            } catch (TornApiErrorException e) {
-                if (tornErrorHandler != null) {
-                    tornErrorHandler.accept(e.getTornError(), this);
-                }
-            } catch (RequestLimitReachedException e) {
-                if (requestLimitReachedHandler != null) {
-                    requestLimitReachedHandler.accept(this);
-                }
-            } catch (IOException | InterruptedException | TornHttpException  e) {
-                if (exceptionHandler == null) {
-                    stop();
-                    Thread.currentThread().interrupt();
-                } else {
-                    exceptionHandler.accept(e, this);
+    public synchronized RepeatingRequestTask<T> start() {
+        new Thread(() -> {
+            Thread.currentThread().setName("RepeatingRequestTask-" + counter++);
+            while (!taskStopped) {
+                try {
+                    final JsonNode result = requestBuilder.fetch();
+                    if (resultConsumer != null) {
+                        resultConsumer.accept(mapping.apply(result));
+                    }
+                } catch (TornApiErrorException e) {
+                    if (tornErrorHandler != null) {
+                        tornErrorHandler.accept(e.getTornError(), this);
+                    }
+                } catch (RequestLimitReachedException e) {
+                    if (requestLimitReachedHandler != null) {
+                        requestLimitReachedHandler.accept(this);
+                    }
+                } catch (Exception exception) {
+                    if (exceptionHandler == null) {
+                        Thread.currentThread().interrupt();
+                    } else {
+                        exceptionHandler.accept(exception, this);
+                    }
+                } finally {
+                    try {
+                        Thread.sleep(intervalInSeconds * 1000);
+                    } catch (InterruptedException e) {
+                        Thread.currentThread().interrupt();
+                    }
                 }
             }
-        }, 0, intervalInSeconds, TimeUnit.SECONDS);
+        }).start();
 
         return this;
     }
 
     public void stop() {
-        if (scheduledFuture != null && !scheduledFuture.isCancelled()) {
-            scheduledFuture.cancel(true);
-        }
+        taskStopped = true;
     }
 }

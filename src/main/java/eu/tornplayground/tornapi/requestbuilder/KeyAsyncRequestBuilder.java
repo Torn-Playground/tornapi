@@ -13,6 +13,12 @@ public class KeyAsyncRequestBuilder extends RequestBuilder<KeySelections> {
         super(tornApi, "key");
     }
 
+    @Override
+    public KeyAsyncRequestBuilder throwTornError() {
+        super.throwTornError();
+        return this;
+    }
+
     public CompletableFuture<KeyInfo> fetchInfo() {
         return fetchAsync(KeySelections.INFO, KeyMapper::ofInfo);
     }

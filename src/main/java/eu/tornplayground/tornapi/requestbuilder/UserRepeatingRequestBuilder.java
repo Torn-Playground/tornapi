@@ -16,6 +16,12 @@ public class UserRepeatingRequestBuilder extends RequestBuilder<UserSelections> 
         super(tornApi, "user");
     }
 
+    @Override
+    public UserRepeatingRequestBuilder throwTornError() {
+        super.throwTornError();
+        return this;
+    }
+
     public RepeatingRequestTask<List<Ammo>> repeatAmmo(int intervalInSeconds, Consumer<List<Ammo>> consumer) {
         return repeating(UserSelections.AMMO, intervalInSeconds,UserMapper::ofAmmo, consumer);
     }

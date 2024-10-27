@@ -19,6 +19,12 @@ public class MarketRequestBuilder extends RequestBuilder<ItemMarketSelections> {
         super(tornApi, "market");
     }
 
+    @Override
+    public MarketRequestBuilder throwTornError() {
+        super.throwTornError();
+        return this;
+    }
+
     public List<MarketItem> fetchBazaar() throws IOException, TornHttpException, InterruptedException, TornApiErrorException, RequestLimitReachedException {
         return fetch(ItemMarketSelections.BAZAAR, MarketMapper::ofBazaar);
     }

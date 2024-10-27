@@ -16,6 +16,12 @@ public class MarketAsyncRequestBuilder extends RequestBuilder<ItemMarketSelectio
         super(tornApi, "market");
     }
 
+    @Override
+    public MarketAsyncRequestBuilder throwTornError() {
+        super.throwTornError();
+        return this;
+    }
+
     public CompletableFuture<List<MarketItem>> fetchBazaar(){
         return fetchAsync(ItemMarketSelections.BAZAAR, MarketMapper::ofBazaar);
     }

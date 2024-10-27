@@ -17,6 +17,12 @@ public class MarketRepeatingRequestBuilder extends RequestBuilder<ItemMarketSele
         super(tornApi, "market");
     }
 
+    @Override
+    public MarketRepeatingRequestBuilder throwTornError() {
+        super.throwTornError();
+        return this;
+    }
+
     public RepeatingRequestTask<List<MarketItem>> repeatBazaar(int intervalInSeconds, Consumer<List<MarketItem>> consumer) {
         return repeating(ItemMarketSelections.BAZAAR, intervalInSeconds,MarketMapper::ofBazaar, consumer);
     }

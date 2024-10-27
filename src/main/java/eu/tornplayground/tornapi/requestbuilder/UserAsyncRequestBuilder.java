@@ -16,6 +16,12 @@ public class UserAsyncRequestBuilder extends RequestBuilder<UserSelections> {
         super(tornApi, "user");
     }
 
+    @Override
+    public UserAsyncRequestBuilder throwTornError() {
+        super.throwTornError();
+        return this;
+    }
+
     public CompletableFuture<List<Ammo>> fetchAmmo() {
         return fetchAsync(UserSelections.AMMO, UserMapper::ofAmmo);
     }

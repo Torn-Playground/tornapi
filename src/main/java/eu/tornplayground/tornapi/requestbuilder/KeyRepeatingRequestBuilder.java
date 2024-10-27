@@ -14,6 +14,12 @@ public class KeyRepeatingRequestBuilder extends RequestBuilder<KeySelections> {
         super(tornApi, "key");
     }
 
+    @Override
+    public KeyRepeatingRequestBuilder throwTornError() {
+        super.throwTornError();
+        return this;
+    }
+
     public RepeatingRequestTask<KeyInfo> repeatInfo(int intervalInSeconds, Consumer<KeyInfo> consumer) {
         return repeating(KeySelections.INFO, intervalInSeconds,KeyMapper::ofInfo, consumer);
     }

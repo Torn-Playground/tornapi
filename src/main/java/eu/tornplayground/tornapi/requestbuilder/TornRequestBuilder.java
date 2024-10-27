@@ -18,6 +18,12 @@ public class TornRequestBuilder extends RequestBuilder<TornSelections> {
         super(tornApi, "torn");
     }
 
+    @Override
+    public TornRequestBuilder throwTornError() {
+        super.throwTornError();
+        return this;
+    }
+
     public Map<Long, CompanyType> fetchCompanies() throws IOException, TornHttpException, InterruptedException, TornApiErrorException, RequestLimitReachedException {
         return fetch(TornSelections.COMPANIES, TornMapper::ofCompanies);
     }

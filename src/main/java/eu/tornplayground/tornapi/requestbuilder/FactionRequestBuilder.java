@@ -17,6 +17,12 @@ public class FactionRequestBuilder extends RequestBuilder<FactionSelections> {
         super(tornApi, "faction");
     }
 
+    @Override
+    public FactionRequestBuilder throwTornError() {
+        super.throwTornError();
+        return this;
+    }
+
     public FactionBasic fetchBasic() throws IOException, TornHttpException, InterruptedException, TornApiErrorException, RequestLimitReachedException {
         return fetch(FactionSelections.BASIC, FactionMapper::ofBasic);
     }

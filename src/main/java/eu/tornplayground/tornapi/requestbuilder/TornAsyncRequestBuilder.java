@@ -15,6 +15,12 @@ public class TornAsyncRequestBuilder extends RequestBuilder<TornSelections> {
         super(tornApi, "torn");
     }
 
+    @Override
+    public TornAsyncRequestBuilder throwTornError() {
+        super.throwTornError();
+        return this;
+    }
+
     public CompletableFuture<Map<Long, CompanyType>> fetchCompanies() {
         return fetchAsync(TornSelections.COMPANIES, TornMapper::ofCompanies);
     }

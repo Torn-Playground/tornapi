@@ -8,4 +8,10 @@ public class PropertyRepeatingRequestBuilder extends RequestBuilder<PropertiesSe
     public PropertyRepeatingRequestBuilder(TornApi tornApi) {
         super(tornApi, "property");
     }
+
+    @Override
+    public PropertyRepeatingRequestBuilder throwTornError() {
+        super.throwTornError();
+        return this;
+    }
 }

@@ -8,4 +8,10 @@ public class CompanyAsyncRequestBuilder extends RequestBuilder<CompanySelections
     public CompanyAsyncRequestBuilder(TornApi tornApi) {
         super(tornApi, "company");
     }
+
+    @Override
+    public CompanyAsyncRequestBuilder throwTornError() {
+        super.throwTornError();
+        return this;
+    }
 }

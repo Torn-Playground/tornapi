@@ -5,21 +5,24 @@ import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentLinkedDeque;
 import java.util.concurrent.TimeUnit;
+import java.util.concurrent.locks.Condition;
+import java.util.concurrent.locks.Lock;
+import java.util.concurrent.locks.ReentrantLock;
 
 /**
  * Limits the number of requests per given time frame per API key.
  */
 public class RequestLimiter {
     private final Map<String, Deque<Long>> keyTimestampMap = new ConcurrentHashMap<>();
-
     private final short maxRequests;
     private final int timeFrameInMilliseconds;
+
     private boolean withException = false;
     private int requestsQueuedCount = 0;
 
     /**
      * @param maxRequests Max requests for given timeframe
-     * @param seconds Timeframe in seconds
+     * @param seconds     Timeframe in seconds
      */
     public RequestLimiter(short maxRequests, int seconds) {
         this.maxRequests = maxRequests;
@@ -31,8 +34,8 @@ public class RequestLimiter {
     }
 
     /**
-     * @param maxRequests Max requests for given timeframe
-     * @param seconds Timeframe in seconds
+     * @param maxRequests   Max requests for given timeframe
+     * @param seconds       Timeframe in seconds
      * @param withException If true, throws an exception when the limit is reached. If false, sleeps until the limit is reset.
      */
     public RequestLimiter(short maxRequests, int seconds, boolean withException) {
@@ -59,13 +62,26 @@ public class RequestLimiter {
             } else {
                 requestsQueuedCount++;
                 registerRequest(apiKey, currentMilliseconds + millisecondsUntilNextRequest);
-                TimeUnit.MILLISECONDS.sleep(millisecondsUntilNextRequest);
-                requestsQueuedCount--;
+                notifyAll();
+
+                try {
+                    Thread.sleep(millisecondsUntilNextRequest);
+                } catch (InterruptedException exception) {
+                    removeRequest(apiKey, currentMilliseconds + millisecondsUntilNextRequest);
+                    Thread.currentThread().interrupt();
+                    throw exception;
+                } finally {
+                    requestsQueuedCount--;
+                }
             }
         }
     }
 
-    public synchronized void registerRequest(String apiKey, long timestamp) {
+    private void registerRequest(String apiKey, long timestamp) {
         keyTimestampMap.computeIfAbsent(apiKey, k -> new ConcurrentLinkedDeque<>()).add(timestamp);
+    }
+
+    private void removeRequest(String apiKey, long timestamp) {
+        keyTimestampMap.computeIfAbsent(apiKey, k -> new ConcurrentLinkedDeque<>()).remove(timestamp);
     }
 }

@@ -16,6 +16,12 @@ public class KeyRequestBuilder extends RequestBuilder<KeySelections> {
         super(tornApi, "key");
     }
 
+    @Override
+    public KeyRequestBuilder throwTornError() {
+        super.throwTornError();
+        return this;
+    }
+
     public KeyInfo fetchInfo() throws IOException, TornHttpException, InterruptedException, TornApiErrorException, RequestLimitReachedException {
         return fetch(KeySelections.INFO, KeyMapper::ofInfo);
     }

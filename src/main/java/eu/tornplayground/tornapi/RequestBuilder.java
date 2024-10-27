@@ -1,6 +1,7 @@
 package eu.tornplayground.tornapi;
 
 import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import eu.tornplayground.tornapi.connector.TornHttpException;
 import eu.tornplayground.tornapi.limiter.RequestLimitReachedException;
 import eu.tornplayground.tornapi.limiter.RequestLimiter;
@@ -14,6 +15,7 @@ import java.net.URI;
 import java.util.*;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.CompletionException;
+import java.util.function.BiConsumer;
 import java.util.function.Consumer;
 import java.util.function.Function;
 import java.util.stream.Collectors;
@@ -141,14 +143,14 @@ public abstract class RequestBuilder<T extends Selection> {
     }
 
     public JsonNode fetch() throws IOException, InterruptedException, TornHttpException, TornApiErrorException, RequestLimitReachedException {
+        if (tornApi.hasAutomaticKeyConsumption()) {
+            consumeKey();
+        }
+
         RequestData request = new RequestData(key, id, section, selections, parameters);
 
         if (tornApi.getResponseCache() != null && tornApi.getResponseCache().contains(request.cacheHash())) {
             return tornApi.getResponseCache().get(request.cacheHash());
-        }
-
-        if (tornApi.hasAutomaticKeyConsumption()) {
-            consumeKey();
         }
 
         if (tornApi.getRequestLimiter() != null) {
@@ -156,8 +158,11 @@ public abstract class RequestBuilder<T extends Selection> {
         }
 
         URI uri = buildUri();
-
         JsonNode result = tornApi.getConnector().connect(uri.toString());
+
+        if (usedProvider) {
+            tornApi.getKeyProvider().listener(request, result);
+        }
 
         if (throwTornError && ModelMapper.hasError(result)) {
             TornError tornError = ModelMapper.ofError(result);
@@ -168,14 +173,10 @@ public abstract class RequestBuilder<T extends Selection> {
             tornApi.getResponseCache().put(request.cacheHash(), result);
         }
 
-        if (usedProvider) {
-            tornApi.getKeyProvider().listener(request, result);
-        }
-
         return result;
     }
 
-    protected   <V> V fetch(T selection, Function<JsonNode, V> mapping) throws IOException, TornHttpException, InterruptedException, TornApiErrorException, RequestLimitReachedException {
+    protected <V> V fetch(T selection, Function<JsonNode, V> mapping) throws IOException, TornHttpException, InterruptedException, TornApiErrorException, RequestLimitReachedException {
         withSelections(selection);
         return mapping.apply(fetch());
     }
@@ -201,10 +202,12 @@ public abstract class RequestBuilder<T extends Selection> {
     /**
      * Repeatedly fetch data from the API and consume it.
      * Does not ignore the {@link RequestLimiter}, if one is configured.
+     * Enabled {@link RequestBuilder#throwTornError()} automaically for handling them in {@link RepeatingRequestTask#handleTornError(BiConsumer)}.
      *
      * @param intervalInSeconds in milliseconds
      */
     public RepeatingRequestTask<JsonNode> repeating(long intervalInSeconds, Consumer<JsonNode> consumer) {
+        throwTornError();
         return new RepeatingRequestTask<>(intervalInSeconds, this, consumer);
     }
 

@@ -14,6 +14,12 @@ public class FactionAsyncRequestBuilder extends RequestBuilder<FactionSelections
         super(tornApi, "faction");
     }
 
+    @Override
+    public FactionAsyncRequestBuilder throwTornError() {
+        super.throwTornError();
+        return this;
+    }
+
      public CompletableFuture<FactionBasic> fetchBasic() {
         return fetchAsync(FactionSelections.BASIC, FactionMapper::ofBasic);
     }

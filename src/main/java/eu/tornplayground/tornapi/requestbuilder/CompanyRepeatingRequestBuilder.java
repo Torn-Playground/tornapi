@@ -8,4 +8,10 @@ public class CompanyRepeatingRequestBuilder extends RequestBuilder<CompanySelect
     public CompanyRepeatingRequestBuilder(TornApi tornApi) {
         super(tornApi, "company");
     }
+
+    @Override
+    public CompanyRepeatingRequestBuilder throwTornError() {
+        super.throwTornError();
+        return this;
+    }
 }

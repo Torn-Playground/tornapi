@@ -15,6 +15,12 @@ public class FactionRepeatingRequestBuilder extends RequestBuilder<FactionSelect
         super(tornApi, "faction");
     }
 
+    @Override
+    public FactionRepeatingRequestBuilder throwTornError() {
+        super.throwTornError();
+        return this;
+    }
+
      public RepeatingRequestTask<FactionBasic> repeatBasic(int intervalInSeconds, Consumer<FactionBasic> consumer) {
         return repeating(FactionSelections.BASIC, intervalInSeconds,FactionMapper::ofBasic, consumer);
     }
