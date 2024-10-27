@@ -26,7 +26,7 @@ class CompanyMapperTest {
 
     @Disabled("Not yet implemented.")
     @Test
-    void ofEmpoyees() throws JsonProcessingException {
+    void ofEmployees() throws JsonProcessingException {
     }
 
     @Test

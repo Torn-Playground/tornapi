@@ -8,7 +8,6 @@ import eu.tornplayground.tornapi.limiter.RequestLimitReachedException;
 import eu.tornplayground.tornapi.limiter.RequestLimiter;
 import eu.tornplayground.tornapi.selections.*;
 import org.assertj.core.api.AbstractUriAssert;
-import org.assertj.core.api.SoftAssertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -22,6 +21,7 @@ import java.net.URI;
 import java.util.Arrays;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.AssertionsForClassTypes.assertThatCode;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
@@ -346,8 +346,8 @@ class TornApiTest {
 
     @Test
     void givenDefaultComment_whenFetchWithoutComment_thenDefaultComment() throws IOException, InterruptedException, TornHttpException, RequestLimitReachedException, TornErrorException {
-        api.withComment("testing-default");
         api
+                .withComment("testing-default")
                 .forUser()
                 .withKey("test-key")
                 .fetch();
@@ -360,8 +360,8 @@ class TornApiTest {
 
     @Test
     void givenDefaultComment_whenFetchWithComment_thenComment() throws IOException, InterruptedException, TornHttpException, RequestLimitReachedException, TornErrorException {
-        api.withComment("testing-default");
         api
+                .withComment("testing-default")
                 .forUser()
                 .withKey("test-key")
                 .withComment("testing")
@@ -389,7 +389,6 @@ class TornApiTest {
 
     @Test
     void automaticKeyConsumptionTest() throws IOException, InterruptedException, TornHttpException, RequestLimitReachedException, TornErrorException {
-
         TornApi automaticKeyConsumption = new TornApi(connector, new SingleKeyProvider("key1"))
                 .withAutomaticKeyConsumption(true);
 
@@ -399,11 +398,11 @@ class TornApiTest {
 
     @Test
     void overwriteAutomaticKeyConsumptionTest() throws IOException, InterruptedException, TornHttpException, RequestLimitReachedException, TornErrorException {
-
         TornApi automaticKeyConsumption = new TornApi(connector, new SingleKeyProvider("key1"))
                 .withAutomaticKeyConsumption(true);
 
         automaticKeyConsumption.forUser().withKey("key2").fetch();
+
         assertUri(captureUri(), "key2");
     }
 
@@ -413,12 +412,9 @@ class TornApiTest {
                 .withRequestLimiter(new RequestLimiter((short) 1, 60, true))
                 .withAutomaticKeyConsumption(true);
 
-        SoftAssertions softly = new SoftAssertions();
-
         automaticKeyConsumption.forUser().fetch();
-        softly.assertThatCode(() -> automaticKeyConsumption.forUser().fetch()).isInstanceOf(RequestLimitReachedException.class);
 
-        softly.assertAll();
+        assertThatCode(() -> automaticKeyConsumption.forUser().fetch()).isInstanceOf(RequestLimitReachedException.class);
     }
 
     @Test
@@ -427,13 +423,10 @@ class TornApiTest {
                 .withRequestLimiter(new RequestLimiter((short) 1, 2))
                 .withAutomaticKeyConsumption(true);
 
-        SoftAssertions softly = new SoftAssertions();
-
         long start = System.currentTimeMillis();
         automaticKeyConsumption.forUser().fetch();
         automaticKeyConsumption.forUser().fetch();
-        softly.assertThat(System.currentTimeMillis() - start).isGreaterThan(2000).isLessThan(2100);
 
-        softly.assertAll();
+        assertThat(System.currentTimeMillis() - start).isGreaterThan(2000).isLessThan(2100);
     }
 }
