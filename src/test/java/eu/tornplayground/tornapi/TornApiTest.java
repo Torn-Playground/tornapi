@@ -88,7 +88,6 @@ class TornApiTest {
                 .contains("profile", "personalstats", "anything");
     }
 
-
     @Test
     void fetchCurrentUserWithKeyProvider() throws IOException, InterruptedException, TornHttpException, RequestLimitReachedException, TornErrorException {
         KeyProvider keyProvider = Mockito.mock(KeyProvider.class);
@@ -427,6 +426,7 @@ class TornApiTest {
         automaticKeyConsumption.forUser().fetch();
         automaticKeyConsumption.forUser().fetch();
 
-        assertThat(System.currentTimeMillis() - start).isGreaterThan(2000).isLessThan(2100);
+        assertThat(System.currentTimeMillis() - start).isGreaterThanOrEqualTo(2000).isLessThanOrEqualTo(2100);
     }
+
 }
