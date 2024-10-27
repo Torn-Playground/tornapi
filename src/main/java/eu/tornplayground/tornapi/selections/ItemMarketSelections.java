@@ -1,11 +1,10 @@
 package eu.tornplayground.tornapi.selections;
 
-public enum ItemMarketSelections implements Selection  {
+public enum ItemMarketSelections implements Selection {
 
     BAZAAR,
     ITEMMARKET,
     POINTSMARKET,
-
     TIMESTAMP;
 
     @Override

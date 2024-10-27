@@ -5,6 +5,7 @@ import lombok.Getter;
 
 @Getter
 public enum BattleStat {
+
     STRENGTH("Strength"),
     DEFENSE("Defense"),
     SPEED("Speed"),
@@ -25,4 +26,5 @@ public enum BattleStat {
         }
         return null;
     }
+
 }

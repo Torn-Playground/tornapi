@@ -14,7 +14,8 @@ public class FactionMapper extends ModelMapper {
     }
 
     public static FactionBasic ofBasic(JsonNode json) {
-        return OBJECT_MAPPER.convertValue(json, new TypeReference<>() {});
+        return OBJECT_MAPPER.convertValue(json, new TypeReference<>() {
+        });
     }
 
     public static List<FactionAttacks> ofAttacks(JsonNode json) {
@@ -41,4 +42,5 @@ public class FactionMapper extends ModelMapper {
         }
         return mapEntryValues;
     }
+
 }

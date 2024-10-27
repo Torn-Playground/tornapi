@@ -5,6 +5,7 @@ import lombok.Getter;
 
 @Getter
 public enum Rank {
+
     BRONZE("Bronze"),
     DIAMOND("Diamond"),
     GOLD("Gold"),
@@ -27,4 +28,5 @@ public enum Rank {
         }
         return null;
     }
+
 }

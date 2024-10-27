@@ -5,11 +5,12 @@ import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import eu.tornplayground.tornapi.models.Model;
 import eu.tornplayground.tornapi.models.converters.DayDurationConverter;
 import eu.tornplayground.tornapi.models.converters.EpochLocalDateTimeConverter;
+import eu.tornplayground.tornapi.models.faction.basic.FactionRank;
 import eu.tornplayground.tornapi.models.faction.basic.Member;
 import eu.tornplayground.tornapi.models.faction.basic.RaidWars;
-import eu.tornplayground.tornapi.models.faction.basic.FactionRank;
 import eu.tornplayground.tornapi.models.faction.basic.TerritoryWars;
 import lombok.AccessLevel;
+import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.experimental.SuperBuilder;
@@ -18,12 +19,13 @@ import java.time.Duration;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Map;
-import java.util.Objects;
 
 @Getter
 @SuperBuilder
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
+@EqualsAndHashCode(callSuper = false)
 public class FactionBasic extends Model {
+
     @JsonProperty("ID")
     private int id;
 
@@ -74,16 +76,4 @@ public class FactionBasic extends Model {
     @JsonProperty("members")
     private Map<Integer, Member> members;
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (!(o instanceof FactionBasic)) return false;
-        FactionBasic that = (FactionBasic) o;
-        return id == that.id && leader == that.leader && coLeader == that.coLeader && respect == that.respect && capacity == that.capacity && bestChain == that.bestChain && Objects.equals(name, that.name) && Objects.equals(tag, that.tag) && Objects.equals(tagImage, that.tagImage) && Objects.equals(age, that.age) && Objects.equals(wars, that.wars) && Objects.equals(territoryWars, that.territoryWars) && Objects.equals(raidWars, that.raidWars) && Objects.equals(peace, that.peace) && Objects.equals(rank, that.rank) && Objects.equals(members, that.members);
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(id, name, tag, tagImage, leader, coLeader, respect, age, capacity, bestChain, wars, territoryWars, raidWars, peace, rank, members);
-    }
 }

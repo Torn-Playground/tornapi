@@ -5,6 +5,7 @@ import lombok.Getter;
 
 @Getter
 public enum MeritPerk {
+
     NERVE_BAR("Nerve Bar"),
     CRITICAL_HIT_RATE("Critical Hit Rate"),
     LIFE_POINTS("Life Points"),
@@ -48,4 +49,5 @@ public enum MeritPerk {
         }
         return null;
     }
+    
 }

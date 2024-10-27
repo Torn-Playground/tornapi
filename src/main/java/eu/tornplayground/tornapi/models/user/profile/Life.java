@@ -5,16 +5,17 @@ import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import eu.tornplayground.tornapi.models.Model;
 import eu.tornplayground.tornapi.models.converters.SecondDurationConverter;
 import lombok.AccessLevel;
+import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.experimental.SuperBuilder;
 
 import java.time.Duration;
-import java.util.Objects;
 
 @Getter
 @SuperBuilder
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
+@EqualsAndHashCode(callSuper = false)
 public class Life extends Model {
 
     @JsonProperty("current")
@@ -38,16 +39,4 @@ public class Life extends Model {
     @JsonDeserialize(converter = SecondDurationConverter.class)
     private Duration fullTime;
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (!(o instanceof Life)) return false;
-        Life life = (Life) o;
-        return current == life.current && maximum == life.maximum && increment == life.increment && Objects.equals(interval, life.interval) && Objects.equals(tickTime, life.tickTime) && Objects.equals(fullTime, life.fullTime);
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(current, maximum, increment, interval, tickTime, fullTime);
-    }
 }

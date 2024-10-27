@@ -5,6 +5,7 @@ import eu.tornplayground.tornapi.TornApi;
 import eu.tornplayground.tornapi.selections.PropertiesSelections;
 
 public class PropertyRepeatingRequestBuilder extends RequestBuilder<PropertiesSelections> {
+
     public PropertyRepeatingRequestBuilder(TornApi tornApi) {
         super(tornApi, "property");
     }
@@ -14,4 +15,5 @@ public class PropertyRepeatingRequestBuilder extends RequestBuilder<PropertiesSe
         super.withTornErrorException(throwError);
         return this;
     }
+
 }

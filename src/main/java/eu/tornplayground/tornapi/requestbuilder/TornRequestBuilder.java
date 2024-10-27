@@ -14,6 +14,7 @@ import java.util.List;
 import java.util.Map;
 
 public class TornRequestBuilder extends RequestBuilder<TornSelections> {
+
     public TornRequestBuilder(TornApi tornApi) {
         super(tornApi, "torn");
     }
@@ -47,4 +48,5 @@ public class TornRequestBuilder extends RequestBuilder<TornSelections> {
     public PawnShop fetchPawnShop() throws TornHttpException, TornErrorException, RequestLimitReachedException, IOException {
         return fetch(TornSelections.PAWNSHOP, TornMapper::ofPawnShop);
     }
+
 }

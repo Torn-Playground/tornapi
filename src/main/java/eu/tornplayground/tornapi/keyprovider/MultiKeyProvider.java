@@ -2,10 +2,6 @@ package eu.tornplayground.tornapi.keyprovider;
 
 import java.util.LinkedList;
 import java.util.List;
-import java.util.concurrent.locks.Condition;
-import java.util.concurrent.locks.Lock;
-import java.util.concurrent.locks.ReentrantLock;
-import java.util.function.Consumer;
 
 public class MultiKeyProvider implements KeyProvider {
 
@@ -28,4 +24,5 @@ public class MultiKeyProvider implements KeyProvider {
 
         return nextKey;
     }
+
 }

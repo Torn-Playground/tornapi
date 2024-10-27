@@ -12,4 +12,5 @@ public class TornErrorException extends Exception {
         super(tornError.getError().getMessage());
         this.tornError = tornError;
     }
+
 }

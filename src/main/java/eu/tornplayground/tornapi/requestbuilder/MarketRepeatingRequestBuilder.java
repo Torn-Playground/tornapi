@@ -13,6 +13,7 @@ import java.util.Map;
 import java.util.function.Consumer;
 
 public class MarketRepeatingRequestBuilder extends RequestBuilder<ItemMarketSelections> {
+
     public MarketRepeatingRequestBuilder(TornApi tornApi) {
         super(tornApi, "market");
     }
@@ -24,14 +25,15 @@ public class MarketRepeatingRequestBuilder extends RequestBuilder<ItemMarketSele
     }
 
     public RepeatingRequestTask<List<MarketItem>> repeatBazaar(int intervalInSeconds, Consumer<List<MarketItem>> consumer) {
-        return repeating(ItemMarketSelections.BAZAAR, intervalInSeconds,MarketMapper::ofBazaar, consumer);
+        return repeating(ItemMarketSelections.BAZAAR, intervalInSeconds, MarketMapper::ofBazaar, consumer);
     }
 
     public RepeatingRequestTask<List<MarketItem>> repeatItemMarket(int intervalInSeconds, Consumer<List<MarketItem>> consumer) {
-        return repeating(ItemMarketSelections.ITEMMARKET, intervalInSeconds,MarketMapper::ofItemMarket, consumer);
+        return repeating(ItemMarketSelections.ITEMMARKET, intervalInSeconds, MarketMapper::ofItemMarket, consumer);
     }
 
     public RepeatingRequestTask<Map<Long, PointOrder>> repeatPointsMarket(int intervalInSeconds, Consumer<Map<Long, PointOrder>> consumer) {
-        return repeating(ItemMarketSelections.POINTSMARKET, intervalInSeconds,MarketMapper::ofPointsMarket, consumer);
+        return repeating(ItemMarketSelections.POINTSMARKET, intervalInSeconds, MarketMapper::ofPointsMarket, consumer);
     }
+
 }

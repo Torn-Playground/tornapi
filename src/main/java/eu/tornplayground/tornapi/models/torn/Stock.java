@@ -1,18 +1,18 @@
 package eu.tornplayground.tornapi.models.torn;
 
-import eu.tornplayground.tornapi.models.Model;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import eu.tornplayground.tornapi.models.Model;
 import eu.tornplayground.tornapi.models.torn.stock.Benefit;
 import lombok.AccessLevel;
+import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.experimental.SuperBuilder;
 
-import java.util.Objects;
-
 @Getter
 @SuperBuilder
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
+@EqualsAndHashCode(callSuper = false)
 public class Stock extends Model {
 
     @JsonProperty("stock_id")
@@ -35,18 +35,5 @@ public class Stock extends Model {
 
     @JsonProperty("benefit")
     private Benefit benefit;
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        Stock stock = (Stock) o;
-        return id == stock.id && Float.compare(stock.currentPrice, currentPrice) == 0 && marketCap == stock.marketCap && totalShares == stock.totalShares && Objects.equals(name, stock.name) && Objects.equals(acronym, stock.acronym) && Objects.equals(benefit, stock.benefit);
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(id, name, acronym, currentPrice, marketCap, totalShares, benefit);
-    }
 
 }

@@ -2,15 +2,15 @@ package eu.tornplayground.tornapi.models.torn.companytype;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.AccessLevel;
+import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.experimental.SuperBuilder;
 
-import java.util.Objects;
-
 @Getter
 @SuperBuilder
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
+@EqualsAndHashCode(callSuper = false)
 public class CompanyPosition {
 
     @JsonProperty("man_required")
@@ -36,18 +36,5 @@ public class CompanyPosition {
 
     @JsonProperty("description")
     private String description;
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        CompanyPosition that = (CompanyPosition) o;
-        return manualRequired == that.manualRequired && intelligenceRequired == that.intelligenceRequired && enduranceRequired == that.enduranceRequired && manualGain == that.manualGain && intelligenceGain == that.intelligenceGain && enduranceGain == that.enduranceGain && Objects.equals(specialAbility, that.specialAbility) && Objects.equals(description, that.description);
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(manualRequired, intelligenceRequired, enduranceRequired, manualGain, intelligenceGain, enduranceGain, specialAbility, description);
-    }
 
 }

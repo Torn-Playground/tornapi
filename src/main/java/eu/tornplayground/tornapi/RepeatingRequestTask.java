@@ -95,4 +95,5 @@ public class RepeatingRequestTask<T> {
     public void stop() {
         taskStopped = true;
     }
+
 }

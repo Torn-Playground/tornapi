@@ -3,16 +3,15 @@ package eu.tornplayground.tornapi.models.user.property;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import eu.tornplayground.tornapi.models.Model;
 import lombok.AccessLevel;
+import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import lombok.experimental.Accessors;
 import lombok.experimental.SuperBuilder;
-
-import java.util.Objects;
 
 @Getter
 @SuperBuilder
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
+@EqualsAndHashCode(callSuper = false)
 public class Modifications extends Model {
 
     @JsonProperty("airstrip")
@@ -80,16 +79,4 @@ public class Modifications extends Model {
         return yacht;
     }
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (!(o instanceof Modifications)) return false;
-        Modifications that = (Modifications) o;
-        return airstrip == that.airstrip && hotTub == that.hotTub && interior == that.interior && medicalFacility == that.medicalFacility && openBar == that.openBar && sauna == that.sauna && pool == that.pool && shootingRange == that.shootingRange && vault == that.vault && yacht == that.yacht;
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(airstrip, hotTub, interior, medicalFacility, openBar, sauna, pool, shootingRange, vault, yacht);
-    }
 }

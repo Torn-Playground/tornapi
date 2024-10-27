@@ -1,8 +1,11 @@
 package eu.tornplayground.tornapi.models.user.report;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import lombok.Getter;
 
+@Getter
 public enum ReportType {
+    
     ANONYMOUS_BOUNTIES("anonymousbounties"),
     FRIEND_OR_FOE("friendorfoe"),
     INVESTMENT("investment"),
@@ -18,10 +21,6 @@ public enum ReportType {
         this.type = type;
     }
 
-    public String getType() {
-        return type;
-    }
-
     @JsonProperty
     public static ReportType fromString(String type) {
         for (ReportType reportType : ReportType.values()) {
@@ -31,4 +30,5 @@ public enum ReportType {
         }
         return null;
     }
+
 }

@@ -5,6 +5,7 @@ import lombok.Getter;
 
 @Getter
 public enum SpecialPosition {
+
     NONE("None"),
     TRAINER("Trainer"),
     SECRETARY("Secretary"),
@@ -27,4 +28,5 @@ public enum SpecialPosition {
         }
         return null;
     }
+
 }

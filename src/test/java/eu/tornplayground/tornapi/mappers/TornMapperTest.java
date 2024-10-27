@@ -3,15 +3,16 @@ package eu.tornplayground.tornapi.mappers;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import eu.tornplayground.tornapi.models.companies.Company;
-import eu.tornplayground.tornapi.models.torn.*;
+import eu.tornplayground.tornapi.models.torn.CompanyType;
+import eu.tornplayground.tornapi.models.torn.ShopLiftingSecurity;
+import eu.tornplayground.tornapi.models.torn.Stock;
+import eu.tornplayground.tornapi.models.torn.TornItem;
 import eu.tornplayground.tornapi.models.torn.benefit.Type;
 import eu.tornplayground.tornapi.models.torn.companytype.CompanyPosition;
 import eu.tornplayground.tornapi.models.torn.companytype.CompanySpecial;
 import eu.tornplayground.tornapi.models.torn.companytype.CompanyStock;
 import eu.tornplayground.tornapi.models.torn.companytype.SpecialPosition;
 import eu.tornplayground.tornapi.models.torn.stock.Benefit;
-import eu.tornplayground.tornapi.models.torn.Stock;
 import org.assertj.core.api.SoftAssertions;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
@@ -21,8 +22,8 @@ import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Map;
 
-import static eu.tornplayground.tornapi.models.torn.ShopLiftingSecurity.*;
-import static org.assertj.core.api.Assertions.assertThat;
+import static eu.tornplayground.tornapi.models.torn.ShopLiftingSecurity.ONE_CAMERA;
+import static eu.tornplayground.tornapi.models.torn.ShopLiftingSecurity.TWO_CAMERAS;
 
 class TornMapperTest {
 

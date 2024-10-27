@@ -13,6 +13,7 @@ import java.io.IOException;
 import java.util.List;
 
 public class FactionRequestBuilder extends RequestBuilder<FactionSelections> {
+
     public FactionRequestBuilder(TornApi tornApi) {
         super(tornApi, "faction");
     }
@@ -42,4 +43,5 @@ public class FactionRequestBuilder extends RequestBuilder<FactionSelections> {
     public Chain fetchChain() throws IOException, TornHttpException, TornErrorException, RequestLimitReachedException {
         return fetch(FactionSelections.CHAIN, FactionMapper::ofChain);
     }
+
 }

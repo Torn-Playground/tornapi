@@ -12,6 +12,7 @@ import java.util.Map;
 import java.util.concurrent.CompletableFuture;
 
 public class MarketAsyncRequestBuilder extends RequestBuilder<ItemMarketSelections> {
+
     public MarketAsyncRequestBuilder(TornApi tornApi) {
         super(tornApi, "market");
     }
@@ -22,15 +23,16 @@ public class MarketAsyncRequestBuilder extends RequestBuilder<ItemMarketSelectio
         return this;
     }
 
-    public CompletableFuture<List<MarketItem>> fetchBazaar(){
+    public CompletableFuture<List<MarketItem>> fetchBazaar() {
         return fetchAsync(ItemMarketSelections.BAZAAR, MarketMapper::ofBazaar);
     }
 
-    public CompletableFuture<List<MarketItem>> fetchItemMarket(){
+    public CompletableFuture<List<MarketItem>> fetchItemMarket() {
         return fetchAsync(ItemMarketSelections.ITEMMARKET, MarketMapper::ofItemMarket);
     }
 
-    public CompletableFuture<Map<Long, PointOrder>> fetchPointsMarket(){
+    public CompletableFuture<Map<Long, PointOrder>> fetchPointsMarket() {
         return fetchAsync(ItemMarketSelections.POINTSMARKET, MarketMapper::ofPointsMarket);
     }
+
 }

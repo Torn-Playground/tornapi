@@ -1,17 +1,17 @@
 package eu.tornplayground.tornapi.models.user;
 
-import eu.tornplayground.tornapi.models.Model;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import eu.tornplayground.tornapi.models.Model;
 import lombok.AccessLevel;
+import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.experimental.SuperBuilder;
 
-import java.util.Objects;
-
 @Getter
 @SuperBuilder
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
+@EqualsAndHashCode(callSuper = false)
 public class CriminalRecord extends Model {
 
     @JsonProperty("auto_theft")
@@ -62,16 +62,4 @@ public class CriminalRecord extends Model {
     @JsonProperty("vandalism")
     private int vandalism;
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (!(o instanceof CriminalRecord)) return false;
-        CriminalRecord that = (CriminalRecord) o;
-        return sellingIllegalProducts == that.sellingIllegalProducts && theft == that.theft && autoTheft == that.autoTheft && drugDeals == that.drugDeals && computerCrimes == that.computerCrimes && murder == that.murder && fraudCrimes == that.fraudCrimes && other == that.other && total == that.total;
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(sellingIllegalProducts, theft, autoTheft, drugDeals, computerCrimes, murder, fraudCrimes, other, total);
-    }
 }

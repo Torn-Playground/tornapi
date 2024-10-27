@@ -5,7 +5,9 @@ package eu.tornplayground.tornapi.limiter;
  * That's the default limit for the Torn API.
  */
 public class DefaultRequestLimiter extends RequestLimiter {
+
     public DefaultRequestLimiter() {
         super((short) 100, 60);
     }
+    
 }

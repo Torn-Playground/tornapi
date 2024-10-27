@@ -1,5 +1,8 @@
 package eu.tornplayground.tornapi.connector;
 
+import lombok.Getter;
+
+@Getter
 public class TornHttpException extends Exception {
 
     private final int statusCode;
@@ -12,11 +15,4 @@ public class TornHttpException extends Exception {
         this.body = body;
     }
 
-    public int getStatusCode() {
-        return statusCode;
-    }
-
-    public String getBody() {
-        return body;
-    }
 }

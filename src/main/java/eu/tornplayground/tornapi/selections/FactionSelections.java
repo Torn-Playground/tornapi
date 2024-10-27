@@ -1,6 +1,6 @@
 package eu.tornplayground.tornapi.selections;
 
-public enum FactionSelections  implements Selection {
+public enum FactionSelections implements Selection {
 
     APPLICATIONS,
     ARMOR,

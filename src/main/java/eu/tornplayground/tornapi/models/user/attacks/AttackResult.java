@@ -5,6 +5,7 @@ import lombok.Getter;
 
 @Getter
 public enum AttackResult {
+
     ATTACKED("Attacked"),
     HOSPITALIZED("Hospitalized"),
     MUGGED("Mugged"),
@@ -29,4 +30,5 @@ public enum AttackResult {
         }
         return null;
     }
+
 }
