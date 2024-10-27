@@ -3,7 +3,12 @@ package eu.tornplayground.tornapi.mappers;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.JsonNode;
 import eu.tornplayground.tornapi.models.user.*;
+import eu.tornplayground.tornapi.models.user.Mission;
+import eu.tornplayground.tornapi.models.user.Bars;
 
+import java.lang.reflect.Constructor;
+import java.lang.reflect.Field;
+import java.lang.reflect.InvocationTargetException;
 import java.time.Instant;
 import java.time.LocalDateTime;
 import java.time.ZoneOffset;
@@ -91,28 +96,23 @@ public class UserMapper extends ModelMapper {
 
         List<Honor> honors = new ArrayList<>();
         for (int i = 0; i < awarded.size(); i++) {
-            Honor honor = new Honor();
-            honor.setId(awarded.get(i));
-            honor.setAwarded(times.get(i));
-
-            honors.add(honor);
+            honors.add(Honor.builder()
+                    .id(awarded.get(i))
+                    .awarded(times.get(i))
+                    .build()
+            );
         }
 
         return honors;
     }
 
-    public static Map<String, HOF> ofHOF(JsonNode json) {
+    public static Map<String, Hof> ofHOF(JsonNode json) {
         return OBJECT_MAPPER.convertValue(json.get("halloffame"), new TypeReference<>() {
         });
     }
 
     public static Map<String, String> ofIcons(JsonNode json) {
         return OBJECT_MAPPER.convertValue(json.get("icons"), new TypeReference<>() {
-        });
-    }
-
-    public static List<InventoryItem> ofInventory(JsonNode json) {
-        return OBJECT_MAPPER.convertValue(json.get("inventory"), new TypeReference<>() {
         });
     }
 
@@ -128,13 +128,19 @@ public class UserMapper extends ModelMapper {
         });
     }
 
+    public static Map<MeritPerk, Short> ofMerit(JsonNode json) {
+        return OBJECT_MAPPER.convertValue(json.get("merits"), new TypeReference<>() {
+        });
+    }
+
     public static Map<String, Message> ofMessages(JsonNode json) {
         return OBJECT_MAPPER.convertValue(json.get("messages"), new TypeReference<>() {
         });
     }
 
-    public static Missions ofMissions(JsonNode json) {
-        return OBJECT_MAPPER.convertValue(json.get("missions"), Missions.class);
+    public static Map<String, List<Mission>> ofMissions(JsonNode json) {
+        return OBJECT_MAPPER.convertValue(json.get("missions"), new TypeReference<>() {
+        });
     }
 
     public static Money ofMoney(JsonNode json) {

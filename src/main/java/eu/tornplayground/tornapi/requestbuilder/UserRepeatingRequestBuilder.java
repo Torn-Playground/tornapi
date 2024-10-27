@@ -31,7 +31,7 @@ public class UserRepeatingRequestBuilder extends RequestBuilder<UserSelections> 
     }
 
     public RepeatingRequestTask<Map<Long, Attack>> repeatAttacksFull(int intervalInSeconds, Consumer<Map<Long, Attack>> consumer) {
-        return repeating(UserSelections.ATTACKSFULL, intervalInSeconds,UserMapper::ofAttacks, consumer);
+        return repeating(UserSelections.ATTACK_SFULL, intervalInSeconds,UserMapper::ofAttacks, consumer);
     }
 
     public RepeatingRequestTask<Bars> repeatBars(int intervalInSeconds, Consumer<Bars> consumer) {
@@ -43,7 +43,7 @@ public class UserRepeatingRequestBuilder extends RequestBuilder<UserSelections> 
     }
 
     public RepeatingRequestTask<BattleStats> repeatBattleStats(int intervalInSeconds, Consumer<BattleStats> consumer) {
-        return repeating(UserSelections.BATTLESTATS, intervalInSeconds,UserMapper::ofBattleStats, consumer);
+        return repeating(UserSelections.BATTLE_STATS, intervalInSeconds,UserMapper::ofBattleStats, consumer);
     }
 
     public RepeatingRequestTask<List<BazaarItem>> repeatBazaar(int intervalInSeconds, Consumer<List<BazaarItem>> consumer) {
@@ -78,7 +78,7 @@ public class UserRepeatingRequestBuilder extends RequestBuilder<UserSelections> 
         return repeating(UserSelections.GYM, intervalInSeconds,UserMapper::ofGym, consumer);
     }
 
-    public RepeatingRequestTask<Map<String, HOF>> repeatHof(int intervalInSeconds, Consumer<Map<String, HOF>> consumer) {
+    public RepeatingRequestTask<Map<String, Hof>> repeatHof(int intervalInSeconds, Consumer<Map<String, Hof>> consumer) {
         return repeating(UserSelections.HOF, intervalInSeconds,UserMapper::ofHOF, consumer);
     }
 
@@ -90,12 +90,8 @@ public class UserRepeatingRequestBuilder extends RequestBuilder<UserSelections> 
         return repeating(UserSelections.ICONS, intervalInSeconds,UserMapper::ofIcons, consumer);
     }
 
-    public RepeatingRequestTask<List<InventoryItem>> repeatInventory(int intervalInSeconds, Consumer<List<InventoryItem>> consumer) {
-        return repeating(UserSelections.INVENTORY, intervalInSeconds,UserMapper::ofInventory, consumer);
-    }
-
     public RepeatingRequestTask<JobPoints> repeatJobPoints(int intervalInSeconds, Consumer<JobPoints> consumer) {
-        return repeating(UserSelections.JOBPOINTS, intervalInSeconds,UserMapper::ofJobPoints, consumer);
+        return repeating(UserSelections.JOB_POINTS, intervalInSeconds,UserMapper::ofJobPoints, consumer);
     }
 
     public RepeatingRequestTask<Map<String, Log>> repeatLog(int intervalInSeconds, Consumer<Map<String, Log>> consumer) {
@@ -106,7 +102,7 @@ public class UserRepeatingRequestBuilder extends RequestBuilder<UserSelections> 
         return repeating(UserSelections.MESSAGES, intervalInSeconds,UserMapper::ofMessages, consumer);
     }
 
-    public RepeatingRequestTask<Missions> repeatMissions(int intervalInSeconds, Consumer<Missions> consumer) {
+    public RepeatingRequestTask<Map<String, List<Mission>>> repeatMissions(int intervalInSeconds, Consumer<Map<String, List<Mission>>> consumer) {
         return repeating(UserSelections.MISSIONS, intervalInSeconds,UserMapper::ofMissions, consumer);
     }
 
@@ -127,7 +123,7 @@ public class UserRepeatingRequestBuilder extends RequestBuilder<UserSelections> 
     }
 
     public RepeatingRequestTask<PersonalStats> repeatPersonalStats(int intervalInSeconds, Consumer<PersonalStats> consumer) {
-        return repeating(UserSelections.PERSONALSTATS, intervalInSeconds,UserMapper::ofPersonalStats, consumer);
+        return repeating(UserSelections.PERSONAL_STATS, intervalInSeconds,UserMapper::ofPersonalStats, consumer);
     }
 
     public RepeatingRequestTask<Profile> repeatProfile(int intervalInSeconds, Consumer<Profile> consumer) {
@@ -151,7 +147,7 @@ public class UserRepeatingRequestBuilder extends RequestBuilder<UserSelections> 
     }
 
     public RepeatingRequestTask<Map<Long, Revive>> repeatRevivesFull(int intervalInSeconds, Consumer<Map<Long, Revive>> consumer) {
-        return repeating(UserSelections.REVIVESFULL, intervalInSeconds,UserMapper::ofRevives, consumer);
+        return repeating(UserSelections.REVIVES_FULL, intervalInSeconds,UserMapper::ofRevives, consumer);
     }
 
     public RepeatingRequestTask<Skills> repeatSkills(int intervalInSeconds, Consumer<Skills> consumer) {
@@ -167,10 +163,10 @@ public class UserRepeatingRequestBuilder extends RequestBuilder<UserSelections> 
     }
 
     public RepeatingRequestTask<List<WeaponExperience>> repeatWeaponExp(int intervalInSeconds, Consumer<List<WeaponExperience>> consumer) {
-        return repeating(UserSelections.WEAPONEXP, intervalInSeconds,UserMapper::ofWeaponExp, consumer);
+        return repeating(UserSelections.WEAPON_EXP, intervalInSeconds,UserMapper::ofWeaponExp, consumer);
     }
 
     public RepeatingRequestTask<WorkStats> repeatWorkStats(int intervalInSeconds, Consumer<WorkStats> consumer) {
-        return repeating(UserSelections.WORKSTATS, intervalInSeconds,UserMapper::ofWorkStats, consumer);
+        return repeating(UserSelections.WORK_STATS, intervalInSeconds,UserMapper::ofWorkStats, consumer);
     }
 }

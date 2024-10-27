@@ -5,10 +5,17 @@ import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import eu.tornplayground.tornapi.models.Model;
 import eu.tornplayground.tornapi.models.converters.EpochLocalDateTimeConverter;
 import eu.tornplayground.tornapi.models.common.AttackResult;
+import lombok.AccessLevel;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.experimental.SuperBuilder;
 
 import java.time.LocalDateTime;
 import java.util.Objects;
 
+@Getter
+@SuperBuilder
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class FactionAttacksFull extends Model {
     @JsonProperty("code")
     private String code;
@@ -41,49 +48,6 @@ public class FactionAttacksFull extends Model {
 
     @JsonProperty("respect")
     private float respect;
-
-    protected FactionAttacksFull() {
-    }
-
-    public String getCode() {
-        return code;
-    }
-
-    public LocalDateTime getTimestampStarted() {
-        return timestampStarted;
-    }
-
-    public LocalDateTime getTimestampEnded() {
-        return timestampEnded;
-    }
-
-    public Integer getAttackerId() {
-        return attackerId;
-    }
-
-    public Integer getAttackerFaction() {
-        return attackerFaction;
-    }
-
-    public Integer getDefenderId() {
-        return defenderId;
-    }
-
-    public Integer getDefenderFaction() {
-        return defenderFaction;
-    }
-
-    public AttackResult getResult() {
-        return result;
-    }
-
-    public boolean isStealthed() {
-        return stealthed;
-    }
-
-    public float getRespect() {
-        return respect;
-    }
 
     @Override
     public boolean equals(Object o) {

@@ -2,22 +2,21 @@ package eu.tornplayground.tornapi.models;
 
 import eu.tornplayground.tornapi.models.converters.EpochLocalDateTimeConverter;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import lombok.AccessLevel;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.experimental.SuperBuilder;
 
 import java.time.LocalDateTime;
 import java.util.Objects;
 
+@Getter
+@SuperBuilder
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class Timestamp extends Model {
 
     @JsonDeserialize(converter = EpochLocalDateTimeConverter.class)
     private LocalDateTime timestamp;
-
-    public LocalDateTime getTimestamp() {
-        return timestamp;
-    }
-
-    public void setTimestamp(LocalDateTime timestamp) {
-        this.timestamp = timestamp;
-    }
 
     @Override
     public boolean equals(Object o) {

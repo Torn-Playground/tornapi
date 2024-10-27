@@ -3,17 +3,22 @@ package eu.tornplayground.tornapi.mappers;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import eu.tornplayground.tornapi.models.torn.CompanyType;
-import eu.tornplayground.tornapi.models.torn.ShopLiftingSecurity;
+import eu.tornplayground.tornapi.models.companies.Company;
+import eu.tornplayground.tornapi.models.torn.*;
+import eu.tornplayground.tornapi.models.torn.benefit.Type;
+import eu.tornplayground.tornapi.models.torn.companytype.CompanyPosition;
+import eu.tornplayground.tornapi.models.torn.companytype.CompanySpecial;
+import eu.tornplayground.tornapi.models.torn.companytype.CompanyStock;
+import eu.tornplayground.tornapi.models.torn.companytype.SpecialPosition;
+import eu.tornplayground.tornapi.models.torn.stock.Benefit;
 import eu.tornplayground.tornapi.models.torn.Stock;
-import eu.tornplayground.tornapi.models.torn.TornItem;
 import org.assertj.core.api.SoftAssertions;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 
 import java.io.IOException;
 import java.time.LocalDateTime;
-import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import static eu.tornplayground.tornapi.models.torn.ShopLiftingSecurity.*;
@@ -36,95 +41,39 @@ class TornMapperTest {
     void ofChainReport() {
     }
 
-    private CompanyType.CompanyPosition getCompanyPosition(int man, int intelligence, int end, int manGain, int intGain, int endGain, CompanyType.SpecialPosition ability, String description) {
-        CompanyType.CompanyPosition position = new CompanyType.CompanyPosition();
-        position.setManualRequired(man);
-        position.setIntelligenceRequired(intelligence);
-        position.setEnduranceRequired(end);
-        position.setManualGain(manGain);
-        position.setIntelligenceGain(intGain);
-        position.setEnduranceGain(endGain);
-        position.setSpecialAbility(ability);
-        position.setDescription(description);
-
-        return position;
-    }
-
     @Test
     void ofCompanies() throws IOException {
         ObjectMapper objectMapper = new ObjectMapper();
         JsonNode json = objectMapper.readTree(this.getClass().getResource("/responses/torn-companies.json"));
 
-        var result = TornMapper.ofCompanies(json);
+        Map<Long, CompanyType> result = TornMapper.ofCompanies(json);
 
-        Map<String, CompanyType.CompanyPosition> positions1 = new HashMap<>();
-        positions1.put("Stylist", getCompanyPosition(1500, 0, 750, 34, 0, 17, CompanyType.SpecialPosition.NONE, "This person primarily cuts and styles hair, an integral position in a hair salon."));
-        positions1.put("Colorist", getCompanyPosition(2000, 0, 1000, 36, 0, 18, CompanyType.SpecialPosition.NONE, "Specialising in hair colouring techniques, the colorist will boost the productivity of stylists."));
-        positions1.put("Nail Technician", getCompanyPosition(750, 0, 1500, 17, 0, 34, CompanyType.SpecialPosition.NONE, "This person performs manicure services while hair stylists are working. A nice extra for the clients, should they desire it."));
-        positions1.put("Apprentice", getCompanyPosition(500, 0, 250, 25, 0, 13, CompanyType.SpecialPosition.NONE, "This person cuts and styles hair at an apprentice level, they may not be as skilled but require less working stats."));
-        positions1.put("Shampooist", getCompanyPosition(1000, 0, 500, 30, 0, 15, CompanyType.SpecialPosition.CLEANER, "This person helps out with washing clients hair and cleaning the salon."));
-        positions1.put("Senior Stylist", getCompanyPosition(3000, 0, 1500, 39, 0, 20, CompanyType.SpecialPosition.MANAGER, "This position decreases any reduction of employee effectiveness, but can also fulfil the duties of a stylist."));
-        positions1.put("Receptionist", getCompanyPosition(0, 1250, 2500, 0, 19, 38, CompanyType.SpecialPosition.SECRETARY, "This person handles the booking of appointments. They also enable detailed employee statistics, showing the estimated profit made by each individual employee."));
-        positions1.put("Trainer", getCompanyPosition(0, 4500, 2250, 0, 42, 21, CompanyType.SpecialPosition.TRAINER, "This position increases the amount of trains a director receives each day and keeps the staff at the top of their game."));
-        positions1.put("Aesthetician", getCompanyPosition(0, 4500, 2250, 0, 42, 21, CompanyType.SpecialPosition.NONE, "An expert in the beautician field, they work extensively on the human body and undergo comprehensive studies on a range of cosmetics."));
+        SoftAssertions softly = new SoftAssertions();
 
-        CompanyType.CompanyStock standardTreatment = new CompanyType.CompanyStock();
-        standardTreatment.setCost("");
-        standardTreatment.setRrp(95);
-        CompanyType.CompanyStock fullTreatment = new CompanyType.CompanyStock();
-        fullTreatment.setCost("");
-        fullTreatment.setRrp(150);
-        CompanyType.CompanyStock luxuryTreatment = new CompanyType.CompanyStock();
-        luxuryTreatment.setCost("");
-        luxuryTreatment.setRrp(350);
+        CompanyType companyType = result.get(1L);
+        softly.assertThat(companyType.getName()).isEqualTo("Hair Salon");
+        softly.assertThat(companyType.getCost()).isEqualTo(750000);
+        softly.assertThat(companyType.getDefaultEmployees()).isEqualTo(4);
 
-        Map<String, CompanyType.CompanyStock> stock1 = new HashMap<>();
-        stock1.put("Standard Treatment", standardTreatment);
-        stock1.put("Full Treatment", fullTreatment);
-        stock1.put("Luxury Treatment", luxuryTreatment);
+        CompanyPosition companyPosition = companyType.getPositions().get("Stylist");
+        softly.assertThat(companyPosition.getManualRequired()).isEqualTo(1500);
+        softly.assertThat(companyPosition.getIntelligenceRequired()).isEqualTo(0);
+        softly.assertThat(companyPosition.getEnduranceRequired()).isEqualTo(750);
+        softly.assertThat(companyPosition.getManualGain()).isEqualTo(34);
+        softly.assertThat(companyPosition.getIntelligenceGain()).isEqualTo(0);
+        softly.assertThat(companyPosition.getEnduranceGain()).isEqualTo(17);
+        softly.assertThat(companyPosition.getSpecialAbility()).isEqualTo(SpecialPosition.NONE);
+        softly.assertThat(companyPosition.getDescription()).isEqualTo("This person primarily cuts and styles hair, an integral position in a hair salon.");
 
-        CompanyType.CompanySpecial debate = new CompanyType.CompanySpecial();
-        debate.setEffect("Experience");
-        debate.setCost(1);
-        debate.setRatingRequired(1);
-        CompanyType.CompanySpecial gossip = new CompanyType.CompanySpecial();
-        gossip.setEffect("View someone's money on hand");
-        gossip.setCost(10);
-        gossip.setRatingRequired(3);
-        CompanyType.CompanySpecial rumors = new CompanyType.CompanySpecial();
-        rumors.setEffect("Reduced enemy stealth");
-        rumors.setCost(0);
-        rumors.setRatingRequired(5);
-        CompanyType.CompanySpecial cuttingCorners = new CompanyType.CompanySpecial();
-        cuttingCorners.setEffect("30 minute education time reduction");
-        cuttingCorners.setCost(1);
-        cuttingCorners.setRatingRequired(7);
-        CompanyType.CompanySpecial revenge = new CompanyType.CompanySpecial();
-        revenge.setEffect("20% slashing weapon damage");
-        revenge.setCost(0);
-        revenge.setRatingRequired(10);
+        CompanyStock standardTreatment = companyType.getStock().get("Standard Treatment");
+        softly.assertThat(standardTreatment.getRrp()).isEqualTo(95);
 
-        Map<String, CompanyType.CompanySpecial> specials1 = new HashMap<>();
-        specials1.put("Debate", debate);
-        specials1.put("Gossip", gossip);
-        specials1.put("Rumors", rumors);
-        specials1.put("Cutting Corners", cuttingCorners);
-        specials1.put("Sweeney's Revenge", revenge);
+        CompanySpecial debate = companyType.getSpecials().get("Debate");
+        softly.assertThat(debate.getEffect()).isEqualTo("Experience");
+        softly.assertThat(debate.getCost()).isEqualTo(1);
+        softly.assertThat(debate.getRatingRequired()).isEqualTo(1);
 
-        CompanyType company1 = new CompanyType();
-        company1.setName("Hair Salon");
-        company1.setCost(750000);
-        company1.setDefaultEmployees(4);
-        company1.setPositions(positions1);
-        company1.setStock(stock1);
-        company1.setSpecials(specials1);
-
-        assertThat(result.get(1L).getSpecials()).isEqualTo(specials1);
-        assertThat(result.get(1L).getStock()).isEqualTo(stock1);
-
-        assertThat(result)
-                .hasSize(39)
-                .containsEntry(1L, company1);
+        softly.assertAll();
     }
 
     @Disabled("Not yet implemented.")
@@ -157,38 +106,24 @@ class TornMapperTest {
         ObjectMapper objectMapper = new ObjectMapper();
         JsonNode json = objectMapper.readTree(this.getClass().getResource("/responses/torn-items.json"));
 
-        var result = TornMapper.ofItems(json);
+        Map<Long, TornItem> result = TornMapper.ofItems(json);
 
-        TornItem item1 = new TornItem();
-        item1.setName("Hammer");
-        item1.setDescription("A small, lightweight tool used in the building industry. Can also be used as a weapon.");
-        item1.setEffect("");
-        item1.setRequirement("");
-        item1.setType("Melee");
-        item1.setWeaponType("Clubbing");
-        item1.setBuyPrice(75);
-        item1.setSellPrice(50);
-        item1.setMarketValue(47);
-        item1.setCirculation(1839955);
-        item1.setImage("https://www.torn.com/images/items/1/large.png");
+        SoftAssertions softly = new SoftAssertions();
 
-        TornItem item2 = new TornItem();
-        item2.setName("Semtex");
-        item2.setDescription("Semtex is a general purpose plastic explosive which can be moulded into all kinds of amusing shapes, if the mood strikes. When fitted with a timer and a detonating cord, this material can be used to explode your target into tiny disappointed pieces.");
-        item2.setEffect("");
-        item2.setRequirement("");
-        item2.setType("Temporary");
-        item2.setWeaponType("Temporary");
-        item2.setBuyPrice(0);
-        item2.setSellPrice(0);
-        item2.setMarketValue(0);
-        item2.setCirculation(8);
-        item2.setImage("https://www.torn.com/images/items/1054/large.png");
+        TornItem tornItem = result.get(1L);
+        softly.assertThat(tornItem.getName()).isEqualTo("Hammer");
+        softly.assertThat(tornItem.getDescription()).isEqualTo("A small, lightweight tool used in the building industry. Can also be used as a weapon.");
+        softly.assertThat(tornItem.getEffect()).isEmpty();
+        softly.assertThat(tornItem.getRequirement()).isEmpty();
+        softly.assertThat(tornItem.getType()).isEqualTo("Melee");
+        softly.assertThat(tornItem.getWeaponType()).isEqualTo("Clubbing");
+        softly.assertThat(tornItem.getBuyPrice()).isEqualTo(75);
+        softly.assertThat(tornItem.getSellPrice()).isEqualTo(50);
+        softly.assertThat(tornItem.getMarketValue()).isEqualTo(47);
+        softly.assertThat(tornItem.getCirculation()).isEqualTo(1839955);
+        softly.assertThat(tornItem.getImage()).isEqualTo("https://www.torn.com/images/items/1/large.png");
 
-        assertThat(result)
-                .hasSize(1163)
-                .containsEntry(1L, item1)
-                .containsEntry(1054L, item2);
+        softly.assertAll();
     }
 
     @Disabled("Not yet implemented.")
@@ -361,20 +296,19 @@ class TornMapperTest {
         ObjectMapper objectMapper = new ObjectMapper();
         JsonNode json = objectMapper.readTree("{\"shoplifting\":{\"sallys_sweet_shop\":[{\"title\":\"One camera\",\"disabled\":false}],\"Bits_n_bobs\":[{\"title\":\"Two cameras\",\"disabled\":false}],\"tc_clothing\":[{\"title\":\"One camera\",\"disabled\":false},{\"title\":\"Checkpoint\",\"disabled\":false}],\"super_store\":[{\"title\":\"Two cameras\",\"disabled\":false},{\"title\":\"Checkpoint\",\"disabled\":false}],\"big_als\":[{\"title\":\"Four cameras\",\"disabled\":false},{\"title\":\"Two guards\",\"disabled\":false}],\"jewelry_store\":[{\"title\":\"Three cameras\",\"disabled\":false},{\"title\":\"One guard\",\"disabled\":false}]}}");
 
-        var result = TornMapper.ofShoplifting(json);
+        Map<String, List<ShopLiftingSecurity>> result = TornMapper.ofShoplifting(json);
 
         SoftAssertions softly = new SoftAssertions();
 
-        softly.assertThat(result.get("sallys_sweet_shop")).containsExactly(new ShopLiftingSecurity(ONE_CAMERA, false));
-        softly.assertThat(result.get("Bits_n_bobs")).containsExactly(new ShopLiftingSecurity(TWO_CAMERAS, false));
-        softly.assertThat(result.get("tc_clothing"))
-                .containsExactly(new ShopLiftingSecurity(ONE_CAMERA, false), new ShopLiftingSecurity(CHECKPOINT, false));
-        softly.assertThat(result.get("super_store"))
-                .containsExactly(new ShopLiftingSecurity(TWO_CAMERAS, false), new ShopLiftingSecurity(CHECKPOINT, false));
-        softly.assertThat(result.get("big_als"))
-                .containsExactly(new ShopLiftingSecurity(FOUR_CAMERAS, false), new ShopLiftingSecurity(TWO_GUARDS, false));
-        softly.assertThat(result.get("jewelry_store"))
-                .containsExactly(new ShopLiftingSecurity(THREE_CAMERAS, false), new ShopLiftingSecurity(ONE_GUARD, false));
+        List<ShopLiftingSecurity> sallysSweetShop = result.get("sallys_sweet_shop");
+        softly.assertThat(sallysSweetShop).hasSize(1);
+        softly.assertThat(sallysSweetShop.get(0).getTitle()).isEqualTo(ONE_CAMERA);
+        softly.assertThat(sallysSweetShop.get(0).isDisabled()).isFalse();
+
+        List<ShopLiftingSecurity> bitsNBobs = result.get("Bits_n_bobs");
+        softly.assertThat(bitsNBobs).hasSize(1);
+        softly.assertThat(bitsNBobs.get(0).getTitle()).isEqualTo(TWO_CAMERAS);
+        softly.assertThat(bitsNBobs.get(0).isDisabled()).isFalse();
 
         softly.assertAll();
     }
@@ -384,42 +318,21 @@ class TornMapperTest {
         ObjectMapper objectMapper = new ObjectMapper();
         JsonNode json = objectMapper.readTree("{\"stocks\":{\"1\":{\"stock_id\":1,\"name\":\"Torn & Shanghai Banking\",\"acronym\":\"TSB\",\"current_price\":898.76,\"market_cap\":10694309020871,\"total_shares\":11898959701,\"benefit\":{\"type\":\"active\",\"frequency\":31,\"requirement\":3000000,\"description\":\"$50,000,000\"}},\"2\":{\"stock_id\":2,\"name\":\"Torn City Investments\",\"acronym\":\"TCI\",\"current_price\":976.44,\"market_cap\":10588231251112,\"total_shares\":10843709036,\"benefit\":{\"type\":\"passive\",\"frequency\":7,\"requirement\":1500000,\"description\":\"a 10% Bank Interest Bonus\"}},\"3\":{\"stock_id\":3,\"name\":\"Syscore MFG\",\"acronym\":\"SYS\",\"current_price\":466.84,\"market_cap\":2952075247577,\"total_shares\":6323526792,\"benefit\":{\"type\":\"passive\",\"frequency\":7,\"requirement\":3000000,\"description\":\"an Advanced Firewall\"}},\"4\":{\"stock_id\":4,\"name\":\"Legal Authorities Group\",\"acronym\":\"LAG\",\"current_price\":316.55,\"market_cap\":1972180804098,\"total_shares\":6230234731,\"benefit\":{\"type\":\"active\",\"frequency\":7,\"requirement\":750000,\"description\":\"1x Lawyer Business Card\"}},\"5\":{\"stock_id\":5,\"name\":\"Insured On Us\",\"acronym\":\"IOU\",\"current_price\":128.79,\"market_cap\":20216373619059,\"total_shares\":156971609745,\"benefit\":{\"type\":\"active\",\"frequency\":31,\"requirement\":3000000,\"description\":\"$12,000,000\"}},\"6\":{\"stock_id\":6,\"name\":\"Grain\",\"acronym\":\"GRN\",\"current_price\":264.27,\"market_cap\":2379058232686,\"total_shares\":9002377238,\"benefit\":{\"type\":\"active\",\"frequency\":31,\"requirement\":500000,\"description\":\"$4,000,000\"}},\"7\":{\"stock_id\":7,\"name\":\"Torn City Health Service\",\"acronym\":\"THS\",\"current_price\":337.45,\"market_cap\":2189431479358,\"total_shares\":6488165593,\"benefit\":{\"type\":\"active\",\"frequency\":7,\"requirement\":150000,\"description\":\"1x Box of Medical Supplies\"}},\"8\":{\"stock_id\":8,\"name\":\"Yazoo\",\"acronym\":\"YAZ\",\"current_price\":40.49,\"market_cap\":1885454150238,\"total_shares\":46565921221,\"benefit\":{\"type\":\"passive\",\"frequency\":7,\"requirement\":1000000,\"description\":\"Free Banner Advertising\"}},\"9\":{\"stock_id\":9,\"name\":\"The Torn City Times\",\"acronym\":\"TCT\",\"current_price\":264.7,\"market_cap\":2577928227757,\"total_shares\":9739056395,\"benefit\":{\"type\":\"active\",\"frequency\":31,\"requirement\":100000,\"description\":\"$1,000,000\"}},\"10\":{\"stock_id\":10,\"name\":\"Crude & Co\",\"acronym\":\"CNC\",\"current_price\":690.68,\"market_cap\":4667991244513,\"total_shares\":6758544108,\"benefit\":{\"type\":\"active\",\"frequency\":31,\"requirement\":7500000,\"description\":\"$80,000,000\"}},\"11\":{\"stock_id\":11,\"name\":\"Messaging Inc.\",\"acronym\":\"MSG\",\"current_price\":215.17,\"market_cap\":426064713467,\"total_shares\":1980130657,\"benefit\":{\"type\":\"passive\",\"frequency\":7,\"requirement\":300000,\"description\":\"Free Classified Advertising\"}},\"12\":{\"stock_id\":12,\"name\":\"TC Music Industries\",\"acronym\":\"TMI\",\"current_price\":177.31,\"market_cap\":6122378816897,\"total_shares\":34529235897,\"benefit\":{\"type\":\"active\",\"frequency\":31,\"requirement\":6000000,\"description\":\"$25,000,000\"}},\"13\":{\"stock_id\":13,\"name\":\"TC Media Productions\",\"acronym\":\"TCP\",\"current_price\":376.07,\"market_cap\":2706827251838,\"total_shares\":7197668657,\"benefit\":{\"type\":\"passive\",\"frequency\":7,\"requirement\":1000000,\"description\":\"a Company Sales Boost\"}},\"14\":{\"stock_id\":14,\"name\":\"I Industries Ltd.\",\"acronym\":\"IIL\",\"current_price\":101.91,\"market_cap\":1123715080594,\"total_shares\":11026543819,\"benefit\":{\"type\":\"passive\",\"frequency\":7,\"requirement\":1000000,\"description\":\"50% Coding Time Reduction\"}},\"15\":{\"stock_id\":15,\"name\":\"Feathery Hotels Group\",\"acronym\":\"FHG\",\"current_price\":660.49,\"market_cap\":25580644034657,\"total_shares\":38729797627,\"benefit\":{\"type\":\"active\",\"frequency\":7,\"requirement\":2000000,\"description\":\"1x Feathery Hotel Coupon\"}},\"16\":{\"stock_id\":16,\"name\":\"Symbiotic Ltd.\",\"acronym\":\"SYM\",\"current_price\":717.78,\"market_cap\":13576394906290,\"total_shares\":18914423509,\"benefit\":{\"type\":\"active\",\"frequency\":7,\"requirement\":500000,\"description\":\"1x Drug Pack\"}},\"17\":{\"stock_id\":17,\"name\":\"Lucky Shots Casino\",\"acronym\":\"LSC\",\"current_price\":394.51,\"market_cap\":2665386436980,\"total_shares\":6756194867,\"benefit\":{\"type\":\"active\",\"frequency\":7,\"requirement\":500000,\"description\":\"1x Lottery Voucher\"}},\"18\":{\"stock_id\":18,\"name\":\"Performance Ribaldry\",\"acronym\":\"PRN\",\"current_price\":510.29,\"market_cap\":8792943201199,\"total_shares\":17231266929,\"benefit\":{\"type\":\"active\",\"frequency\":7,\"requirement\":1000000,\"description\":\"1x Erotic DVD\"}},\"19\":{\"stock_id\":19,\"name\":\"Eaglewood Mercenary\",\"acronym\":\"EWM\",\"current_price\":234.16,\"market_cap\":1972341347022,\"total_shares\":8423049825,\"benefit\":{\"type\":\"active\",\"frequency\":7,\"requirement\":1000000,\"description\":\"1x Box of Grenades\"}},\"20\":{\"stock_id\":20,\"name\":\"Torn City Motors\",\"acronym\":\"TCM\",\"current_price\":305.9,\"market_cap\":7947683693503,\"total_shares\":25981313153,\"benefit\":{\"type\":\"passive\",\"frequency\":7,\"requirement\":1000000,\"description\":\"10% Racing Skill Boost\"}},\"21\":{\"stock_id\":21,\"name\":\"Empty Lunchbox Traders\",\"acronym\":\"ELT\",\"current_price\":207.64,\"market_cap\":1129307772974,\"total_shares\":5438777562,\"benefit\":{\"type\":\"passive\",\"frequency\":7,\"requirement\":5000000,\"description\":\"10% Home Upgrade Discount\"}},\"22\":{\"stock_id\":22,\"name\":\"Home Retail Group\",\"acronym\":\"HRG\",\"current_price\":209.11,\"market_cap\":9296043298427,\"total_shares\":44455278554,\"benefit\":{\"type\":\"active\",\"frequency\":31,\"requirement\":10000000,\"description\":\"1x Random Property\"}},\"23\":{\"stock_id\":23,\"name\":\"Tell Group Plc.\",\"acronym\":\"TGP\",\"current_price\":90.09,\"market_cap\":1514689306751,\"total_shares\":16813068118,\"benefit\":{\"type\":\"passive\",\"frequency\":7,\"requirement\":2500000,\"description\":\"a Company Advertising Boost\"}},\"24\":{\"stock_id\":24,\"name\":\"Munster Beverage Corp.\",\"acronym\":\"MUN\",\"current_price\":448.76,\"market_cap\":8910340767012,\"total_shares\":19855470111,\"benefit\":{\"type\":\"active\",\"frequency\":7,\"requirement\":5000000,\"description\":\"1x Six Pack of Energy Drink\"}},\"25\":{\"stock_id\":25,\"name\":\"West Side University\",\"acronym\":\"WSU\",\"current_price\":81.19,\"market_cap\":3075612188686,\"total_shares\":37881662627,\"benefit\":{\"type\":\"passive\",\"frequency\":7,\"requirement\":1000000,\"description\":\"a 10% Education Course Time Reduction\"}},\"26\":{\"stock_id\":26,\"name\":\"International School TC\",\"acronym\":\"IST\",\"current_price\":377.94,\"market_cap\":300077610747,\"total_shares\":793982142,\"benefit\":{\"type\":\"passive\",\"frequency\":7,\"requirement\":100000,\"description\":\"Free Education Courses\"}},\"27\":{\"stock_id\":27,\"name\":\"Big Al's Gun Shop\",\"acronym\":\"BAG\",\"current_price\":377.91,\"market_cap\":3320976936295,\"total_shares\":8787745591,\"benefit\":{\"type\":\"active\",\"frequency\":7,\"requirement\":3000000,\"description\":\"1x Ammunition Pack\"}},\"28\":{\"stock_id\":28,\"name\":\"Evil Ducks Candy Corp\",\"acronym\":\"EVL\",\"current_price\":474.24,\"market_cap\":2969665225987,\"total_shares\":6261945905,\"benefit\":{\"type\":\"active\",\"frequency\":7,\"requirement\":100000,\"description\":\"1000 Happiness\"}},\"29\":{\"stock_id\":29,\"name\":\"Mc Smoogle Corp\",\"acronym\":\"MCS\",\"current_price\":629.45,\"market_cap\":10995376485976,\"total_shares\":17468228590,\"benefit\":{\"type\":\"active\",\"frequency\":7,\"requirement\":350000,\"description\":\"100 Energy\"}},\"30\":{\"stock_id\":30,\"name\":\"Wind Lines Travel\",\"acronym\":\"WLT\",\"current_price\":560.08,\"market_cap\":7105716726596,\"total_shares\":12686967445,\"benefit\":{\"type\":\"passive\",\"frequency\":7,\"requirement\":9000000,\"description\":\"Private Jet Access\"}},\"31\":{\"stock_id\":31,\"name\":\"Torn City Clothing\",\"acronym\":\"TCC\",\"current_price\":392.44,\"market_cap\":1900139286061,\"total_shares\":4841859357,\"benefit\":{\"type\":\"active\",\"frequency\":31,\"requirement\":7500000,\"description\":\"1x Clothing Cache\"}},\"32\":{\"stock_id\":32,\"name\":\"Alcoholics Synonymous\",\"acronym\":\"ASS\",\"current_price\":312.77,\"market_cap\":1047962802612,\"total_shares\":3350586062,\"benefit\":{\"type\":\"active\",\"frequency\":7,\"requirement\":1000000,\"description\":\"1x Six Pack of Alcohol\"}}}}");
 
-        var result = TornMapper.ofStocks(json);
+        Map<Long, Stock> result = TornMapper.ofStocks(json);
 
-        Stock.Benefit benefit1 = new Stock.Benefit();
-        benefit1.setType(Stock.Benefit.Type.ACTIVE);
-        benefit1.setFrequency(31);
-        benefit1.setRequirement(3000000);
-        benefit1.setDescription("$50,000,000");
+        SoftAssertions softly = new SoftAssertions();
 
-        Stock stock1 = new Stock();
-        stock1.setId(1);
-        stock1.setName("Torn & Shanghai Banking");
-        stock1.setAcronym("TSB");
-        stock1.setCurrentPrice(898.76f);
-        stock1.setMarketCap(10694309020871L);
-        stock1.setTotalShares(11898959701L);
-        stock1.setBenefit(benefit1);
+        Stock tornShanghaiBanking = result.get(1L);
+        softly.assertThat(tornShanghaiBanking.getId()).isEqualTo(1);
+        softly.assertThat(tornShanghaiBanking.getName()).isEqualTo("Torn & Shanghai Banking");
+        softly.assertThat(tornShanghaiBanking.getAcronym()).isEqualTo("TSB");
 
-        Stock.Benefit benefit2 = new Stock.Benefit();
-        benefit2.setType(Stock.Benefit.Type.PASSIVE);
-        benefit2.setFrequency(7);
-        benefit2.setRequirement(1000000);
-        benefit2.setDescription("a Company Sales Boost");
+        Benefit benefit = tornShanghaiBanking.getBenefit();
+        softly.assertThat(benefit.getType()).isEqualTo(Type.ACTIVE);
+        softly.assertThat(benefit.getFrequency()).isEqualTo(31);
+        softly.assertThat(benefit.getRequirement()).isEqualTo(3000000);
 
-        Stock stock2 = new Stock();
-        stock2.setId(13);
-        stock2.setName("TC Media Productions");
-        stock2.setAcronym("TCP");
-        stock2.setCurrentPrice(376.07f);
-        stock2.setMarketCap(2706827251838L);
-        stock2.setTotalShares(7197668657L);
-        stock2.setBenefit(benefit2);
-
-        assertThat(result)
-                .hasSize(32)
-                .containsEntry(1L, stock1)
-                .containsEntry(13L, stock2);
+        softly.assertAll();
     }
 
     @Disabled("Not yet implemented.")

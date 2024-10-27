@@ -1,7 +1,9 @@
 package eu.tornplayground.tornapi.models.faction.basic.rank;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
+import lombok.Getter;
 
+@Getter
 public enum Rank {
     BRONZE("Bronze"),
     DIAMOND("Diamond"),

@@ -1,63 +1,37 @@
 package eu.tornplayground.tornapi.models.user.partial;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import eu.tornplayground.tornapi.models.common.PlayerState;
 import eu.tornplayground.tornapi.models.converters.EpochLocalDateTimeConverter;
+import eu.tornplayground.tornapi.models.faction.basic.member.Color;
+import lombok.AccessLevel;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.experimental.SuperBuilder;
 
 import java.time.LocalDateTime;
 import java.util.Objects;
 
+@Getter
+@SuperBuilder
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class Status {
 
+    @JsonProperty("description")
     private String description;
+
+    @JsonProperty("details")
     private String details;
-    private State state;
-    private String color;
+
+    @JsonProperty("state")
+    private PlayerState state;
+
+    @JsonProperty("color")
+    private Color color;
+
     @JsonDeserialize(converter = EpochLocalDateTimeConverter.class)
     private LocalDateTime until;
-
-    public String getDescription() {
-        return description;
-    }
-
-    public void setDescription(String description) {
-        this.description = description;
-    }
-
-    public String getDetails() {
-        return details;
-    }
-
-    public void setDetails(String details) {
-        this.details = details;
-    }
-
-    public State getState() {
-        return state;
-    }
-
-    public void setState(State state) {
-        this.state = state;
-    }
-
-    public String getColor() {
-        return color;
-    }
-
-    public void setColor(String color) {
-        this.color = color;
-    }
-
-    public LocalDateTime getUntil() {
-        return until;
-    }
-
-    public void setUntil(LocalDateTime until) {
-        this.until = until;
-    }
-
-    public enum State {
-        OKAY, JAIL, HOSPITAL, TRAVELING, FEDERAL, ABROAD, FALLEN
-    }
 
     @Override
     public boolean equals(Object o) {

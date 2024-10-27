@@ -9,6 +9,10 @@ import eu.tornplayground.tornapi.models.faction.basic.Member;
 import eu.tornplayground.tornapi.models.faction.basic.RaidWars;
 import eu.tornplayground.tornapi.models.faction.basic.FactionRank;
 import eu.tornplayground.tornapi.models.faction.basic.TerritoryWars;
+import lombok.AccessLevel;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.experimental.SuperBuilder;
 
 import java.time.Duration;
 import java.time.LocalDateTime;
@@ -16,6 +20,9 @@ import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 
+@Getter
+@SuperBuilder
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class FactionBasic extends Model {
     @JsonProperty("ID")
     private int id;
@@ -66,73 +73,6 @@ public class FactionBasic extends Model {
 
     @JsonProperty("members")
     private Map<Integer, Member> members;
-
-    protected FactionBasic() {
-    }
-
-    public int getId() {
-        return id;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public String getTag() {
-        return tag;
-    }
-
-    public String getTagImage() {
-        return tagImage;
-    }
-
-    public int getLeader() {
-        return leader;
-    }
-
-    public int getCoLeader() {
-        return coLeader;
-    }
-
-    public int getRespect() {
-        return respect;
-    }
-
-    public Duration getAge() {
-        return age;
-    }
-
-    public int getCapacity() {
-        return capacity;
-    }
-
-    public int getBestChain() {
-        return bestChain;
-    }
-
-    public Map<String, RankedWar> getWars() {
-        return wars;
-    }
-
-    public List<TerritoryWars> getTerritoryWars() {
-        return territoryWars;
-    }
-
-    public List<RaidWars> getRaidWars() {
-        return raidWars;
-    }
-
-    public Map<Integer, LocalDateTime> getPeace() {
-        return peace;
-    }
-
-    public FactionRank getRank() {
-        return rank;
-    }
-
-    public Map<Integer, Member> getMembers() {
-        return members;
-    }
 
     @Override
     public boolean equals(Object o) {

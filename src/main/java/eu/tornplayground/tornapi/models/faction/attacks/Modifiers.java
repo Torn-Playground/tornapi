@@ -2,9 +2,16 @@ package eu.tornplayground.tornapi.models.faction.attacks;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import eu.tornplayground.tornapi.models.Model;
+import lombok.AccessLevel;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.experimental.SuperBuilder;
 
 import java.util.Objects;
 
+@Getter
+@SuperBuilder
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class Modifiers extends Model {
 
     @JsonProperty("fair_fight")
@@ -27,37 +34,6 @@ public class Modifiers extends Model {
 
     @JsonProperty("warlord_bonus")
     private float warlordBonus;
-
-    protected Modifiers() {
-    }
-
-    public float getFairFight() {
-        return fairFight;
-    }
-
-    public float getWar() {
-        return war;
-    }
-
-    public float getRetaliation() {
-        return retaliation;
-    }
-
-    public float getGroupAttack() {
-        return groupAttack;
-    }
-
-    public float getOverseas() {
-        return overseas;
-    }
-
-    public float getChainBonus() {
-        return chainBonus;
-    }
-
-    public float getWarlordBonus() {
-        return warlordBonus;
-    }
 
     @Override
     public boolean equals(Object o) {

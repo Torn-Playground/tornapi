@@ -1,20 +1,21 @@
 package eu.tornplayground.tornapi.models.user;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import eu.tornplayground.tornapi.models.user.partial.BaseItem;
+import lombok.AccessLevel;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.experimental.SuperBuilder;
 
 import java.util.Objects;
 
+@Getter
+@SuperBuilder
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class BazaarItem extends BaseItem {
 
+    @JsonProperty("price")
     private long price;
-
-    public long getPrice() {
-        return price;
-    }
-
-    public void setPrice(long price) {
-        this.price = price;
-    }
 
     @Override
     public boolean equals(Object o) {

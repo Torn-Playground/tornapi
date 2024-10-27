@@ -1,7 +1,9 @@
 package eu.tornplayground.tornapi.models.faction.basic.member;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
+import lombok.Getter;
 
+@Getter
 public enum Color {
     BLUE("blue"),
     GREEN("green"),
@@ -11,10 +13,6 @@ public enum Color {
 
     Color(String color) {
         this.color = color;
-    }
-
-    public String getColor() {
-        return color;
     }
 
     @JsonCreator

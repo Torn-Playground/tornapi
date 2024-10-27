@@ -1,47 +1,31 @@
 package eu.tornplayground.tornapi.models.user;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import eu.tornplayground.tornapi.models.Model;
+import lombok.AccessLevel;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.experimental.SuperBuilder;
 
 import java.util.Objects;
 
+@Getter
+@SuperBuilder
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class Notifications extends Model {
 
+    @JsonProperty("messages")
     private long messages;
+
+    @JsonProperty("events")
     private long events;
+
+    @JsonProperty("awards")
     private long awards;
+
+    @JsonProperty("competition")
     private long competition;
-
-    public long getMessages() {
-        return messages;
-    }
-
-    public void setMessages(long messages) {
-        this.messages = messages;
-    }
-
-    public long getEvents() {
-        return events;
-    }
-
-    public void setEvents(long events) {
-        this.events = events;
-    }
-
-    public long getAwards() {
-        return awards;
-    }
-
-    public void setAwards(long awards) {
-        this.awards = awards;
-    }
-
-    public long getCompetition() {
-        return competition;
-    }
-
-    public void setCompetition(long competition) {
-        this.competition = competition;
-    }
 
     @Override
     public boolean equals(Object o) {
@@ -55,5 +39,4 @@ public class Notifications extends Model {
     public int hashCode() {
         return Objects.hash(messages, events, awards, competition);
     }
-
 }

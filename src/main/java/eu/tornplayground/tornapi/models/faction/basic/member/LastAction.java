@@ -5,11 +5,18 @@ import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import eu.tornplayground.tornapi.models.Model;
 import eu.tornplayground.tornapi.models.converters.EpochLocalDateTimeConverter;
 import eu.tornplayground.tornapi.models.converters.RelativeConverter;
+import lombok.AccessLevel;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.experimental.SuperBuilder;
 
 import java.time.Duration;
 import java.time.LocalDateTime;
 import java.util.Objects;
 
+@Getter
+@SuperBuilder
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class LastAction extends Model {
 
     @JsonProperty("status")
@@ -22,21 +29,6 @@ public class LastAction extends Model {
     @JsonProperty("relative")
     @JsonDeserialize(converter = RelativeConverter.class)
     private Duration relative;
-
-    protected LastAction() {
-    }
-
-    public String getStatus() {
-        return status;
-    }
-
-    public LocalDateTime getTimestamp() {
-        return timestamp;
-    }
-
-    public Duration getRelative() {
-        return relative;
-    }
 
     @Override
     public boolean equals(Object o) {

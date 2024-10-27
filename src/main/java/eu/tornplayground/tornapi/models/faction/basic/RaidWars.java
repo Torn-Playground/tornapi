@@ -4,10 +4,17 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import eu.tornplayground.tornapi.models.Model;
 import eu.tornplayground.tornapi.models.converters.EpochLocalDateTimeConverter;
+import lombok.AccessLevel;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.experimental.SuperBuilder;
 
 import java.time.LocalDateTime;
 import java.util.Objects;
 
+@Getter
+@SuperBuilder
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class RaidWars extends Model {
     @JsonProperty("raiding_faction")
     private int raidingFaction;
@@ -24,29 +31,6 @@ public class RaidWars extends Model {
     @JsonProperty("start_time")
     @JsonDeserialize(converter = EpochLocalDateTimeConverter.class)
     private LocalDateTime startTime;
-
-    protected RaidWars() {
-    }
-
-    public int getRaidingFaction() {
-        return raidingFaction;
-    }
-
-    public int getDefendingFaction() {
-        return defendingFaction;
-    }
-
-    public float getRaiderScore() {
-        return raiderScore;
-    }
-
-    public int getDefenderScore() {
-        return defenderScore;
-    }
-
-    public LocalDateTime getStartTime() {
-        return startTime;
-    }
 
     @Override
     public boolean equals(Object o) {

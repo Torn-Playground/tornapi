@@ -1,9 +1,17 @@
 package eu.tornplayground.tornapi.models.torn;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import eu.tornplayground.tornapi.models.Model;
+import lombok.AccessLevel;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.experimental.SuperBuilder;
 
 import java.util.Objects;
 
+@Getter
+@SuperBuilder
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class ShopLiftingSecurity extends Model {
 
     public static final String ONE_CAMERA = "One camera";
@@ -14,31 +22,15 @@ public class ShopLiftingSecurity extends Model {
     public static final String TWO_GUARDS = "Two guards";
     public static final String CHECKPOINT = "Checkpoint";
 
+    @JsonProperty("title")
     private String title;
+
+    @JsonProperty("disabled")
+    @Getter(value = lombok.AccessLevel.NONE)
     private boolean disabled;
-
-    public ShopLiftingSecurity() {
-    }
-
-    public ShopLiftingSecurity(String title, boolean disabled) {
-        this.title = title;
-        this.disabled = disabled;
-    }
-
-    public String getTitle() {
-        return title;
-    }
-
-    public void setTitle(String title) {
-        this.title = title;
-    }
 
     public boolean isDisabled() {
         return disabled;
-    }
-
-    public void setDisabled(boolean disabled) {
-        this.disabled = disabled;
     }
 
     @Override

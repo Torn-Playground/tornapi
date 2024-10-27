@@ -4,11 +4,18 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import eu.tornplayground.tornapi.models.Model;
 import eu.tornplayground.tornapi.models.converters.EpochLocalDateTimeConverter;
+import lombok.AccessLevel;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.experimental.SuperBuilder;
 
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Objects;
 
+@Getter
+@SuperBuilder
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class TerritoryWars extends Model {
     @JsonProperty("territory_war_id")
     private int territoryWarId;
@@ -41,49 +48,6 @@ public class TerritoryWars extends Model {
 
     @JsonProperty("defenders")
     private List<Integer> defenders;
-
-    protected TerritoryWars() {
-    }
-
-    public int getTerritoryWarId() {
-        return territoryWarId;
-    }
-
-    public String getTerritory() {
-        return territory;
-    }
-
-    public int getAssaultingFaction() {
-        return assaultingFaction;
-    }
-
-    public int getDefendingFaction() {
-        return defendingFaction;
-    }
-
-    public int getScore() {
-        return score;
-    }
-
-    public int getRequiredScore() {
-        return requiredScore;
-    }
-
-    public LocalDateTime getStartTime() {
-        return startTime;
-    }
-
-    public LocalDateTime getEndTime() {
-        return endTime;
-    }
-
-    public List<Integer> getAssaulters() {
-        return assaulters;
-    }
-
-    public List<Integer> getDefenders() {
-        return defenders;
-    }
 
     @Override
     public boolean equals(Object o) {

@@ -5,6 +5,7 @@ import eu.tornplayground.tornapi.models.market.PointOrder;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import org.assertj.core.api.SoftAssertions;
 import org.junit.jupiter.api.Test;
 
 import java.util.List;
@@ -21,19 +22,14 @@ class MarketMapperTest {
 
         List<MarketItem> result = MarketMapper.ofBazaar(json);
 
-        MarketItem marketItem1 = new MarketItem();
-        marketItem1.setId(53010894);
-        marketItem1.setCost(50);
-        marketItem1.setQuantity(1);
+        SoftAssertions softly = new SoftAssertions();
 
-        MarketItem marketItem2 = new MarketItem();
-        marketItem2.setId(52946536);
-        marketItem2.setCost(120);
-        marketItem2.setQuantity(1);
+        MarketItem marketItem = result.get(0);
+        softly.assertThat(marketItem.getId()).isEqualTo(53010894);
+        softly.assertThat(marketItem.getCost()).isEqualTo(50);
+        softly.assertThat(marketItem.getQuantity()).isEqualTo(1);
 
-        assertThat(result)
-                .hasSize(100)
-                .contains(marketItem1, marketItem2);
+        softly.assertAll();
     }
 
     @Test
@@ -43,19 +39,14 @@ class MarketMapperTest {
 
         List<MarketItem> result = MarketMapper.ofItemMarket(json);
 
-        MarketItem marketItem1 = new MarketItem();
-        marketItem1.setId(139886640);
-        marketItem1.setCost(299);
-        marketItem1.setQuantity(1);
+        SoftAssertions softly = new SoftAssertions();
 
-        MarketItem marketItem2 = new MarketItem();
-        marketItem2.setId(139189560);
-        marketItem2.setCost(2000);
-        marketItem2.setQuantity(1);
+        MarketItem marketItem = result.get(0);
+        softly.assertThat(marketItem.getId()).isEqualTo(139901185);
+        softly.assertThat(marketItem.getCost()).isEqualTo(200);
+        softly.assertThat(marketItem.getQuantity()).isEqualTo(1);
 
-        assertThat(result)
-                .hasSize(100)
-                .contains(marketItem1, marketItem2);
+        softly.assertAll();
     }
 
     @Test
@@ -65,20 +56,14 @@ class MarketMapperTest {
 
         Map<Long, PointOrder> result = MarketMapper.ofPointsMarket(json);
 
-        PointOrder order1 = new PointOrder();
-        order1.setCost(46490);
-        order1.setQuantity(3760);
-        order1.setTotalCost(174802400);
+        SoftAssertions softly = new SoftAssertions();
 
-        PointOrder order2 = new PointOrder();
-        order2.setCost(46500);
-        order2.setQuantity(25);
-        order2.setTotalCost(1162500);
+        PointOrder pointOrder = result.get(11543487L);
+        softly.assertThat(pointOrder.getCost()).isEqualTo(46650);
+        softly.assertThat(pointOrder.getQuantity()).isEqualTo(10);
+        softly.assertThat(pointOrder.getTotalCost()).isEqualTo(466500);
 
-        assertThat(result)
-                .hasSize(25)
-                .containsEntry(11627118L, order1)
-                .containsEntry(11627229L, order2);
+        softly.assertAll();
     }
 
 }

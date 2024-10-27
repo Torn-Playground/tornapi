@@ -33,7 +33,7 @@ public class UserRequestBuilder extends RequestBuilder<UserSelections> {
     }
 
     public Map<Long, Attack> fetchAttacksFull() throws TornHttpException, TornErrorException, RequestLimitReachedException, IOException {
-        return fetch(UserSelections.ATTACKSFULL, UserMapper::ofAttacks);
+        return fetch(UserSelections.ATTACK_SFULL, UserMapper::ofAttacks);
     }
 
     public Bars fetchBars() throws TornHttpException, TornErrorException, RequestLimitReachedException, IOException {
@@ -45,7 +45,7 @@ public class UserRequestBuilder extends RequestBuilder<UserSelections> {
     }
 
     public BattleStats fetchBattleStats() throws TornHttpException, TornErrorException, RequestLimitReachedException, IOException {
-        return fetch(UserSelections.BATTLESTATS, UserMapper::ofBattleStats);
+        return fetch(UserSelections.BATTLE_STATS, UserMapper::ofBattleStats);
     }
 
     public List<BazaarItem> fetchBazaar() throws TornHttpException, TornErrorException, RequestLimitReachedException, IOException {
@@ -80,7 +80,7 @@ public class UserRequestBuilder extends RequestBuilder<UserSelections> {
         return fetch(UserSelections.GYM, UserMapper::ofGym);
     }
 
-    public Map<String, HOF> fetchHof() throws TornHttpException, TornErrorException, RequestLimitReachedException, IOException {
+    public Map<String, Hof> fetchHof() throws TornHttpException, TornErrorException, RequestLimitReachedException, IOException {
         return fetch(UserSelections.HOF, UserMapper::ofHOF);
     }
 
@@ -92,12 +92,8 @@ public class UserRequestBuilder extends RequestBuilder<UserSelections> {
         return fetch(UserSelections.ICONS, UserMapper::ofIcons);
     }
 
-    public List<InventoryItem> fetchInventory() throws TornHttpException, TornErrorException, RequestLimitReachedException, IOException {
-        return fetch(UserSelections.INVENTORY, UserMapper::ofInventory);
-    }
-
     public JobPoints fetchJobPoints() throws TornHttpException, TornErrorException, RequestLimitReachedException, IOException {
-        return fetch(UserSelections.JOBPOINTS, UserMapper::ofJobPoints);
+        return fetch(UserSelections.JOB_POINTS, UserMapper::ofJobPoints);
     }
 
     public Map<String, Log> fetchLog() throws TornHttpException, TornErrorException, RequestLimitReachedException, IOException {
@@ -108,7 +104,7 @@ public class UserRequestBuilder extends RequestBuilder<UserSelections> {
         return fetch(UserSelections.MESSAGES, UserMapper::ofMessages);
     }
 
-    public Missions fetchMissions() throws TornHttpException, TornErrorException, RequestLimitReachedException, IOException {
+    public Map<String, List<Mission>> fetchMissions() throws TornHttpException, TornErrorException, RequestLimitReachedException, IOException {
         return fetch(UserSelections.MISSIONS, UserMapper::ofMissions);
     }
 
@@ -129,7 +125,7 @@ public class UserRequestBuilder extends RequestBuilder<UserSelections> {
     }
 
     public PersonalStats fetchPersonalStats() throws TornHttpException, TornErrorException, RequestLimitReachedException, IOException {
-        return fetch(UserSelections.PERSONALSTATS, UserMapper::ofPersonalStats);
+        return fetch(UserSelections.PERSONAL_STATS, UserMapper::ofPersonalStats);
     }
 
     public Profile fetchProfile() throws TornHttpException, TornErrorException, RequestLimitReachedException, IOException {
@@ -153,7 +149,7 @@ public class UserRequestBuilder extends RequestBuilder<UserSelections> {
     }
 
     public Map<Long, Revive> fetchRevivesFull() throws TornHttpException, TornErrorException, RequestLimitReachedException, IOException {
-        return fetch(UserSelections.REVIVESFULL, UserMapper::ofRevives);
+        return fetch(UserSelections.REVIVES_FULL, UserMapper::ofRevives);
     }
 
     public Skills fetchSkills() throws TornHttpException, TornErrorException, RequestLimitReachedException, IOException {
@@ -169,10 +165,10 @@ public class UserRequestBuilder extends RequestBuilder<UserSelections> {
     }
 
     public List<WeaponExperience> fetchWeaponExp() throws TornHttpException, TornErrorException, RequestLimitReachedException, IOException {
-        return fetch(UserSelections.WEAPONEXP, UserMapper::ofWeaponExp);
+        return fetch(UserSelections.WEAPON_EXP, UserMapper::ofWeaponExp);
     }
 
     public WorkStats fetchWorkStats() throws TornHttpException, TornErrorException, RequestLimitReachedException, IOException {
-        return fetch(UserSelections.WORKSTATS, UserMapper::ofWorkStats);
+        return fetch(UserSelections.WORK_STATS, UserMapper::ofWorkStats);
     }
 }

@@ -30,7 +30,7 @@ public class UserAsyncRequestBuilder extends RequestBuilder<UserSelections> {
     }
 
     public CompletableFuture<Map<Long, Attack>> fetchAttacksFull() {
-        return fetchAsync(UserSelections.ATTACKSFULL, UserMapper::ofAttacks);
+        return fetchAsync(UserSelections.ATTACK_SFULL, UserMapper::ofAttacks);
     }
 
     public CompletableFuture<Bars> fetchBars() {
@@ -42,7 +42,7 @@ public class UserAsyncRequestBuilder extends RequestBuilder<UserSelections> {
     }
 
     public CompletableFuture<BattleStats> fetchBattleStats() {
-        return fetchAsync(UserSelections.BATTLESTATS, UserMapper::ofBattleStats);
+        return fetchAsync(UserSelections.BATTLE_STATS, UserMapper::ofBattleStats);
     }
 
     public CompletableFuture<List<BazaarItem>> fetchBazaar() {
@@ -77,7 +77,7 @@ public class UserAsyncRequestBuilder extends RequestBuilder<UserSelections> {
         return fetchAsync(UserSelections.GYM, UserMapper::ofGym);
     }
 
-    public CompletableFuture<Map<String, HOF>> fetchHof() {
+    public CompletableFuture<Map<String, Hof>> fetchHof() {
         return fetchAsync(UserSelections.HOF, UserMapper::ofHOF);
     }
 
@@ -89,12 +89,8 @@ public class UserAsyncRequestBuilder extends RequestBuilder<UserSelections> {
         return fetchAsync(UserSelections.ICONS, UserMapper::ofIcons);
     }
 
-    public CompletableFuture<List<InventoryItem>> fetchInventory() {
-        return fetchAsync(UserSelections.INVENTORY, UserMapper::ofInventory);
-    }
-
     public CompletableFuture<JobPoints> fetchJobPoints() {
-        return fetchAsync(UserSelections.JOBPOINTS, UserMapper::ofJobPoints);
+        return fetchAsync(UserSelections.JOB_POINTS, UserMapper::ofJobPoints);
     }
 
     public CompletableFuture<Map<String, Log>> fetchLog() {
@@ -105,7 +101,7 @@ public class UserAsyncRequestBuilder extends RequestBuilder<UserSelections> {
         return fetchAsync(UserSelections.MESSAGES, UserMapper::ofMessages);
     }
 
-    public CompletableFuture<Missions> fetchMissions() {
+    public CompletableFuture<Map<String, List<Mission>>> fetchMissions() {
         return fetchAsync(UserSelections.MISSIONS, UserMapper::ofMissions);
     }
 
@@ -126,7 +122,7 @@ public class UserAsyncRequestBuilder extends RequestBuilder<UserSelections> {
     }
 
     public CompletableFuture<PersonalStats> fetchPersonalStats() {
-        return fetchAsync(UserSelections.PERSONALSTATS, UserMapper::ofPersonalStats);
+        return fetchAsync(UserSelections.PERSONAL_STATS, UserMapper::ofPersonalStats);
     }
 
     public CompletableFuture<Profile> fetchProfile() {
@@ -150,7 +146,7 @@ public class UserAsyncRequestBuilder extends RequestBuilder<UserSelections> {
     }
 
     public CompletableFuture<Map<Long, Revive>> fetchRevivesFull() {
-        return fetchAsync(UserSelections.REVIVESFULL, UserMapper::ofRevives);
+        return fetchAsync(UserSelections.REVIVES_FULL, UserMapper::ofRevives);
     }
 
     public CompletableFuture<Skills> fetchSkills() {
@@ -166,10 +162,10 @@ public class UserAsyncRequestBuilder extends RequestBuilder<UserSelections> {
     }
 
     public CompletableFuture<List<WeaponExperience>> fetchWeaponExp() {
-        return fetchAsync(UserSelections.WEAPONEXP, UserMapper::ofWeaponExp);
+        return fetchAsync(UserSelections.WEAPON_EXP, UserMapper::ofWeaponExp);
     }
 
     public CompletableFuture<WorkStats> fetchWorkStats() {
-        return fetchAsync(UserSelections.WORKSTATS, UserMapper::ofWorkStats);
+        return fetchAsync(UserSelections.WORK_STATS, UserMapper::ofWorkStats);
     }
 }

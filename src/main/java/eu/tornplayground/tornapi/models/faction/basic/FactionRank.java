@@ -3,9 +3,16 @@ package eu.tornplayground.tornapi.models.faction.basic;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import eu.tornplayground.tornapi.models.Model;
 import eu.tornplayground.tornapi.models.faction.basic.rank.Rank;
+import lombok.AccessLevel;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.experimental.SuperBuilder;
 
 import java.util.Objects;
 
+@Getter
+@SuperBuilder
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class FactionRank extends Model {
     @JsonProperty("level")
     private int level;
@@ -21,29 +28,6 @@ public class FactionRank extends Model {
 
     @JsonProperty("wins")
     private int wins;
-
-    protected FactionRank() {
-    }
-
-    public int getLevel() {
-        return level;
-    }
-
-    public Rank getName() {
-        return name;
-    }
-
-    public int getDivision() {
-        return division;
-    }
-
-    public int getPosition() {
-        return position;
-    }
-
-    public int getWins() {
-        return wins;
-    }
 
     @Override
     public boolean equals(Object o) {

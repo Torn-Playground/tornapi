@@ -5,10 +5,17 @@ import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import eu.tornplayground.tornapi.models.Model;
 import eu.tornplayground.tornapi.models.common.PlayerState;
 import eu.tornplayground.tornapi.models.converters.EpochLocalDateTimeConverter;
+import lombok.AccessLevel;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.experimental.SuperBuilder;
 
 import java.time.LocalDateTime;
 import java.util.Objects;
 
+@Getter
+@SuperBuilder
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class Status extends Model {
 
     @JsonProperty("description")
@@ -26,30 +33,6 @@ public class Status extends Model {
 
     @JsonProperty("color")
     private Color color;
-
-
-    protected Status() {
-    }
-
-    public String getDescription() {
-        return description;
-    }
-
-    public String getDetails() {
-        return details;
-    }
-
-    public PlayerState getState() {
-        return state;
-    }
-
-    public LocalDateTime getUntil() {
-        return until;
-    }
-
-    public Color getColor() {
-        return color;
-    }
 
     @Override
     public boolean equals(Object o) {

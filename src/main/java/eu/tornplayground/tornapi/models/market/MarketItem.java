@@ -1,39 +1,26 @@
 package eu.tornplayground.tornapi.models.market;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import lombok.AccessLevel;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.experimental.SuperBuilder;
 
 import java.util.Objects;
 
+@Getter
+@SuperBuilder
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class MarketItem {
 
     @JsonProperty("ID")
     private long id;
+
+    @JsonProperty("cost")
     private long cost;
+
+    @JsonProperty("quantity")
     private long quantity;
-
-    public long getId() {
-        return id;
-    }
-
-    public void setId(long id) {
-        this.id = id;
-    }
-
-    public long getCost() {
-        return cost;
-    }
-
-    public void setCost(long cost) {
-        this.cost = cost;
-    }
-
-    public long getQuantity() {
-        return quantity;
-    }
-
-    public void setQuantity(long quantity) {
-        this.quantity = quantity;
-    }
 
     @Override
     public boolean equals(Object o) {

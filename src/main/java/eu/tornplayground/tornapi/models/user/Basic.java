@@ -4,57 +4,33 @@ import eu.tornplayground.tornapi.models.Model;
 import eu.tornplayground.tornapi.models.user.partial.Gender;
 import eu.tornplayground.tornapi.models.user.partial.Status;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import lombok.AccessLevel;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.experimental.SuperBuilder;
 
 import java.util.Objects;
 
+@Getter
+@SuperBuilder
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class Basic extends Model {
 
+
+    @JsonProperty("level")
     private int level;
+
+    @JsonProperty("gender")
     private Gender gender;
+
     @JsonProperty("player_id")
     private long playerId;
+
+    @JsonProperty("name")
     private String name;
+
+    @JsonProperty("status")
     private Status status;
-
-    public int getLevel() {
-        return level;
-    }
-
-    public void setLevel(int level) {
-        this.level = level;
-    }
-
-    public Gender getGender() {
-        return gender;
-    }
-
-    public void setGender(Gender gender) {
-        this.gender = gender;
-    }
-
-    public long getPlayerId() {
-        return playerId;
-    }
-
-    public void setPlayerId(long playerId) {
-        this.playerId = playerId;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public Status getStatus() {
-        return status;
-    }
-
-    public void setStatus(Status status) {
-        this.status = status;
-    }
 
     @Override
     public boolean equals(Object o) {
