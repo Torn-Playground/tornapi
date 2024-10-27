@@ -4,17 +4,19 @@ import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.MapperFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.json.JsonMapper;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import eu.tornplayground.tornapi.models.Timestamp;
 import eu.tornplayground.tornapi.models.TornError;
 
 public abstract class ModelMapper {
 
-    protected static final ObjectMapper OBJECT_MAPPER = new ObjectMapper()
-            .registerModule(new JavaTimeModule())
+    protected static final ObjectMapper OBJECT_MAPPER = JsonMapper.builder()
+            .addModule(new JavaTimeModule())
             .configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false)
             .configure(MapperFeature.ACCEPT_CASE_INSENSITIVE_ENUMS, true)
-            .configure(MapperFeature.CAN_OVERRIDE_ACCESS_MODIFIERS, true);
+            .configure(MapperFeature.CAN_OVERRIDE_ACCESS_MODIFIERS, true)
+            .build();
 
     protected ModelMapper() {
     }
