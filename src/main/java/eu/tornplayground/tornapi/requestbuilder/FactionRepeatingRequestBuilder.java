@@ -11,6 +11,7 @@ import java.util.List;
 import java.util.function.Consumer;
 
 public class FactionRepeatingRequestBuilder extends RequestBuilder<FactionSelections> {
+
     public FactionRepeatingRequestBuilder(TornApi tornApi) {
         super(tornApi, "faction");
     }
@@ -21,23 +22,24 @@ public class FactionRepeatingRequestBuilder extends RequestBuilder<FactionSelect
         return this;
     }
 
-     public RepeatingRequestTask<FactionBasic> repeatBasic(int intervalInSeconds, Consumer<FactionBasic> consumer) {
-        return repeating(FactionSelections.BASIC, intervalInSeconds,FactionMapper::ofBasic, consumer);
+    public RepeatingRequestTask<FactionBasic> repeatBasic(int intervalInSeconds, Consumer<FactionBasic> consumer) {
+        return repeating(FactionSelections.BASIC, intervalInSeconds, FactionMapper::ofBasic, consumer);
     }
 
-     public RepeatingRequestTask<List<FactionAttacks>> repeatAttacks(int intervalInSeconds, Consumer<List<FactionAttacks>> consumer) {
-        return repeating(FactionSelections.ATTACKS, intervalInSeconds,FactionMapper::ofAttacks, consumer);
+    public RepeatingRequestTask<List<FactionAttacks>> repeatAttacks(int intervalInSeconds, Consumer<List<FactionAttacks>> consumer) {
+        return repeating(FactionSelections.ATTACKS, intervalInSeconds, FactionMapper::ofAttacks, consumer);
     }
 
-     public RepeatingRequestTask<List<FactionAttacksFull>> repeatAttacksFull(int intervalInSeconds, Consumer<List<FactionAttacksFull>> consumer) {
-        return repeating(FactionSelections.ATTACKSFULL, intervalInSeconds,FactionMapper::ofAttacksFull, consumer);
+    public RepeatingRequestTask<List<FactionAttacksFull>> repeatAttacksFull(int intervalInSeconds, Consumer<List<FactionAttacksFull>> consumer) {
+        return repeating(FactionSelections.ATTACKSFULL, intervalInSeconds, FactionMapper::ofAttacksFull, consumer);
     }
 
-     public RepeatingRequestTask<List<RankedWar>> repeatRankedWars(int intervalInSeconds, Consumer<List<RankedWar>> consumer) {
-        return repeating(FactionSelections.RANKEDWARS, intervalInSeconds,FactionMapper::ofRankedWar, consumer);
+    public RepeatingRequestTask<List<RankedWar>> repeatRankedWars(int intervalInSeconds, Consumer<List<RankedWar>> consumer) {
+        return repeating(FactionSelections.RANKEDWARS, intervalInSeconds, FactionMapper::ofRankedWar, consumer);
     }
 
-     public RepeatingRequestTask<Chain> repeatChain(int intervalInSeconds, Consumer<Chain> consumer) {
-        return repeating(FactionSelections.CHAIN, intervalInSeconds,FactionMapper::ofChain, consumer);
+    public RepeatingRequestTask<Chain> repeatChain(int intervalInSeconds, Consumer<Chain> consumer) {
+        return repeating(FactionSelections.CHAIN, intervalInSeconds, FactionMapper::ofChain, consumer);
     }
+
 }

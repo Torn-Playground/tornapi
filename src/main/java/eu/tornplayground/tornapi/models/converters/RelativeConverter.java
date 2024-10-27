@@ -34,4 +34,5 @@ public class RelativeConverter extends StdConverter<String, Duration> {
 
         throw new IllegalArgumentException("Invalid time format: " + relativeString);
     }
+
 }

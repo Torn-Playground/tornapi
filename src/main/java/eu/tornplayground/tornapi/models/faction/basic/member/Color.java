@@ -5,6 +5,7 @@ import lombok.Getter;
 
 @Getter
 public enum Color {
+
     BLUE("blue"),
     GREEN("green"),
     RED("red");
@@ -24,4 +25,5 @@ public enum Color {
         }
         return null;
     }
+
 }

@@ -4,15 +4,12 @@ import java.util.Deque;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentLinkedDeque;
-import java.util.concurrent.TimeUnit;
-import java.util.concurrent.locks.Condition;
-import java.util.concurrent.locks.Lock;
-import java.util.concurrent.locks.ReentrantLock;
 
 /**
  * Limits the number of requests per given time frame per API key.
  */
 public class RequestLimiter {
+
     private final Map<String, Deque<Long>> keyTimestampMap = new ConcurrentHashMap<>();
     private final short maxRequests;
     private final int timeFrameInMilliseconds;
@@ -84,4 +81,5 @@ public class RequestLimiter {
     private void removeRequest(String apiKey, long timestamp) {
         keyTimestampMap.computeIfAbsent(apiKey, k -> new ConcurrentLinkedDeque<>()).remove(timestamp);
     }
+
 }

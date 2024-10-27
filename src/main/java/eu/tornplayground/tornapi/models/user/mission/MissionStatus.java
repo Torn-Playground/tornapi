@@ -5,6 +5,7 @@ import lombok.Getter;
 
 @Getter
 public enum MissionStatus {
+
     COMPLETED("completed"),
     FAILED("failed"),
     ACCEPTED("accepted"),
@@ -25,4 +26,5 @@ public enum MissionStatus {
         }
         return null;
     }
+    
 }

@@ -5,6 +5,7 @@ import eu.tornplayground.tornapi.TornApi;
 import eu.tornplayground.tornapi.selections.CompanySelections;
 
 public class CompanyRequestBuilder extends RequestBuilder<CompanySelections> {
+
     public CompanyRequestBuilder(TornApi tornApi) {
         super(tornApi, "company");
     }
@@ -14,4 +15,5 @@ public class CompanyRequestBuilder extends RequestBuilder<CompanySelections> {
         super.withTornErrorException(throwError);
         return this;
     }
+
 }

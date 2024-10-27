@@ -3,15 +3,15 @@ package eu.tornplayground.tornapi.models.faction.attacks;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import eu.tornplayground.tornapi.models.Model;
 import lombok.AccessLevel;
+import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.experimental.SuperBuilder;
 
-import java.util.Objects;
-
 @Getter
 @SuperBuilder
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
+@EqualsAndHashCode(callSuper = false)
 public class Modifiers extends Model {
 
     @JsonProperty("fair_fight")
@@ -35,16 +35,4 @@ public class Modifiers extends Model {
     @JsonProperty("warlord_bonus")
     private float warlordBonus;
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (!(o instanceof Modifiers)) return false;
-        Modifiers modifiers = (Modifiers) o;
-        return Float.compare(fairFight, modifiers.fairFight) == 0 && Float.compare(war, modifiers.war) == 0 && Float.compare(retaliation, modifiers.retaliation) == 0 && Float.compare(groupAttack, modifiers.groupAttack) == 0 && Float.compare(overseas, modifiers.overseas) == 0 && Float.compare(chainBonus, modifiers.chainBonus) == 0 && Float.compare(warlordBonus, modifiers.warlordBonus) == 0;
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(fairFight, war, retaliation, groupAttack, overseas, chainBonus, warlordBonus);
-    }
 }

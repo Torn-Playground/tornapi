@@ -20,7 +20,6 @@ import java.util.stream.Collectors;
 
 public abstract class RequestBuilder<T extends Selection> {
 
-
     private final TornApi tornApi;
     private final String section;
 
@@ -229,7 +228,7 @@ public abstract class RequestBuilder<T extends Selection> {
 
     protected <V> RepeatingRequestTask<V> repeating(T selection, long intervalInSeconds, Function<JsonNode, V> mapping, Consumer<V> consumer) {
         withSelections(selection);
-        return new RepeatingRequestTask<V>(intervalInSeconds, this, consumer)
+        return new RepeatingRequestTask<>(intervalInSeconds, this, consumer)
                 .withMapping(mapping);
     }
 }

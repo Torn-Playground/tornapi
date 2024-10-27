@@ -9,6 +9,7 @@ import eu.tornplayground.tornapi.selections.KeySelections;
 import java.util.concurrent.CompletableFuture;
 
 public class KeyAsyncRequestBuilder extends RequestBuilder<KeySelections> {
+
     public KeyAsyncRequestBuilder(TornApi tornApi) {
         super(tornApi, "key");
     }
@@ -22,4 +23,5 @@ public class KeyAsyncRequestBuilder extends RequestBuilder<KeySelections> {
     public CompletableFuture<KeyInfo> fetchInfo() {
         return fetchAsync(KeySelections.INFO, KeyMapper::ofInfo);
     }
+
 }

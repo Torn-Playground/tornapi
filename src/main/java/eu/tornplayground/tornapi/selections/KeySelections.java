@@ -1,6 +1,6 @@
 package eu.tornplayground.tornapi.selections;
 
-public enum KeySelections  implements Selection {
+public enum KeySelections implements Selection {
 
     INFO;
 

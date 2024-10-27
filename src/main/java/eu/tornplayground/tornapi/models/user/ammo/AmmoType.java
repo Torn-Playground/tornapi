@@ -5,6 +5,7 @@ import lombok.Getter;
 
 @Getter
 public enum AmmoType {
+
     HOLLOW_POINT("Hollow Point"),
     INCENDIARY("Incendiary"),
     PIERCING("Piercing"),
@@ -26,4 +27,5 @@ public enum AmmoType {
         }
         return null;
     }
+
 }

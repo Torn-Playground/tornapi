@@ -15,6 +15,7 @@ import java.util.List;
 import java.util.Map;
 
 public class MarketRequestBuilder extends RequestBuilder<ItemMarketSelections> {
+
     public MarketRequestBuilder(TornApi tornApi) {
         super(tornApi, "market");
     }
@@ -36,4 +37,5 @@ public class MarketRequestBuilder extends RequestBuilder<ItemMarketSelections> {
     public Map<Long, PointOrder> fetchPointsMarket() throws TornHttpException, TornErrorException, RequestLimitReachedException, IOException {
         return fetch(ItemMarketSelections.POINTSMARKET, MarketMapper::ofPointsMarket);
     }
+
 }

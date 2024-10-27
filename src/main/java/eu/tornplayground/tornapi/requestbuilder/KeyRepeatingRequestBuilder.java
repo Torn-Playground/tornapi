@@ -10,6 +10,7 @@ import eu.tornplayground.tornapi.selections.KeySelections;
 import java.util.function.Consumer;
 
 public class KeyRepeatingRequestBuilder extends RequestBuilder<KeySelections> {
+
     public KeyRepeatingRequestBuilder(TornApi tornApi) {
         super(tornApi, "key");
     }
@@ -21,6 +22,7 @@ public class KeyRepeatingRequestBuilder extends RequestBuilder<KeySelections> {
     }
 
     public RepeatingRequestTask<KeyInfo> repeatInfo(int intervalInSeconds, Consumer<KeyInfo> consumer) {
-        return repeating(KeySelections.INFO, intervalInSeconds,KeyMapper::ofInfo, consumer);
+        return repeating(KeySelections.INFO, intervalInSeconds, KeyMapper::ofInfo, consumer);
     }
+
 }

@@ -11,6 +11,7 @@ import java.util.Map;
 import java.util.concurrent.CompletableFuture;
 
 public class TornAsyncRequestBuilder extends RequestBuilder<TornSelections> {
+
     public TornAsyncRequestBuilder(TornApi tornApi) {
         super(tornApi, "torn");
     }
@@ -44,4 +45,5 @@ public class TornAsyncRequestBuilder extends RequestBuilder<TornSelections> {
     public CompletableFuture<PawnShop> fetchPawnShop() {
         return fetchAsync(TornSelections.PAWNSHOP, TornMapper::ofPawnShop);
     }
+
 }

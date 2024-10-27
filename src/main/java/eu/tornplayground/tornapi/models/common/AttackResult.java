@@ -5,6 +5,7 @@ import lombok.Getter;
 
 @Getter
 public enum AttackResult {
+
     ARRESTED("Arrested"),
     ASSIST("Assist"),
     ATTACKED("Attacked"),
@@ -38,4 +39,5 @@ public enum AttackResult {
     public String toString() {
         return result;
     }
+
 }

@@ -5,6 +5,7 @@ import lombok.Getter;
 
 @Getter
 public enum StatInfoType {
+
     MERITS("Merits"),
     FACTION("Faction"),
     EDUCATION("Education"),
@@ -26,4 +27,5 @@ public enum StatInfoType {
         }
         return UNKNOWN;
     }
+
 }

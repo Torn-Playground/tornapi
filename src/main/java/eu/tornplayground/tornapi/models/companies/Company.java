@@ -1,19 +1,20 @@
 package eu.tornplayground.tornapi.models.companies;
 
-import eu.tornplayground.tornapi.models.converters.DayDurationConverter;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import eu.tornplayground.tornapi.models.converters.DayDurationConverter;
 import lombok.AccessLevel;
+import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.experimental.SuperBuilder;
 
 import java.time.Duration;
-import java.util.Objects;
 
 @Getter
 @SuperBuilder
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
+@EqualsAndHashCode(callSuper = false)
 public class Company {
 
     @JsonProperty("ID")
@@ -52,18 +53,5 @@ public class Company {
     @JsonProperty("days_old")
     @JsonDeserialize(converter = DayDurationConverter.class)
     private Duration daysOld;
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        Company company = (Company) o;
-        return id == company.id && typeId == company.typeId && rating == company.rating && director == company.director && employees == company.employees && capacity == company.capacity && dailyIncome == company.dailyIncome && dailyCustomers == company.dailyCustomers && weeklyIncome == company.weeklyIncome && weeklyCustomers == company.weeklyCustomers && daysOld == company.daysOld && Objects.equals(name, company.name);
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(id, typeId, rating, name, director, employees, capacity, dailyIncome, dailyCustomers, weeklyIncome, weeklyCustomers, daysOld);
-    }
 
 }

@@ -1,20 +1,21 @@
 package eu.tornplayground.tornapi.models.torn;
 
-import eu.tornplayground.tornapi.models.Model;
-import eu.tornplayground.tornapi.models.converters.EpochLocalDateTimeConverter;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import eu.tornplayground.tornapi.models.Model;
+import eu.tornplayground.tornapi.models.converters.EpochLocalDateTimeConverter;
 import lombok.AccessLevel;
+import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.experimental.SuperBuilder;
 
 import java.time.LocalDateTime;
-import java.util.Objects;
 
 @Getter
 @SuperBuilder
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
+@EqualsAndHashCode(callSuper = false)
 public class TornStats extends Model {
 
     @JsonDeserialize(converter = EpochLocalDateTimeConverter.class)
@@ -292,18 +293,5 @@ public class TornStats extends Model {
 
     @JsonProperty("total_statenhancers_used")
     private long totalStatenhancersUsed;
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        TornStats tornStats = (TornStats) o;
-        return usersTotal == tornStats.usersTotal && usersMale == tornStats.usersMale && usersFemale == tornStats.usersFemale && usersMarriedCouples == tornStats.usersMarriedCouples && usersDaily == tornStats.usersDaily && totalUsersLogins == tornStats.totalUsersLogins && Double.compare(tornStats.totalUsersPlaytime, totalUsersPlaytime) == 0 && jobArmy == tornStats.jobArmy && jobGrocer == tornStats.jobGrocer && jobMedical == tornStats.jobMedical && jobCasino == tornStats.jobCasino && jobEducation == tornStats.jobEducation && jobLaw == tornStats.jobLaw && jobCompany == tornStats.jobCompany && jobNone == tornStats.jobNone && crimes == tornStats.crimes && jailed == tornStats.jailed && moneyOnHand == tornStats.moneyOnHand && moneyAverage == tornStats.moneyAverage && moneyCityBank == tornStats.moneyCityBank && items == tornStats.items && events == tornStats.events && pointsTotal == tornStats.pointsTotal && pointsMarket == tornStats.pointsMarket && pointsAverageCost == tornStats.pointsAverageCost && pointsBought == tornStats.pointsBought && totalPointsBoughtTotal == tornStats.totalPointsBoughtTotal && totalAttacksWon == tornStats.totalAttacksWon && totalAttacksLost == tornStats.totalAttacksLost && totalAttacksStalemated == tornStats.totalAttacksStalemated && totalAttacksRunaway == tornStats.totalAttacksRunaway && totalAttacksHits == tornStats.totalAttacksHits && totalAttacksMisses == tornStats.totalAttacksMisses && totalAttacksCriticalHits == tornStats.totalAttacksCriticalHits && totalAttacksRoundsFired == tornStats.totalAttacksRoundsFired && totalAttacksStealthed == tornStats.totalAttacksStealthed && totalAttacksMoneyMugged == tornStats.totalAttacksMoneyMugged && totalAttacksRespectGained == tornStats.totalAttacksRespectGained && totalItemsMarketBought == tornStats.totalItemsMarketBought && totalItemsBazaarBought == tornStats.totalItemsBazaarBought && totalItemsAuctionsWon == tornStats.totalItemsAuctionsWon && totalItemsSent == tornStats.totalItemsSent && totalTrades == tornStats.totalTrades && totalItemsBazaarIncome == tornStats.totalItemsBazaarIncome && totalItemsCityFinds == tornStats.totalItemsCityFinds && totalItemsDumpFinds == tornStats.totalItemsDumpFinds && totalItemsDumped == tornStats.totalItemsDumped && totalJailJailed == tornStats.totalJailJailed && totalJailBusted == tornStats.totalJailBusted && totalJailBusts == tornStats.totalJailBusts && totalJailBailed == tornStats.totalJailBailed && totalJailBailCosts == tornStats.totalJailBailCosts && totalHospitalTrips == tornStats.totalHospitalTrips && totalHospitalMedicalItemsUsed == tornStats.totalHospitalMedicalItemsUsed && totalHospitalRevived == tornStats.totalHospitalRevived && totalMailsSent == tornStats.totalMailsSent && totalMailsSentFriends == tornStats.totalMailsSentFriends && totalMailsSentFaction == tornStats.totalMailsSentFaction && totalMailsSentCompany == tornStats.totalMailsSentCompany && totalMailsSentSpouse == tornStats.totalMailsSentSpouse && totalClassifiedAdsPlaced == tornStats.totalClassifiedAdsPlaced && totalBountyPlaced == tornStats.totalBountyPlaced && totalBountyRewards == tornStats.totalBountyRewards && totalTravelAll == tornStats.totalTravelAll && totalTravelArgentina == tornStats.totalTravelArgentina && totalTravelMexico == tornStats.totalTravelMexico && totalTravelDubai == tornStats.totalTravelDubai && totalTravelHawaii == tornStats.totalTravelHawaii && totalTravelJapan == tornStats.totalTravelJapan && totalTravelUnitedKingdom == tornStats.totalTravelUnitedKingdom && totalTravelSouthAfrica == tornStats.totalTravelSouthAfrica && totalTravelSwitzerland == tornStats.totalTravelSwitzerland && totalTravelChina == tornStats.totalTravelChina && totalTravelCanada == tornStats.totalTravelCanada && totalTravelCaymanIslands == tornStats.totalTravelCaymanIslands && totalDrugsUsed == tornStats.totalDrugsUsed && totalDrugsOverdosed == tornStats.totalDrugsOverdosed && totalDrugsCannabis == tornStats.totalDrugsCannabis && totalDrugsEcstacy == tornStats.totalDrugsEcstacy && totalDrugsKetamine == tornStats.totalDrugsKetamine && totalDrugsLsd == tornStats.totalDrugsLsd && totalDrugsOpium == tornStats.totalDrugsOpium && totalDrugsShrooms == tornStats.totalDrugsShrooms && totalDrugsSpeed == tornStats.totalDrugsSpeed && totalDrugsPcp == tornStats.totalDrugsPcp && totalDrugsXanax == tornStats.totalDrugsXanax && totalDrugsVicodin == tornStats.totalDrugsVicodin && totalMeritsBought == tornStats.totalMeritsBought && totalRefillsBought == tornStats.totalRefillsBought && totalCompanyTrains == tornStats.totalCompanyTrains && totalStatenhancersUsed == tornStats.totalStatenhancersUsed && Objects.equals(timestamp, tornStats.timestamp);
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(timestamp, usersTotal, usersMale, usersFemale, usersMarriedCouples, usersDaily, totalUsersLogins, totalUsersPlaytime, jobArmy, jobGrocer, jobMedical, jobCasino, jobEducation, jobLaw, jobCompany, jobNone, crimes, jailed, moneyOnHand, moneyAverage, moneyCityBank, items, events, pointsTotal, pointsMarket, pointsAverageCost, pointsBought, totalPointsBoughtTotal, totalAttacksWon, totalAttacksLost, totalAttacksStalemated, totalAttacksRunaway, totalAttacksHits, totalAttacksMisses, totalAttacksCriticalHits, totalAttacksRoundsFired, totalAttacksStealthed, totalAttacksMoneyMugged, totalAttacksRespectGained, totalItemsMarketBought, totalItemsBazaarBought, totalItemsAuctionsWon, totalItemsSent, totalTrades, totalItemsBazaarIncome, totalItemsCityFinds, totalItemsDumpFinds, totalItemsDumped, totalJailJailed, totalJailBusted, totalJailBusts, totalJailBailed, totalJailBailCosts, totalHospitalTrips, totalHospitalMedicalItemsUsed, totalHospitalRevived, totalMailsSent, totalMailsSentFriends, totalMailsSentFaction, totalMailsSentCompany, totalMailsSentSpouse, totalClassifiedAdsPlaced, totalBountyPlaced, totalBountyRewards, totalTravelAll, totalTravelArgentina, totalTravelMexico, totalTravelDubai, totalTravelHawaii, totalTravelJapan, totalTravelUnitedKingdom, totalTravelSouthAfrica, totalTravelSwitzerland, totalTravelChina, totalTravelCanada, totalTravelCaymanIslands, totalDrugsUsed, totalDrugsOverdosed, totalDrugsCannabis, totalDrugsEcstacy, totalDrugsKetamine, totalDrugsLsd, totalDrugsOpium, totalDrugsShrooms, totalDrugsSpeed, totalDrugsPcp, totalDrugsXanax, totalDrugsVicodin, totalMeritsBought, totalRefillsBought, totalCompanyTrains, totalStatenhancersUsed);
-    }
 
 }

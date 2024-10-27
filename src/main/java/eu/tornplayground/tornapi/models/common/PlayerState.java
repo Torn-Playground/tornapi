@@ -7,6 +7,7 @@ import java.io.Serializable;
 
 @Getter
 public enum PlayerState implements Serializable {
+
     OKAY("Okay"),
     JAIL("Jail"),
     HOSPITAL("Hospital"),
@@ -35,4 +36,5 @@ public enum PlayerState implements Serializable {
     public String toString() {
         return this.state;
     }
+
 }

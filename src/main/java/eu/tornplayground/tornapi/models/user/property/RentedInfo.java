@@ -5,17 +5,19 @@ import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import eu.tornplayground.tornapi.models.Model;
 import eu.tornplayground.tornapi.models.converters.DayDurationConverter;
 import lombok.AccessLevel;
+import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.experimental.SuperBuilder;
 
 import java.time.Duration;
-import java.util.Objects;
 
 @Getter
 @SuperBuilder
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
+@EqualsAndHashCode(callSuper = false)
 public class RentedInfo extends Model {
+
     @JsonProperty("cost_per_day")
     private int costPerDay;
 
@@ -29,16 +31,4 @@ public class RentedInfo extends Model {
     @JsonProperty("user_id")
     private long userId;
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (!(o instanceof RentedInfo)) return false;
-        RentedInfo that = (RentedInfo) o;
-        return costPerDay == that.costPerDay && totalCost == that.totalCost && userId == that.userId && Objects.equals(daysLeft, that.daysLeft);
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(costPerDay, daysLeft, totalCost, userId);
-    }
 }

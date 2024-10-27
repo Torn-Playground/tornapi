@@ -2,10 +2,10 @@ package eu.tornplayground.tornapi.models;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
 
 @Getter
 public enum TornErrorType {
+
     UNKNOWN_ERROR(0, "Unknown error: Unhandled error, should not occur."),
     KEY_EMPTY(1, "Key is empty: Private key is empty in current request."),
     INCORRECT_KEY(2, "Incorrect Key: Private key is wrong/incorrect format."),
@@ -34,14 +34,6 @@ public enum TornErrorType {
         this.message = message;
     }
 
-    public int getCode() {
-        return code;
-    }
-
-    public String getMessage() {
-        return message;
-    }
-
     @JsonCreator
     public static TornErrorType fromMessage(String message) {
         for (TornErrorType error : values()) {
@@ -60,4 +52,5 @@ public enum TornErrorType {
         }
         return UNKNOWN_ERROR;
     }
+    
 }

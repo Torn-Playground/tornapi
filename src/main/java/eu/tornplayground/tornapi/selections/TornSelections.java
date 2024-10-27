@@ -1,6 +1,6 @@
 package eu.tornplayground.tornapi.selections;
 
-public enum TornSelections  implements Selection {
+public enum TornSelections implements Selection {
 
     BANK,
     CARDS,

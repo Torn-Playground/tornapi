@@ -1,6 +1,7 @@
 package eu.tornplayground.tornapi.selections;
 
 public enum CompanySelections implements Selection {
+
     COMPANIES,
     APPLICATIONS,
     DETAILED,

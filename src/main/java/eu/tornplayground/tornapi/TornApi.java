@@ -9,6 +9,7 @@ import eu.tornplayground.tornapi.limiter.RequestLimiter;
 import eu.tornplayground.tornapi.requestbuilder.*;
 
 public class TornApi {
+
     private final ApiConnector connector;
     private final KeyProvider keyProvider;
     private RequestLimiter requestLimiter;
@@ -163,4 +164,5 @@ public class TornApi {
     public KeyRepeatingRequestBuilder forKeyRepeating() {
         return new KeyRepeatingRequestBuilder(this);
     }
+
 }

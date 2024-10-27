@@ -6,16 +6,17 @@ import eu.tornplayground.tornapi.models.common.PlayerState;
 import eu.tornplayground.tornapi.models.converters.EpochLocalDateTimeConverter;
 import eu.tornplayground.tornapi.models.faction.basic.member.Color;
 import lombok.AccessLevel;
+import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.experimental.SuperBuilder;
 
 import java.time.LocalDateTime;
-import java.util.Objects;
 
 @Getter
 @SuperBuilder
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
+@EqualsAndHashCode(callSuper = false)
 public class Status {
 
     @JsonProperty("description")
@@ -33,16 +34,4 @@ public class Status {
     @JsonDeserialize(converter = EpochLocalDateTimeConverter.class)
     private LocalDateTime until;
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        Status status = (Status) o;
-        return Objects.equals(description, status.description) && Objects.equals(details, status.details) && state == status.state && Objects.equals(color, status.color) && Objects.equals(until, status.until);
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(description, details, state, color, until);
-    }
 }

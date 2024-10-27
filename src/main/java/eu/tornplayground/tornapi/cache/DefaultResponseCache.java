@@ -11,6 +11,7 @@ import java.util.concurrent.TimeUnit;
  * Caches responses for 30 seconds, which is the default limitation of the Torn API.
  */
 public class DefaultResponseCache implements ResponseCache {
+
     private final Cache<Integer, JsonNode> cache;
 
     public DefaultResponseCache() {
@@ -33,4 +34,5 @@ public class DefaultResponseCache implements ResponseCache {
     public boolean contains(Integer requestDataHash) {
         return cache.getIfPresent(requestDataHash) != null;
     }
+
 }

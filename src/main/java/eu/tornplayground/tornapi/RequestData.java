@@ -1,9 +1,14 @@
 package eu.tornplayground.tornapi;
 
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+
 import java.util.Map;
 import java.util.Objects;
 import java.util.Set;
 
+@Getter
+@AllArgsConstructor
 public class RequestData {
 
     private final String key;
@@ -13,34 +18,6 @@ public class RequestData {
     private final Set<String> selections;
     private final Map<String, Object> parameters;
 
-    public RequestData(String key, String id, String section, Set<String> selections, Map<String, Object> parameters) {
-        this.key = key;
-        this.id = id;
-        this.section = section;
-        this.selections = selections;
-        this.parameters = parameters;
-    }
-
-    public String getKey() {
-        return key;
-    }
-
-    public String getId() {
-        return id;
-    }
-
-    public String getSection() {
-        return section;
-    }
-
-    public Set<String> getSelections() {
-        return selections;
-    }
-
-    public Map<String, Object> getParameters() {
-        return parameters;
-    }
-
     /**
      * Hash the request data for caching.
      * Excludes the parameters as they are not used for caching.
@@ -48,4 +25,5 @@ public class RequestData {
     public int cacheHash() {
         return Objects.hash(key, id, section, selections);
     }
+
 }

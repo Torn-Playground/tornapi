@@ -7,6 +7,7 @@ import java.io.Serializable;
 
 @Getter
 public enum OnlineStatus implements Serializable {
+
     OFFLINE("Offline"),
     ONLINE("Online"),
     IDLE("Idle");
@@ -31,4 +32,5 @@ public enum OnlineStatus implements Serializable {
     public String toString() {
         return this.status;
     }
+
 }

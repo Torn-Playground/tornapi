@@ -5,6 +5,7 @@ import eu.tornplayground.tornapi.TornApi;
 import eu.tornplayground.tornapi.selections.PropertiesSelections;
 
 public class PropertyAsyncRequestBuilder extends RequestBuilder<PropertiesSelections> {
+
     public PropertyAsyncRequestBuilder(TornApi tornApi) {
         super(tornApi, "property");
     }
@@ -14,4 +15,5 @@ public class PropertyAsyncRequestBuilder extends RequestBuilder<PropertiesSelect
         super.withTornErrorException(throwError);
         return this;
     }
+
 }

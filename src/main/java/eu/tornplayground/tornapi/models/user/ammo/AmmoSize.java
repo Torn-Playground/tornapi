@@ -5,6 +5,7 @@ import lombok.Getter;
 
 @Getter
 public enum AmmoSize {
+
     ACP_25_ROUND(".25 ACP Round"),
     ACP_380_ROUND(".380 ACP Round"),
     SPECIAL_44_ROUND(".44 Special Round"),
@@ -40,4 +41,5 @@ public enum AmmoSize {
         }
         return null;
     }
+
 }

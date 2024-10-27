@@ -10,6 +10,7 @@ import java.util.List;
 import java.util.concurrent.CompletableFuture;
 
 public class FactionAsyncRequestBuilder extends RequestBuilder<FactionSelections> {
+
     public FactionAsyncRequestBuilder(TornApi tornApi) {
         super(tornApi, "faction");
     }
@@ -20,23 +21,24 @@ public class FactionAsyncRequestBuilder extends RequestBuilder<FactionSelections
         return this;
     }
 
-     public CompletableFuture<FactionBasic> fetchBasic() {
+    public CompletableFuture<FactionBasic> fetchBasic() {
         return fetchAsync(FactionSelections.BASIC, FactionMapper::ofBasic);
     }
 
-     public CompletableFuture<List<FactionAttacks>> fetchAttacks() {
+    public CompletableFuture<List<FactionAttacks>> fetchAttacks() {
         return fetchAsync(FactionSelections.ATTACKS, FactionMapper::ofAttacks);
     }
 
-     public CompletableFuture<List<FactionAttacksFull>> fetchAttacksFull() {
+    public CompletableFuture<List<FactionAttacksFull>> fetchAttacksFull() {
         return fetchAsync(FactionSelections.ATTACKSFULL, FactionMapper::ofAttacksFull);
     }
 
-     public CompletableFuture<List<RankedWar>> fetchRankedWars() {
+    public CompletableFuture<List<RankedWar>> fetchRankedWars() {
         return fetchAsync(FactionSelections.RANKEDWARS, FactionMapper::ofRankedWar);
     }
 
-     public CompletableFuture<Chain> fetchChain() {
+    public CompletableFuture<Chain> fetchChain() {
         return fetchAsync(FactionSelections.CHAIN, FactionMapper::ofChain);
     }
+
 }

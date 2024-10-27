@@ -2,13 +2,10 @@ package eu.tornplayground.tornapi.models.info.keyinfo;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
-
-import java.util.HashMap;
-import java.util.Map;
 
 @Getter
 public enum AccessType {
+
     CUSTOM("Custom"),
     FULL_ACCESS("Full Access"),
     LIMITED_ACCESS("Limited Access"),
@@ -30,4 +27,5 @@ public enum AccessType {
         }
         return null;
     }
+
 }

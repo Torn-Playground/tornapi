@@ -3,16 +3,15 @@ package eu.tornplayground.tornapi.models.user;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import eu.tornplayground.tornapi.models.Model;
 import lombok.AccessLevel;
-import lombok.AllArgsConstructor;
+import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.experimental.SuperBuilder;
 
-import java.util.Objects;
-
 @Getter
 @SuperBuilder
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
+@EqualsAndHashCode(callSuper = false)
 public class Hof extends Model {
 
     public static final String ATTACKS = "attacks";
@@ -34,16 +33,4 @@ public class Hof extends Model {
     @JsonProperty("rank")
     private long rank;
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (!(o instanceof Hof)) return false;
-        Hof hof = (Hof) o;
-        return value == hof.value && rank == hof.rank;
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(value, rank);
-    }
 }

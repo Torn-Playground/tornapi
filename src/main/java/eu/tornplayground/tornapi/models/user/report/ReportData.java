@@ -8,17 +8,18 @@ import eu.tornplayground.tornapi.models.user.report.reportdata.FriendOrFoeUser;
 import eu.tornplayground.tornapi.models.user.report.reportdata.Reference;
 import eu.tornplayground.tornapi.models.user.report.reportdata.Warrant;
 import lombok.AccessLevel;
+import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.experimental.SuperBuilder;
 
 import java.time.LocalDateTime;
 import java.util.List;
-import java.util.Objects;
 
 @Getter
 @SuperBuilder
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
+@EqualsAndHashCode(callSuper = false)
 public class ReportData extends Model {
 
     @JsonProperty("bounties")
@@ -70,16 +71,4 @@ public class ReportData extends Model {
     @JsonProperty("true_level")
     private short trueLevel;
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (!(o instanceof ReportData)) return false;
-        ReportData that = (ReportData) o;
-        return defense == that.defense && dexterity == that.dexterity && investedAmount == that.investedAmount && money == that.money && speed == that.speed && strength == that.strength && trueLevel == that.trueLevel && Objects.equals(bounties, that.bounties) && Objects.equals(companyHistory, that.companyHistory) && Objects.equals(enemyList, that.enemyList) && Objects.equals(factionHistory, that.factionHistory) && Objects.equals(friendList, that.friendList) && Objects.equals(investedCompletion, that.investedCompletion) && Objects.equals(otherList, that.otherList) && Objects.equals(topList, that.topList) && Objects.equals(totalBattleStats, that.totalBattleStats);
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(bounties, companyHistory, defense, dexterity, enemyList, factionHistory, friendList, investedAmount, investedCompletion, money, otherList, speed, strength, topList, totalBattleStats, trueLevel);
-    }
 }

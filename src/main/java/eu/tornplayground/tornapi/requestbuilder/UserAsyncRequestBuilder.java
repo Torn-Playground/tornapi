@@ -11,6 +11,7 @@ import java.util.Map;
 import java.util.concurrent.CompletableFuture;
 
 public class UserAsyncRequestBuilder extends RequestBuilder<UserSelections> {
+
     public UserAsyncRequestBuilder(TornApi tornApi) {
         super(tornApi, "user");
     }
@@ -168,4 +169,5 @@ public class UserAsyncRequestBuilder extends RequestBuilder<UserSelections> {
     public CompletableFuture<WorkStats> fetchWorkStats() {
         return fetchAsync(UserSelections.WORK_STATS, UserMapper::ofWorkStats);
     }
+
 }

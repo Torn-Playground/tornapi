@@ -12,6 +12,7 @@ import eu.tornplayground.tornapi.selections.KeySelections;
 import java.io.IOException;
 
 public class KeyRequestBuilder extends RequestBuilder<KeySelections> {
+
     public KeyRequestBuilder(TornApi tornApi) {
         super(tornApi, "key");
     }
@@ -25,4 +26,5 @@ public class KeyRequestBuilder extends RequestBuilder<KeySelections> {
     public KeyInfo fetchInfo() throws TornHttpException, TornErrorException, RequestLimitReachedException, IOException {
         return fetch(KeySelections.INFO, KeyMapper::ofInfo);
     }
+
 }

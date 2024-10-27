@@ -1,8 +1,11 @@
 package eu.tornplayground.tornapi.models.user.revive;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
+import lombok.Getter;
 
+@Getter
 public enum ReviveResult {
+
     SUCCESS("Success"),
     FAILURE("Failure");
 
@@ -10,10 +13,6 @@ public enum ReviveResult {
 
     ReviveResult(String result) {
         this.result = result;
-    }
-
-    public String getResult() {
-        return result;
     }
 
     @JsonCreator
@@ -25,4 +24,5 @@ public enum ReviveResult {
         }
         return null;
     }
+
 }

@@ -14,6 +14,7 @@ import java.util.List;
 import java.util.Map;
 
 public class UserRequestBuilder extends RequestBuilder<UserSelections> {
+
     public UserRequestBuilder(TornApi tornApi) {
         super(tornApi, "user");
     }
@@ -171,4 +172,5 @@ public class UserRequestBuilder extends RequestBuilder<UserSelections> {
     public WorkStats fetchWorkStats() throws TornHttpException, TornErrorException, RequestLimitReachedException, IOException {
         return fetch(UserSelections.WORK_STATS, UserMapper::ofWorkStats);
     }
+
 }

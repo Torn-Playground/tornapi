@@ -6,18 +6,20 @@ import eu.tornplayground.tornapi.models.Model;
 import eu.tornplayground.tornapi.models.converters.EpochLocalDateTimeConverter;
 import eu.tornplayground.tornapi.models.converters.SecondDurationConverter;
 import lombok.AccessLevel;
+import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.experimental.SuperBuilder;
 
 import java.time.Duration;
 import java.time.LocalDateTime;
-import java.util.Objects;
 
 @Getter
 @SuperBuilder
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
+@EqualsAndHashCode(callSuper = false)
 public class Chain extends Model {
+
     @JsonProperty("current")
     private int current;
 
@@ -43,16 +45,4 @@ public class Chain extends Model {
     @JsonDeserialize(converter = EpochLocalDateTimeConverter.class)
     private LocalDateTime end;
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (!(o instanceof Chain)) return false;
-        Chain chain = (Chain) o;
-        return current == chain.current && max == chain.max && Float.compare(modifier, chain.modifier) == 0 && Objects.equals(timeout, chain.timeout) && Objects.equals(cooldown, chain.cooldown) && Objects.equals(start, chain.start) && Objects.equals(end, chain.end);
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(current, max, timeout, modifier, cooldown, start, end);
-    }
 }
