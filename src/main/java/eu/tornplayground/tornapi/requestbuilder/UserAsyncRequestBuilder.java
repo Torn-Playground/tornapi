@@ -10,46 +10,10 @@ import java.util.List;
 import java.util.Map;
 import java.util.concurrent.CompletableFuture;
 
-public class UserAsyncRequestBuilder extends RequestBuilder<UserSelections> {
+public class UserAsyncRequestBuilder extends RequestBuilder<UserAsyncRequestBuilder, UserSelections> {
 
     public UserAsyncRequestBuilder(TornApi tornApi) {
         super(tornApi, "user");
-    }
-
-    @Override
-    public UserAsyncRequestBuilder withTornErrorException(boolean throwError) {
-        super.withTornErrorException(throwError);
-        return this;
-    }
-
-    @Override
-    public UserAsyncRequestBuilder id(long id) {
-        return (UserAsyncRequestBuilder) super.id(id);
-    }
-
-    @Override
-    public UserAsyncRequestBuilder id(String id) {
-        return (UserAsyncRequestBuilder) super.id(id);
-    }
-
-    @Override
-    public UserAsyncRequestBuilder withComment(String comment) {
-        return (UserAsyncRequestBuilder) super.withComment(comment);
-    }
-
-    @Override
-    public UserAsyncRequestBuilder withParameter(String key, Object value) {
-        return (UserAsyncRequestBuilder) super.withParameter(key, value);
-    }
-
-    @Override
-    public UserAsyncRequestBuilder withSelections(String... selections) {
-        return (UserAsyncRequestBuilder) super.withSelections(selections);
-    }
-
-    @Override
-    public UserAsyncRequestBuilder withKey(String key) {
-        return (UserAsyncRequestBuilder) super.withKey(key);
     }
 
     public CompletableFuture<List<Ammo>> fetchAmmo() {

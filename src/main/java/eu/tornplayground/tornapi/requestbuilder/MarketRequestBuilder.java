@@ -14,46 +14,10 @@ import java.io.IOException;
 import java.util.List;
 import java.util.Map;
 
-public class MarketRequestBuilder extends RequestBuilder<ItemMarketSelections> {
+public class MarketRequestBuilder extends RequestBuilder<MarketRequestBuilder, ItemMarketSelections> {
 
     public MarketRequestBuilder(TornApi tornApi) {
         super(tornApi, "market");
-    }
-
-    @Override
-    public MarketRequestBuilder withTornErrorException(boolean throwError) {
-        super.withTornErrorException(throwError);
-        return this;
-    }
-
-    @Override
-    public MarketRequestBuilder id(long id) {
-        return (MarketRequestBuilder) super.id(id);
-    }
-
-    @Override
-    public MarketRequestBuilder id(String id) {
-        return (MarketRequestBuilder) super.id(id);
-    }
-
-    @Override
-    public MarketRequestBuilder withComment(String comment) {
-        return (MarketRequestBuilder) super.withComment(comment);
-    }
-
-    @Override
-    public MarketRequestBuilder withParameter(String key, Object value) {
-        return (MarketRequestBuilder) super.withParameter(key, value);
-    }
-
-    @Override
-    public MarketRequestBuilder withSelections(String... selections) {
-        return (MarketRequestBuilder) super.withSelections(selections);
-    }
-
-    @Override
-    public MarketRequestBuilder withKey(String key) {
-        return (MarketRequestBuilder) super.withKey(key);
     }
 
     public List<MarketItem> fetchBazaar() throws TornHttpException, TornErrorException, RequestLimitReachedException, IOException {

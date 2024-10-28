@@ -18,7 +18,7 @@ import java.util.function.Consumer;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
-public abstract class RequestBuilder<T extends Selection> {
+public abstract class RequestBuilder<SELF extends RequestBuilder<SELF, T>, T extends Selection> {
 
     private final TornApi tornApi;
     private final String section;
@@ -26,6 +26,7 @@ public abstract class RequestBuilder<T extends Selection> {
     private final Set<String> selections = new HashSet<>();
     private final Map<String, Object> parameters = new HashMap<>();
 
+    protected SELF instance;
     private String key;
     private String overwrittenKey;
     private String id;
@@ -38,6 +39,9 @@ public abstract class RequestBuilder<T extends Selection> {
         this.tornApi = tornApi;
         this.section = section;
         this.comment = tornApi.getComment();
+
+        //noinspection unchecked
+        this.instance = (SELF) this;
     }
 
     protected TornApi getTornApi() {
@@ -47,71 +51,71 @@ public abstract class RequestBuilder<T extends Selection> {
     /**
      * Set the id for the connection.
      */
-    public RequestBuilder<T> id(long id) {
+    public SELF id(long id) {
         return id(Long.toString(id));
     }
 
     /**
      * Set the id for the connection.
      */
-    public RequestBuilder<T> id(String id) {
+    public SELF id(String id) {
         this.id = id;
-        return this;
+        return instance;
     }
 
     /**
      * Add selections to the connection.
      */
     @SafeVarargs
-    public final RequestBuilder<T> withSelections(T... selections) {
+    public final SELF withSelections(T... selections) {
         this.selections.addAll(Arrays.stream(selections)
                 .map(Selection::getSelection)
                 .collect(Collectors.toList()));
-        return this;
+        return instance;
     }
 
     /**
      * Add selections to the connection.
      */
-    public RequestBuilder<T> withSelections(String... selections) {
+    public SELF withSelections(String... selections) {
         this.selections.addAll(List.of(selections));
-        return this;
+        return instance;
     }
 
     /**
      * Add selections to the connection.
      */
-    public RequestBuilder<T> withParameter(String key, Object value) {
+    public SELF withParameter(String key, Object value) {
         this.parameters.put(key, value);
-        return this;
+        return instance;
     }
 
     /**
      * Add selections to the connection.
      */
-    public RequestBuilder<T> withComment(String comment) {
+    public SELF withComment(String comment) {
         this.comment = comment;
-        return this;
+        return instance;
     }
 
     /**
      * Set key to be used by the connection.
      */
-    public RequestBuilder<T> withKey(String key) {
+    public SELF withKey(String key) {
         this.overwrittenKey = key;
         usedProvider = false;
-        return this;
+        return instance;
     }
 
     /**
      * Consume a key using the KeyProvider.
      */
-    public RequestBuilder<T> consumeKey() {
+    public SELF consumeKey() {
         Objects.requireNonNull(tornApi.getKeyProvider());
 
         this.key = tornApi.getKeyProvider().next();
         usedProvider = true;
-        return this;
+        return instance;
     }
 
     protected String getKey() {
@@ -121,9 +125,9 @@ public abstract class RequestBuilder<T extends Selection> {
     /**
      * Catch torn errors and throw a {@link TornErrorException} instead of returning the error in the JsonNode.
      */
-    public RequestBuilder<T> withTornErrorException(boolean throwTornError) {
+    public SELF withTornErrorException(boolean throwTornError) {
         this.throwTornError = throwTornError;
-        return this;
+        return instance;
     }
 
     protected URI buildUri() {
@@ -225,4 +229,5 @@ public abstract class RequestBuilder<T extends Selection> {
         return new RepeatingRequestTask<>(intervalInSeconds, this, consumer)
                 .withMapping(mapping);
     }
+
 }

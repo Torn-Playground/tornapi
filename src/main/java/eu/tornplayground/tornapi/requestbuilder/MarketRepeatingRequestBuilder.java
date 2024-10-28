@@ -12,46 +12,10 @@ import java.util.List;
 import java.util.Map;
 import java.util.function.Consumer;
 
-public class MarketRepeatingRequestBuilder extends RequestBuilder<ItemMarketSelections> {
+public class MarketRepeatingRequestBuilder extends RequestBuilder<MarketRepeatingRequestBuilder, ItemMarketSelections> {
 
     public MarketRepeatingRequestBuilder(TornApi tornApi) {
         super(tornApi, "market");
-    }
-
-    @Override
-    public MarketRepeatingRequestBuilder withTornErrorException(boolean throwError) {
-        super.withTornErrorException(throwError);
-        return this;
-    }
-
-    @Override
-    public MarketRepeatingRequestBuilder id(long id) {
-        return (MarketRepeatingRequestBuilder) super.id(id);
-    }
-
-    @Override
-    public MarketRepeatingRequestBuilder id(String id) {
-        return (MarketRepeatingRequestBuilder) super.id(id);
-    }
-
-    @Override
-    public MarketRepeatingRequestBuilder withComment(String comment) {
-        return (MarketRepeatingRequestBuilder) super.withComment(comment);
-    }
-
-    @Override
-    public MarketRepeatingRequestBuilder withParameter(String key, Object value) {
-        return (MarketRepeatingRequestBuilder) super.withParameter(key, value);
-    }
-
-    @Override
-    public MarketRepeatingRequestBuilder withSelections(String... selections) {
-        return (MarketRepeatingRequestBuilder) super.withSelections(selections);
-    }
-
-    @Override
-    public MarketRepeatingRequestBuilder withKey(String key) {
-        return (MarketRepeatingRequestBuilder) super.withKey(key);
     }
 
     public RepeatingRequestTask<List<MarketItem>> repeatBazaar(int intervalInSeconds, Consumer<List<MarketItem>> consumer) {

@@ -10,46 +10,10 @@ import eu.tornplayground.tornapi.selections.FactionSelections;
 import java.util.List;
 import java.util.function.Consumer;
 
-public class FactionRepeatingRequestBuilder extends RequestBuilder<FactionSelections> {
+public class FactionRepeatingRequestBuilder extends RequestBuilder<FactionRepeatingRequestBuilder, FactionSelections> {
 
     public FactionRepeatingRequestBuilder(TornApi tornApi) {
         super(tornApi, "faction");
-    }
-
-    @Override
-    public FactionRepeatingRequestBuilder withTornErrorException(boolean throwError) {
-        super.withTornErrorException(throwError);
-        return this;
-    }
-
-    @Override
-    public FactionRepeatingRequestBuilder id(long id) {
-        return (FactionRepeatingRequestBuilder) super.id(id);
-    }
-
-    @Override
-    public FactionRepeatingRequestBuilder id(String id) {
-        return (FactionRepeatingRequestBuilder) super.id(id);
-    }
-
-    @Override
-    public FactionRepeatingRequestBuilder withComment(String comment) {
-        return (FactionRepeatingRequestBuilder) super.withComment(comment);
-    }
-
-    @Override
-    public FactionRepeatingRequestBuilder withParameter(String key, Object value) {
-        return (FactionRepeatingRequestBuilder) super.withParameter(key, value);
-    }
-
-    @Override
-    public FactionRepeatingRequestBuilder withSelections(String... selections) {
-        return (FactionRepeatingRequestBuilder) super.withSelections(selections);
-    }
-
-    @Override
-    public FactionRepeatingRequestBuilder withKey(String key) {
-        return (FactionRepeatingRequestBuilder) super.withKey(key);
     }
 
     public RepeatingRequestTask<FactionBasic> repeatBasic(int intervalInSeconds, Consumer<FactionBasic> consumer) {

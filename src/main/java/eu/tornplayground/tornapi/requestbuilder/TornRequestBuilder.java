@@ -13,46 +13,10 @@ import java.io.IOException;
 import java.util.List;
 import java.util.Map;
 
-public class TornRequestBuilder extends RequestBuilder<TornSelections> {
+public class TornRequestBuilder extends RequestBuilder<TornRequestBuilder, TornSelections> {
 
     public TornRequestBuilder(TornApi tornApi) {
         super(tornApi, "torn");
-    }
-
-    @Override
-    public TornRequestBuilder withTornErrorException(boolean throwError) {
-        super.withTornErrorException(throwError);
-        return this;
-    }
-
-    @Override
-    public TornRequestBuilder id(long id) {
-        return (TornRequestBuilder) super.id(id);
-    }
-
-    @Override
-    public TornRequestBuilder id(String id) {
-        return (TornRequestBuilder) super.id(id);
-    }
-
-    @Override
-    public TornRequestBuilder withComment(String comment) {
-        return (TornRequestBuilder) super.withComment(comment);
-    }
-
-    @Override
-    public TornRequestBuilder withParameter(String key, Object value) {
-        return (TornRequestBuilder) super.withParameter(key, value);
-    }
-
-    @Override
-    public TornRequestBuilder withSelections(String... selections) {
-        return (TornRequestBuilder) super.withSelections(selections);
-    }
-
-    @Override
-    public TornRequestBuilder withKey(String key) {
-        return (TornRequestBuilder) super.withKey(key);
     }
 
     public Map<Long, CompanyType> fetchCompanies() throws TornHttpException, TornErrorException, RequestLimitReachedException, IOException {
