@@ -21,6 +21,36 @@ public class FactionAsyncRequestBuilder extends RequestBuilder<FactionSelections
         return this;
     }
 
+    @Override
+    public FactionAsyncRequestBuilder id(long id) {
+        return (FactionAsyncRequestBuilder) super.id(id);
+    }
+
+    @Override
+    public FactionAsyncRequestBuilder id(String id) {
+        return (FactionAsyncRequestBuilder) super.id(id);
+    }
+
+    @Override
+    public FactionAsyncRequestBuilder withComment(String comment) {
+        return (FactionAsyncRequestBuilder) super.withComment(comment);
+    }
+
+    @Override
+    public FactionAsyncRequestBuilder withParameter(String key, Object value) {
+        return (FactionAsyncRequestBuilder) super.withParameter(key, value);
+    }
+
+    @Override
+    public FactionAsyncRequestBuilder withSelections(String... selections) {
+        return (FactionAsyncRequestBuilder) super.withSelections(selections);
+    }
+
+    @Override
+    public FactionAsyncRequestBuilder withKey(String key) {
+        return (FactionAsyncRequestBuilder) super.withKey(key);
+    }
+
     public CompletableFuture<FactionBasic> fetchBasic() {
         return fetchAsync(FactionSelections.BASIC, FactionMapper::ofBasic);
     }

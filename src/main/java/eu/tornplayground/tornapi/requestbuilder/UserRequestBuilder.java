@@ -21,8 +21,37 @@ public class UserRequestBuilder extends RequestBuilder<UserSelections> {
 
     @Override
     public UserRequestBuilder withTornErrorException(boolean throwError) {
-        super.withTornErrorException(throwError);
-        return this;
+        return (UserRequestBuilder) super.withTornErrorException(throwError);
+    }
+
+    @Override
+    public UserRequestBuilder id(long id) {
+        return (UserRequestBuilder) super.id(id);
+    }
+
+    @Override
+    public UserRequestBuilder id(String id) {
+        return (UserRequestBuilder) super.id(id);
+    }
+
+    @Override
+    public UserRequestBuilder withComment(String comment) {
+        return (UserRequestBuilder) super.withComment(comment);
+    }
+
+    @Override
+    public UserRequestBuilder withParameter(String key, Object value) {
+        return (UserRequestBuilder) super.withParameter(key, value);
+    }
+
+    @Override
+    public UserRequestBuilder withSelections(String... selections) {
+        return (UserRequestBuilder) super.withSelections(selections);
+    }
+
+    @Override
+    public UserRequestBuilder withKey(String key) {
+        return (UserRequestBuilder) super.withKey(key);
     }
 
     public List<Ammo> fetchAmmo() throws TornHttpException, TornErrorException, RequestLimitReachedException, IOException {

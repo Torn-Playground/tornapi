@@ -159,13 +159,7 @@ public abstract class RequestBuilder<T extends Selection> {
         }
 
         if (tornApi.getRequestLimiter() != null) {
-            try {
-                tornApi.getRequestLimiter().handleRequest(getKey());
-            } catch (InterruptedException e) {
-                Thread.currentThread().interrupt();
-                // at this point there is an issue with the wrapper itself and the user should not have to "handle" that, because he can't really do anything about it
-                throw new RuntimeException("Something went horribly wrong, while waiting for the limiter", e);
-            }
+            tornApi.getRequestLimiter().handleRequest(getKey());
         }
 
         final URI uri = buildUri();

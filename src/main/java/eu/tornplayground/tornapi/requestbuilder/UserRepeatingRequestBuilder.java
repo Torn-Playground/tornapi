@@ -23,6 +23,36 @@ public class UserRepeatingRequestBuilder extends RequestBuilder<UserSelections> 
         return this;
     }
 
+    @Override
+    public UserRepeatingRequestBuilder id(long id) {
+        return (UserRepeatingRequestBuilder) super.id(id);
+    }
+
+    @Override
+    public UserRepeatingRequestBuilder id(String id) {
+        return (UserRepeatingRequestBuilder) super.id(id);
+    }
+
+    @Override
+    public UserRepeatingRequestBuilder withComment(String comment) {
+        return (UserRepeatingRequestBuilder) super.withComment(comment);
+    }
+
+    @Override
+    public UserRepeatingRequestBuilder withParameter(String key, Object value) {
+        return (UserRepeatingRequestBuilder) super.withParameter(key, value);
+    }
+
+    @Override
+    public UserRepeatingRequestBuilder withSelections(String... selections) {
+        return (UserRepeatingRequestBuilder) super.withSelections(selections);
+    }
+
+    @Override
+    public UserRepeatingRequestBuilder withKey(String key) {
+        return (UserRepeatingRequestBuilder) super.withKey(key);
+    }
+
     public RepeatingRequestTask<List<Ammo>> repeatAmmo(int intervalInSeconds, Consumer<List<Ammo>> consumer) {
         return repeating(UserSelections.AMMO, intervalInSeconds, UserMapper::ofAmmo, consumer);
     }

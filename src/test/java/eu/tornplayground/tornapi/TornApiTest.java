@@ -426,7 +426,7 @@ class TornApiTest {
         automaticKeyConsumption.forUser().fetch();
         automaticKeyConsumption.forUser().fetch();
 
-        assertThat(System.currentTimeMillis() - start).isGreaterThanOrEqualTo(2000).isLessThanOrEqualTo(2100);
+        assertThat(System.currentTimeMillis() - start).isGreaterThanOrEqualTo(2000).isLessThanOrEqualTo(2050);
     }
 
 }

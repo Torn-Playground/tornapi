@@ -1,28 +1,19 @@
 package eu.tornplayground.tornapi.keyprovider;
 
-import java.util.LinkedList;
-import java.util.List;
+import java.util.concurrent.atomic.AtomicInteger;
 
 public class MultiKeyProvider implements KeyProvider {
 
-    private final LinkedList<String> keys;
-    private int currentKeyIndex = 0;
+    private final String[] keys;
+    private final AtomicInteger currentKeyIndex = new AtomicInteger(0);
 
     public MultiKeyProvider(String... keys) {
-        this.keys = new LinkedList<>(List.of(keys));
+        this.keys = keys;
     }
 
     @Override
-    public synchronized String next() {
-        if (currentKeyIndex >= keys.size()) {
-            currentKeyIndex = 0;
-        }
-
-        final String nextKey = keys.get(currentKeyIndex++);
-
-        notifyAll();
-
-        return nextKey;
+    public String next() {
+        return keys[currentKeyIndex.getAndUpdate(i -> (i + 1) % keys.length)];
     }
 
 }

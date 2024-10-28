@@ -22,6 +22,36 @@ public class FactionRepeatingRequestBuilder extends RequestBuilder<FactionSelect
         return this;
     }
 
+    @Override
+    public FactionRepeatingRequestBuilder id(long id) {
+        return (FactionRepeatingRequestBuilder) super.id(id);
+    }
+
+    @Override
+    public FactionRepeatingRequestBuilder id(String id) {
+        return (FactionRepeatingRequestBuilder) super.id(id);
+    }
+
+    @Override
+    public FactionRepeatingRequestBuilder withComment(String comment) {
+        return (FactionRepeatingRequestBuilder) super.withComment(comment);
+    }
+
+    @Override
+    public FactionRepeatingRequestBuilder withParameter(String key, Object value) {
+        return (FactionRepeatingRequestBuilder) super.withParameter(key, value);
+    }
+
+    @Override
+    public FactionRepeatingRequestBuilder withSelections(String... selections) {
+        return (FactionRepeatingRequestBuilder) super.withSelections(selections);
+    }
+
+    @Override
+    public FactionRepeatingRequestBuilder withKey(String key) {
+        return (FactionRepeatingRequestBuilder) super.withKey(key);
+    }
+
     public RepeatingRequestTask<FactionBasic> repeatBasic(int intervalInSeconds, Consumer<FactionBasic> consumer) {
         return repeating(FactionSelections.BASIC, intervalInSeconds, FactionMapper::ofBasic, consumer);
     }

@@ -23,6 +23,36 @@ public class TornRepeatingRequestBuilder extends RequestBuilder<TornSelections> 
         return this;
     }
 
+    @Override
+    public TornRepeatingRequestBuilder id(long id) {
+        return (TornRepeatingRequestBuilder) super.id(id);
+    }
+
+    @Override
+    public TornRepeatingRequestBuilder id(String id) {
+        return (TornRepeatingRequestBuilder) super.id(id);
+    }
+
+    @Override
+    public TornRepeatingRequestBuilder withComment(String comment) {
+        return (TornRepeatingRequestBuilder) super.withComment(comment);
+    }
+
+    @Override
+    public TornRepeatingRequestBuilder withParameter(String key, Object value) {
+        return (TornRepeatingRequestBuilder) super.withParameter(key, value);
+    }
+
+    @Override
+    public TornRepeatingRequestBuilder withSelections(String... selections) {
+        return (TornRepeatingRequestBuilder) super.withSelections(selections);
+    }
+
+    @Override
+    public TornRepeatingRequestBuilder withKey(String key) {
+        return (TornRepeatingRequestBuilder) super.withKey(key);
+    }
+
     public RepeatingRequestTask<Map<Long, CompanyType>> repeatCompanies(int intervalInSeconds, Consumer<Map<Long, CompanyType>> consumer) {
         return repeating(TornSelections.COMPANIES, intervalInSeconds, TornMapper::ofCompanies, consumer);
     }

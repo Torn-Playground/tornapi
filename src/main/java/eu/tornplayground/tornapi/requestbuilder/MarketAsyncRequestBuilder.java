@@ -23,6 +23,36 @@ public class MarketAsyncRequestBuilder extends RequestBuilder<ItemMarketSelectio
         return this;
     }
 
+    @Override
+    public MarketAsyncRequestBuilder id(long id) {
+        return (MarketAsyncRequestBuilder) super.id(id);
+    }
+
+    @Override
+    public MarketAsyncRequestBuilder id(String id) {
+        return (MarketAsyncRequestBuilder) super.id(id);
+    }
+
+    @Override
+    public MarketAsyncRequestBuilder withComment(String comment) {
+        return (MarketAsyncRequestBuilder) super.withComment(comment);
+    }
+
+    @Override
+    public MarketAsyncRequestBuilder withParameter(String key, Object value) {
+        return (MarketAsyncRequestBuilder) super.withParameter(key, value);
+    }
+
+    @Override
+    public MarketAsyncRequestBuilder withSelections(String... selections) {
+        return (MarketAsyncRequestBuilder) super.withSelections(selections);
+    }
+
+    @Override
+    public MarketAsyncRequestBuilder withKey(String key) {
+        return (MarketAsyncRequestBuilder) super.withKey(key);
+    }
+
     public CompletableFuture<List<MarketItem>> fetchBazaar() {
         return fetchAsync(ItemMarketSelections.BAZAAR, MarketMapper::ofBazaar);
     }

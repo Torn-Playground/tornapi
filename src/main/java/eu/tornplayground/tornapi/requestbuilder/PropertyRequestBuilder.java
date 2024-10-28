@@ -16,4 +16,33 @@ public class PropertyRequestBuilder extends RequestBuilder<PropertiesSelections>
         return this;
     }
 
+    @Override
+    public PropertyRequestBuilder id(long id) {
+        return (PropertyRequestBuilder) super.id(id);
+    }
+
+    @Override
+    public PropertyRequestBuilder id(String id) {
+        return (PropertyRequestBuilder) super.id(id);
+    }
+
+    @Override
+    public PropertyRequestBuilder withComment(String comment) {
+        return (PropertyRequestBuilder) super.withComment(comment);
+    }
+
+    @Override
+    public PropertyRequestBuilder withParameter(String key, Object value) {
+        return (PropertyRequestBuilder) super.withParameter(key, value);
+    }
+
+    @Override
+    public PropertyRequestBuilder withSelections(String... selections) {
+        return (PropertyRequestBuilder) super.withSelections(selections);
+    }
+
+    @Override
+    public PropertyRequestBuilder withKey(String key) {
+        return (PropertyRequestBuilder) super.withKey(key);
+    }
 }

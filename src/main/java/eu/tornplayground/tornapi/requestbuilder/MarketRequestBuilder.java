@@ -26,6 +26,36 @@ public class MarketRequestBuilder extends RequestBuilder<ItemMarketSelections> {
         return this;
     }
 
+    @Override
+    public MarketRequestBuilder id(long id) {
+        return (MarketRequestBuilder) super.id(id);
+    }
+
+    @Override
+    public MarketRequestBuilder id(String id) {
+        return (MarketRequestBuilder) super.id(id);
+    }
+
+    @Override
+    public MarketRequestBuilder withComment(String comment) {
+        return (MarketRequestBuilder) super.withComment(comment);
+    }
+
+    @Override
+    public MarketRequestBuilder withParameter(String key, Object value) {
+        return (MarketRequestBuilder) super.withParameter(key, value);
+    }
+
+    @Override
+    public MarketRequestBuilder withSelections(String... selections) {
+        return (MarketRequestBuilder) super.withSelections(selections);
+    }
+
+    @Override
+    public MarketRequestBuilder withKey(String key) {
+        return (MarketRequestBuilder) super.withKey(key);
+    }
+
     public List<MarketItem> fetchBazaar() throws TornHttpException, TornErrorException, RequestLimitReachedException, IOException {
         return fetch(ItemMarketSelections.BAZAAR, MarketMapper::ofBazaar);
     }

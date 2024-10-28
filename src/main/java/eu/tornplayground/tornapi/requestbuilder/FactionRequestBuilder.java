@@ -24,6 +24,36 @@ public class FactionRequestBuilder extends RequestBuilder<FactionSelections> {
         return this;
     }
 
+    @Override
+    public FactionRequestBuilder id(long id) {
+        return (FactionRequestBuilder) super.id(id);
+    }
+
+    @Override
+    public FactionRequestBuilder id(String id) {
+        return (FactionRequestBuilder) super.id(id);
+    }
+
+    @Override
+    public FactionRequestBuilder withComment(String comment) {
+        return (FactionRequestBuilder) super.withComment(comment);
+    }
+
+    @Override
+    public FactionRequestBuilder withParameter(String key, Object value) {
+        return (FactionRequestBuilder) super.withParameter(key, value);
+    }
+
+    @Override
+    public FactionRequestBuilder withSelections(String... selections) {
+        return (FactionRequestBuilder) super.withSelections(selections);
+    }
+
+    @Override
+    public FactionRequestBuilder withKey(String key) {
+        return (FactionRequestBuilder) super.withKey(key);
+    }
+
     public FactionBasic fetchBasic() throws IOException, TornHttpException, TornErrorException, RequestLimitReachedException {
         return fetch(FactionSelections.BASIC, FactionMapper::ofBasic);
     }
