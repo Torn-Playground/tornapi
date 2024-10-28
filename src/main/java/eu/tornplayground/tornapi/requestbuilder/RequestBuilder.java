@@ -1,6 +1,9 @@
-package eu.tornplayground.tornapi;
+package eu.tornplayground.tornapi.requestbuilder;
 
 import com.fasterxml.jackson.databind.JsonNode;
+import eu.tornplayground.tornapi.RequestData;
+import eu.tornplayground.tornapi.TornApi;
+import eu.tornplayground.tornapi.TornErrorException;
 import eu.tornplayground.tornapi.connector.TornHttpException;
 import eu.tornplayground.tornapi.limiter.RequestLimitReachedException;
 import eu.tornplayground.tornapi.limiter.RequestLimiter;

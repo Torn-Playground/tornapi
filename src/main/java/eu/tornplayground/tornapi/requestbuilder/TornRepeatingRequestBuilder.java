@@ -1,7 +1,5 @@
 package eu.tornplayground.tornapi.requestbuilder;
 
-import eu.tornplayground.tornapi.RepeatingRequestTask;
-import eu.tornplayground.tornapi.RequestBuilder;
 import eu.tornplayground.tornapi.TornApi;
 import eu.tornplayground.tornapi.mappers.TornMapper;
 import eu.tornplayground.tornapi.models.torn.*;
