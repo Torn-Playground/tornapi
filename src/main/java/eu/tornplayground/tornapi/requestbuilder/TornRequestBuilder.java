@@ -25,6 +25,36 @@ public class TornRequestBuilder extends RequestBuilder<TornSelections> {
         return this;
     }
 
+    @Override
+    public TornRequestBuilder id(long id) {
+        return (TornRequestBuilder) super.id(id);
+    }
+
+    @Override
+    public TornRequestBuilder id(String id) {
+        return (TornRequestBuilder) super.id(id);
+    }
+
+    @Override
+    public TornRequestBuilder withComment(String comment) {
+        return (TornRequestBuilder) super.withComment(comment);
+    }
+
+    @Override
+    public TornRequestBuilder withParameter(String key, Object value) {
+        return (TornRequestBuilder) super.withParameter(key, value);
+    }
+
+    @Override
+    public TornRequestBuilder withSelections(String... selections) {
+        return (TornRequestBuilder) super.withSelections(selections);
+    }
+
+    @Override
+    public TornRequestBuilder withKey(String key) {
+        return (TornRequestBuilder) super.withKey(key);
+    }
+
     public Map<Long, CompanyType> fetchCompanies() throws TornHttpException, TornErrorException, RequestLimitReachedException, IOException {
         return fetch(TornSelections.COMPANIES, TornMapper::ofCompanies);
     }

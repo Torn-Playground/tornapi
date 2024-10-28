@@ -1,21 +1,24 @@
 package eu.tornplayground.tornapi.limiter;
 
+import java.lang.Thread;
 import java.util.Deque;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentLinkedDeque;
+import java.util.concurrent.locks.Lock;
+import java.util.concurrent.locks.ReentrantLock;
 
 /**
  * Limits the number of requests per given time frame per API key.
  */
 public class RequestLimiter {
 
+    private final Map<String, Lock> keyLockMap = new ConcurrentHashMap<>();
     private final Map<String, Deque<Long>> keyTimestampMap = new ConcurrentHashMap<>();
     private final short maxRequests;
     private final int timeFrameInMilliseconds;
 
     private boolean withException = false;
-    private int requestsQueuedCount = 0;
 
     /**
      * @param maxRequests Max requests for given timeframe
@@ -40,46 +43,38 @@ public class RequestLimiter {
         this.withException = withException;
     }
 
-    public synchronized void handleRequest(String apiKey) throws RequestLimitReachedException, InterruptedException {
-        long currentMilliseconds = System.currentTimeMillis();
-        Deque<Long> timestamps = keyTimestampMap.computeIfAbsent(apiKey, k -> new ConcurrentLinkedDeque<>());
-        timestamps.removeIf(timestamp -> timestamp + timeFrameInMilliseconds < currentMilliseconds);
+    public void handleRequest(String apiKey) throws RequestLimitReachedException {
+        final Lock keySpecificLock = keyLockMap.computeIfAbsent(apiKey, k -> new ReentrantLock());
+        keySpecificLock.lock();
 
-        if (timestamps.size() < maxRequests) {
-            registerRequest(apiKey, currentMilliseconds);
-            return;
-        }
+        try {
+            long currentMilliseconds = System.currentTimeMillis();
+            final Deque<Long> timestamps = keyTimestampMap.computeIfAbsent(apiKey, k -> new ConcurrentLinkedDeque<>());
+            timestamps.removeIf(timestamp -> timestamp + timeFrameInMilliseconds < currentMilliseconds);
 
-        long timestamp = timestamps.stream().skip(requestsQueuedCount).findFirst().orElse(0L);
-        long millisecondsUntilNextRequest = timeFrameInMilliseconds - (currentMilliseconds - timestamp);
+            if (timestamps.size() < maxRequests) {
+                timestamps.add(currentMilliseconds);
+                return;
+            }
 
-        if (millisecondsUntilNextRequest > 0) {
-            if (withException) {
-                throw new RequestLimitReachedException("Rate limit reached. Please wait " + millisecondsUntilNextRequest + " milliseconds.");
-            } else {
-                requestsQueuedCount++;
-                registerRequest(apiKey, currentMilliseconds + millisecondsUntilNextRequest);
-                notifyAll();
+            long nextAvailableTimestamp = timestamps.peek() + timeFrameInMilliseconds;
+            long millisecondsUntilNextRequest = nextAvailableTimestamp - currentMilliseconds;
 
-                try {
-                    Thread.sleep(millisecondsUntilNextRequest);
-                } catch (InterruptedException exception) {
-                    removeRequest(apiKey, currentMilliseconds + millisecondsUntilNextRequest);
-                    Thread.currentThread().interrupt();
-                    throw exception;
-                } finally {
-                    requestsQueuedCount--;
+            if (millisecondsUntilNextRequest > 0) {
+                if (withException) {
+                    throw new RequestLimitReachedException("Rate limit reached. Please wait " + millisecondsUntilNextRequest + " milliseconds.");
+                } else {
+                    try {
+                        Thread.sleep(millisecondsUntilNextRequest);
+                        timestamps.add(System.currentTimeMillis());
+                    } catch (InterruptedException e) {
+                        Thread.currentThread().interrupt();
+                        throw new RuntimeException("Interrupted while waiting for the request limited API call", e);
+                    }
                 }
             }
+        } finally {
+            keySpecificLock.unlock();
         }
     }
-
-    private void registerRequest(String apiKey, long timestamp) {
-        keyTimestampMap.computeIfAbsent(apiKey, k -> new ConcurrentLinkedDeque<>()).add(timestamp);
-    }
-
-    private void removeRequest(String apiKey, long timestamp) {
-        keyTimestampMap.computeIfAbsent(apiKey, k -> new ConcurrentLinkedDeque<>()).remove(timestamp);
-    }
-
 }

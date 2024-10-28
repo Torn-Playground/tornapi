@@ -22,6 +22,36 @@ public class UserAsyncRequestBuilder extends RequestBuilder<UserSelections> {
         return this;
     }
 
+    @Override
+    public UserAsyncRequestBuilder id(long id) {
+        return (UserAsyncRequestBuilder) super.id(id);
+    }
+
+    @Override
+    public UserAsyncRequestBuilder id(String id) {
+        return (UserAsyncRequestBuilder) super.id(id);
+    }
+
+    @Override
+    public UserAsyncRequestBuilder withComment(String comment) {
+        return (UserAsyncRequestBuilder) super.withComment(comment);
+    }
+
+    @Override
+    public UserAsyncRequestBuilder withParameter(String key, Object value) {
+        return (UserAsyncRequestBuilder) super.withParameter(key, value);
+    }
+
+    @Override
+    public UserAsyncRequestBuilder withSelections(String... selections) {
+        return (UserAsyncRequestBuilder) super.withSelections(selections);
+    }
+
+    @Override
+    public UserAsyncRequestBuilder withKey(String key) {
+        return (UserAsyncRequestBuilder) super.withKey(key);
+    }
+
     public CompletableFuture<List<Ammo>> fetchAmmo() {
         return fetchAsync(UserSelections.AMMO, UserMapper::ofAmmo);
     }

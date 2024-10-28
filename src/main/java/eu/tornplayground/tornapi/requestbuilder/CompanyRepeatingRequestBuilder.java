@@ -16,4 +16,33 @@ public class CompanyRepeatingRequestBuilder extends RequestBuilder<CompanySelect
         return this;
     }
 
+    @Override
+    public CompanyRepeatingRequestBuilder id(long id) {
+        return (CompanyRepeatingRequestBuilder) super.id(id);
+    }
+
+    @Override
+    public CompanyRepeatingRequestBuilder id(String id) {
+        return (CompanyRepeatingRequestBuilder) super.id(id);
+    }
+
+    @Override
+    public CompanyRepeatingRequestBuilder withComment(String comment) {
+        return (CompanyRepeatingRequestBuilder) super.withComment(comment);
+    }
+
+    @Override
+    public CompanyRepeatingRequestBuilder withParameter(String key, Object value) {
+        return (CompanyRepeatingRequestBuilder) super.withParameter(key, value);
+    }
+
+    @Override
+    public CompanyRepeatingRequestBuilder withSelections(String... selections) {
+        return (CompanyRepeatingRequestBuilder) super.withSelections(selections);
+    }
+
+    @Override
+    public CompanyRepeatingRequestBuilder withKey(String key) {
+        return (CompanyRepeatingRequestBuilder) super.withKey(key);
+    }
 }

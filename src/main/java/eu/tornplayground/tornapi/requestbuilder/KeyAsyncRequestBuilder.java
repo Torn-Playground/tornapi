@@ -20,6 +20,36 @@ public class KeyAsyncRequestBuilder extends RequestBuilder<KeySelections> {
         return this;
     }
 
+    @Override
+    public KeyAsyncRequestBuilder id(long id) {
+        return (KeyAsyncRequestBuilder) super.id(id);
+    }
+
+    @Override
+    public KeyAsyncRequestBuilder id(String id) {
+        return (KeyAsyncRequestBuilder) super.id(id);
+    }
+
+    @Override
+    public KeyAsyncRequestBuilder withComment(String comment) {
+        return (KeyAsyncRequestBuilder) super.withComment(comment);
+    }
+
+    @Override
+    public KeyAsyncRequestBuilder withParameter(String key, Object value) {
+        return (KeyAsyncRequestBuilder) super.withParameter(key, value);
+    }
+
+    @Override
+    public KeyAsyncRequestBuilder withSelections(String... selections) {
+        return (KeyAsyncRequestBuilder) super.withSelections(selections);
+    }
+
+    @Override
+    public KeyAsyncRequestBuilder withKey(String key) {
+        return (KeyAsyncRequestBuilder) super.withKey(key);
+    }
+
     public CompletableFuture<KeyInfo> fetchInfo() {
         return fetchAsync(KeySelections.INFO, KeyMapper::ofInfo);
     }

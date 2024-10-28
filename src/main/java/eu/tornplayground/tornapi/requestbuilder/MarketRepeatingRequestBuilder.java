@@ -24,6 +24,36 @@ public class MarketRepeatingRequestBuilder extends RequestBuilder<ItemMarketSele
         return this;
     }
 
+    @Override
+    public MarketRepeatingRequestBuilder id(long id) {
+        return (MarketRepeatingRequestBuilder) super.id(id);
+    }
+
+    @Override
+    public MarketRepeatingRequestBuilder id(String id) {
+        return (MarketRepeatingRequestBuilder) super.id(id);
+    }
+
+    @Override
+    public MarketRepeatingRequestBuilder withComment(String comment) {
+        return (MarketRepeatingRequestBuilder) super.withComment(comment);
+    }
+
+    @Override
+    public MarketRepeatingRequestBuilder withParameter(String key, Object value) {
+        return (MarketRepeatingRequestBuilder) super.withParameter(key, value);
+    }
+
+    @Override
+    public MarketRepeatingRequestBuilder withSelections(String... selections) {
+        return (MarketRepeatingRequestBuilder) super.withSelections(selections);
+    }
+
+    @Override
+    public MarketRepeatingRequestBuilder withKey(String key) {
+        return (MarketRepeatingRequestBuilder) super.withKey(key);
+    }
+
     public RepeatingRequestTask<List<MarketItem>> repeatBazaar(int intervalInSeconds, Consumer<List<MarketItem>> consumer) {
         return repeating(ItemMarketSelections.BAZAAR, intervalInSeconds, MarketMapper::ofBazaar, consumer);
     }
