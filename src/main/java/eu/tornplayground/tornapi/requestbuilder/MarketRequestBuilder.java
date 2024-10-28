@@ -1,6 +1,5 @@
 package eu.tornplayground.tornapi.requestbuilder;
 
-import eu.tornplayground.tornapi.RequestBuilder;
 import eu.tornplayground.tornapi.TornApi;
 import eu.tornplayground.tornapi.TornErrorException;
 import eu.tornplayground.tornapi.connector.TornHttpException;

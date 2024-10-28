@@ -7,7 +7,9 @@ import eu.tornplayground.tornapi.keyprovider.KeyProvider;
 import eu.tornplayground.tornapi.limiter.DefaultRequestLimiter;
 import eu.tornplayground.tornapi.limiter.RequestLimiter;
 import eu.tornplayground.tornapi.requestbuilder.*;
+import lombok.Getter;
 
+@Getter
 public class TornApi {
 
     private final ApiConnector connector;
@@ -15,6 +17,7 @@ public class TornApi {
     private RequestLimiter requestLimiter;
     private ResponseCache responseCache;
     private String comment;
+    @Getter(value = lombok.AccessLevel.NONE)
     private boolean automaticKeyConsumption = false;
 
     public TornApi(ApiConnector connector, KeyProvider keyProvider) {
@@ -22,25 +25,9 @@ public class TornApi {
         this.keyProvider = keyProvider;
     }
 
-    protected ApiConnector getConnector() {
-        return connector;
-    }
-
-    protected KeyProvider getKeyProvider() {
-        return keyProvider;
-    }
-
-    protected RequestLimiter getRequestLimiter() {
-        return requestLimiter;
-    }
-
     public TornApi withRequestLimiter(RequestLimiter requestLimiter) {
         this.requestLimiter = requestLimiter;
         return this;
-    }
-
-    protected ResponseCache getResponseCache() {
-        return responseCache;
     }
 
     /**
@@ -63,16 +50,12 @@ public class TornApi {
         return this;
     }
 
-    protected String getComment() {
-        return comment;
-    }
-
     public TornApi withComment(String comment) {
         this.comment = comment;
         return this;
     }
 
-    protected boolean hasAutomaticKeyConsumption() {
+    public boolean hasAutomaticKeyConsumption() {
         return automaticKeyConsumption;
     }
 

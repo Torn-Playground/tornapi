@@ -1,6 +1,5 @@
 package eu.tornplayground.tornapi.requestbuilder;
 
-import eu.tornplayground.tornapi.RequestBuilder;
 import eu.tornplayground.tornapi.TornApi;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
