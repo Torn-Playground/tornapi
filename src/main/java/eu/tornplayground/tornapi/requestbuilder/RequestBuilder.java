@@ -23,13 +23,13 @@ import java.util.stream.Collectors;
 
 public abstract class RequestBuilder<SELF extends RequestBuilder<SELF, T>, T extends Selection> {
 
+    protected final SELF instance;
     private final TornApi tornApi;
     private final String section;
 
     private final Set<String> selections = new HashSet<>();
     private final Map<String, Object> parameters = new HashMap<>();
 
-    protected SELF instance;
     private String key;
     private String overwrittenKey;
     private String id;
