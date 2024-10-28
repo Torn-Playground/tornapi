@@ -10,46 +10,10 @@ import java.util.List;
 import java.util.Map;
 import java.util.concurrent.CompletableFuture;
 
-public class TornAsyncRequestBuilder extends RequestBuilder<TornSelections> {
+public class TornAsyncRequestBuilder extends RequestBuilder<TornAsyncRequestBuilder, TornSelections> {
 
     public TornAsyncRequestBuilder(TornApi tornApi) {
         super(tornApi, "torn");
-    }
-
-    @Override
-    public TornAsyncRequestBuilder withTornErrorException(boolean throwError) {
-        super.withTornErrorException(throwError);
-        return this;
-    }
-
-    @Override
-    public TornAsyncRequestBuilder id(long id) {
-        return (TornAsyncRequestBuilder) super.id(id);
-    }
-
-    @Override
-    public TornAsyncRequestBuilder id(String id) {
-        return (TornAsyncRequestBuilder) super.id(id);
-    }
-
-    @Override
-    public TornAsyncRequestBuilder withComment(String comment) {
-        return (TornAsyncRequestBuilder) super.withComment(comment);
-    }
-
-    @Override
-    public TornAsyncRequestBuilder withParameter(String key, Object value) {
-        return (TornAsyncRequestBuilder) super.withParameter(key, value);
-    }
-
-    @Override
-    public TornAsyncRequestBuilder withSelections(String... selections) {
-        return (TornAsyncRequestBuilder) super.withSelections(selections);
-    }
-
-    @Override
-    public TornAsyncRequestBuilder withKey(String key) {
-        return (TornAsyncRequestBuilder) super.withKey(key);
     }
 
     public CompletableFuture<Map<Long, CompanyType>> fetchCompanies() {

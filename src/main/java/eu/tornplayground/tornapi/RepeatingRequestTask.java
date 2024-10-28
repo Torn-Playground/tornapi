@@ -9,10 +9,11 @@ import java.util.function.Consumer;
 import java.util.function.Function;
 
 public class RepeatingRequestTask<T> {
+
     private static int counter = 0;
     private final long intervalInSeconds;
     private final Consumer<T> resultConsumer;
-    private final RequestBuilder<?> requestBuilder;
+    private final RequestBuilder<?, ?> requestBuilder;
     private boolean taskStopped = false;
 
     private BiConsumer<TornError, RepeatingRequestTask<T>> tornErrorHandler;
@@ -20,8 +21,7 @@ public class RepeatingRequestTask<T> {
     private Consumer<RepeatingRequestTask<T>> requestLimitReachedHandler;
     private Function<JsonNode, T> mapping;
 
-
-    public RepeatingRequestTask(long intervalInSeconds, RequestBuilder<?> requestBuilder, Consumer<T> consumer) {
+    public RepeatingRequestTask(long intervalInSeconds, RequestBuilder<?, ?> requestBuilder, Consumer<T> consumer) {
         this.intervalInSeconds = intervalInSeconds;
         this.requestBuilder = requestBuilder;
         this.resultConsumer = consumer;

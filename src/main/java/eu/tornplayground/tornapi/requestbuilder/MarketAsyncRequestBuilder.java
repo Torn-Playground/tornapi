@@ -11,46 +11,10 @@ import java.util.List;
 import java.util.Map;
 import java.util.concurrent.CompletableFuture;
 
-public class MarketAsyncRequestBuilder extends RequestBuilder<ItemMarketSelections> {
+public class MarketAsyncRequestBuilder extends RequestBuilder<MarketAsyncRequestBuilder, ItemMarketSelections> {
 
     public MarketAsyncRequestBuilder(TornApi tornApi) {
         super(tornApi, "market");
-    }
-
-    @Override
-    public MarketAsyncRequestBuilder withTornErrorException(boolean throwError) {
-        super.withTornErrorException(throwError);
-        return this;
-    }
-
-    @Override
-    public MarketAsyncRequestBuilder id(long id) {
-        return (MarketAsyncRequestBuilder) super.id(id);
-    }
-
-    @Override
-    public MarketAsyncRequestBuilder id(String id) {
-        return (MarketAsyncRequestBuilder) super.id(id);
-    }
-
-    @Override
-    public MarketAsyncRequestBuilder withComment(String comment) {
-        return (MarketAsyncRequestBuilder) super.withComment(comment);
-    }
-
-    @Override
-    public MarketAsyncRequestBuilder withParameter(String key, Object value) {
-        return (MarketAsyncRequestBuilder) super.withParameter(key, value);
-    }
-
-    @Override
-    public MarketAsyncRequestBuilder withSelections(String... selections) {
-        return (MarketAsyncRequestBuilder) super.withSelections(selections);
-    }
-
-    @Override
-    public MarketAsyncRequestBuilder withKey(String key) {
-        return (MarketAsyncRequestBuilder) super.withKey(key);
     }
 
     public CompletableFuture<List<MarketItem>> fetchBazaar() {
