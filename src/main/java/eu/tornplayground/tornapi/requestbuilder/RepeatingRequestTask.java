@@ -82,6 +82,7 @@ public class RepeatingRequestTask<T> {
                     }
                 } finally {
                     try {
+                        //noinspection BusyWait
                         Thread.sleep(intervalInSeconds * 1000);
                     } catch (InterruptedException e) {
                         Thread.currentThread().interrupt();

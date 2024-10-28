@@ -1,17 +1,15 @@
 package eu.tornplayground.tornapi.mappers;
 
-import eu.tornplayground.tornapi.models.market.MarketItem;
-import eu.tornplayground.tornapi.models.market.PointOrder;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import eu.tornplayground.tornapi.models.market.MarketItem;
+import eu.tornplayground.tornapi.models.market.PointOrder;
 import org.assertj.core.api.SoftAssertions;
 import org.junit.jupiter.api.Test;
 
 import java.util.List;
 import java.util.Map;
-
-import static org.assertj.core.api.Assertions.assertThat;
 
 class MarketMapperTest {
 

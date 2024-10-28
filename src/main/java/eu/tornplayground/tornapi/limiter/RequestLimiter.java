@@ -1,6 +1,5 @@
 package eu.tornplayground.tornapi.limiter;
 
-import java.lang.Thread;
 import java.util.Deque;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
@@ -57,6 +56,7 @@ public class RequestLimiter {
                 return;
             }
 
+            @SuppressWarnings("DataFlowIssue")
             long nextAvailableTimestamp = timestamps.peek() + timeFrameInMilliseconds;
             long millisecondsUntilNextRequest = nextAvailableTimestamp - currentMilliseconds;
 
@@ -77,4 +77,5 @@ public class RequestLimiter {
             keySpecificLock.unlock();
         }
     }
+
 }
