@@ -44,7 +44,7 @@
         <jackson-jsr310.version>2.18.2</jackson-jsr310.version>
         <junit-jupiter.version>5.11.4</junit-jupiter.version>
         <mockito.version>5.14.2</mockito.version>
-        <assertj.version>3.27.0</assertj.version>
+        <assertj.version>3.27.2</assertj.version>
         <uribuilder.version>2.7.1</uribuilder.version>
         <caffeine.version>3.1.8</caffeine.version>
         <lombok.version>1.18.36</lombok.version>
