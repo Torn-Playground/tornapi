@@ -40,7 +40,7 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 
         <!-- Dependencies -->
-        <jackson.version>2.19.1</jackson.version>
+        <jackson.version>2.19.2</jackson.version>
         <jackson-jsr310.version>2.19.1</jackson-jsr310.version>
         <junit-jupiter.version>5.13.3</junit-jupiter.version>
         <mockito.version>5.18.0</mockito.version>
