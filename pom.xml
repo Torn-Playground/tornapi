@@ -47,7 +47,7 @@
         <assertj.version>3.27.4</assertj.version>
         <uribuilder.version>2.7.1</uribuilder.version>
         <caffeine.version>3.2.2</caffeine.version>
-        <lombok.version>1.18.40</lombok.version>
+        <lombok.version>1.18.42</lombok.version>
 
         <!-- Plugins -->
         <central-publishing-maven-plugin.version>0.8.0</central-publishing-maven-plugin.version>
