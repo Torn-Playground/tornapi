@@ -46,7 +46,7 @@
         <mockito.version>5.20.0</mockito.version>
         <assertj.version>3.27.6</assertj.version>
         <uribuilder.version>2.7.1</uribuilder.version>
-        <caffeine.version>3.2.2</caffeine.version>
+        <caffeine.version>3.2.3</caffeine.version>
         <lombok.version>1.18.42</lombok.version>
 
         <!-- Plugins -->
