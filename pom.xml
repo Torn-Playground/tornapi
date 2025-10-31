@@ -42,7 +42,7 @@
         <!-- Dependencies -->
         <jackson.version>2.20.1</jackson.version>
         <jackson-jsr310.version>2.20.1</jackson-jsr310.version>
-        <junit-jupiter.version>5.14.0</junit-jupiter.version>
+        <junit-jupiter.version>5.14.1</junit-jupiter.version>
         <mockito.version>5.20.0</mockito.version>
         <assertj.version>3.27.6</assertj.version>
         <uribuilder.version>2.7.1</uribuilder.version>
