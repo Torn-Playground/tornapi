@@ -6,7 +6,7 @@
 
     <groupId>eu.tornplayground</groupId>
     <artifactId>tornapi</artifactId>
-    <version>0.9.0</version>
+    <version>0.10.0</version>
 
     <name>TornAPI Wrapper</name>
     <description>Wrapper for the Torn API.</description>
@@ -35,8 +35,8 @@
     </scm>
 
     <properties>
-        <maven.compiler.source>11</maven.compiler.source>
-        <maven.compiler.target>11</maven.compiler.target>
+        <maven.compiler.source>21</maven.compiler.source>
+        <maven.compiler.target>21</maven.compiler.target>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 
         <!-- Dependencies -->
