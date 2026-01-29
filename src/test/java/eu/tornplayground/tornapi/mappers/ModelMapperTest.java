@@ -1,13 +1,12 @@
 package eu.tornplayground.tornapi.mappers;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.JsonNode;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import eu.tornplayground.tornapi.models.Timestamp;
 import eu.tornplayground.tornapi.models.TornError;
 import eu.tornplayground.tornapi.models.TornErrorType;
 import org.assertj.core.api.SoftAssertions;
 import org.junit.jupiter.api.Test;
+import tools.jackson.databind.JsonNode;
+import tools.jackson.databind.ObjectMapper;
 
 import java.time.LocalDateTime;
 
@@ -16,7 +15,7 @@ import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 class ModelMapperTest {
 
     @Test
-    void ofTimestamp() throws JsonProcessingException {
+    void ofTimestamp() {
         ObjectMapper objectMapper = new ObjectMapper();
         JsonNode json = objectMapper.readTree("{\"timestamp\":1729942749}");
 
@@ -26,7 +25,7 @@ class ModelMapperTest {
     }
 
     @Test
-    void hasError_whenNoError() throws JsonProcessingException {
+    void hasError_whenNoError() {
         ObjectMapper objectMapper = new ObjectMapper();
         JsonNode json = objectMapper.readTree("{\"timestamp\":1729942749}");
 
@@ -34,7 +33,7 @@ class ModelMapperTest {
     }
 
     @Test
-    void hasError_whenError() throws JsonProcessingException {
+    void hasError_whenError() {
         ObjectMapper objectMapper = new ObjectMapper();
         JsonNode json = objectMapper.readTree("{\"error\":{\"code\":4,\"error\":\"Wrong fields\"}}");
 
@@ -42,7 +41,7 @@ class ModelMapperTest {
     }
 
     @Test
-    void ofError() throws JsonProcessingException {
+    void ofError() {
         ObjectMapper objectMapper = new ObjectMapper();
         JsonNode json = objectMapper.readTree("{\"error\":{\"code\":4,\"error\":\"Wrong fields\"}}");
 

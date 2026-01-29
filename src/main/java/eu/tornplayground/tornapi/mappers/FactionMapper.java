@@ -1,11 +1,9 @@
 package eu.tornplayground.tornapi.mappers;
 
-import com.fasterxml.jackson.core.type.TypeReference;
-import com.fasterxml.jackson.databind.JsonNode;
+import tools.jackson.core.type.TypeReference;
+import tools.jackson.databind.JsonNode;
 import eu.tornplayground.tornapi.models.faction.*;
 
-import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 
 public class FactionMapper extends ModelMapper {
@@ -35,12 +33,10 @@ public class FactionMapper extends ModelMapper {
     }
 
     private static <T> List<T> fromMap(JsonNode mapNode, Class<T> clazz) {
-        List<T> mapEntryValues = new ArrayList<>();
-        Iterator<String> mapEntryKeys = mapNode.fieldNames();
-        while (mapEntryKeys.hasNext()) {
-            mapEntryValues.add(OBJECT_MAPPER.convertValue(mapNode.get(mapEntryKeys.next()), clazz));
-        }
-        return mapEntryValues;
+        return mapNode.values()
+                .stream()
+                .map((value) -> OBJECT_MAPPER.convertValue(value, clazz))
+                .toList();
     }
 
 }

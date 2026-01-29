@@ -1,6 +1,6 @@
 package eu.tornplayground.tornapi.requestbuilder;
 
-import com.fasterxml.jackson.databind.JsonNode;
+import tools.jackson.databind.JsonNode;
 import eu.tornplayground.tornapi.RequestData;
 import eu.tornplayground.tornapi.TornApi;
 import eu.tornplayground.tornapi.TornErrorException;

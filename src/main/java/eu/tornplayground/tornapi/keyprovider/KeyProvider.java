@@ -1,7 +1,7 @@
 package eu.tornplayground.tornapi.keyprovider;
 
-import com.fasterxml.jackson.databind.JsonNode;
 import eu.tornplayground.tornapi.RequestData;
+import tools.jackson.databind.JsonNode;
 
 public interface KeyProvider {
 

@@ -1,7 +1,7 @@
 package eu.tornplayground.tornapi.mappers;
 
 import eu.tornplayground.tornapi.models.info.KeyInfo;
-import com.fasterxml.jackson.databind.JsonNode;
+import tools.jackson.databind.JsonNode;
 
 public class KeyMapper extends ModelMapper {
 

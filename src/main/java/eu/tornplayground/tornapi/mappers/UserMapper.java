@@ -1,8 +1,8 @@
 package eu.tornplayground.tornapi.mappers;
 
-import com.fasterxml.jackson.core.type.TypeReference;
-import com.fasterxml.jackson.databind.JsonNode;
 import eu.tornplayground.tornapi.models.user.*;
+import tools.jackson.core.type.TypeReference;
+import tools.jackson.databind.JsonNode;
 
 import java.time.Instant;
 import java.time.LocalDateTime;
@@ -10,7 +10,6 @@ import java.time.ZoneOffset;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
-import java.util.stream.Collectors;
 
 import static java.util.Collections.emptyMap;
 
@@ -80,12 +79,11 @@ public class UserMapper extends ModelMapper {
         List<Long> awarded = OBJECT_MAPPER.convertValue(json.get("honors_awarded"), new TypeReference<>() {
         });
         List<LocalDateTime> times = OBJECT_MAPPER
-                .copy()
                 .convertValue(json.get("honors_time"), new TypeReference<List<Long>>() {
                 })
                 .stream()
                 .map((epoch) -> Instant.ofEpochSecond(epoch).atOffset(ZoneOffset.UTC).toLocalDateTime())
-                .collect(Collectors.toList());
+                .toList();
         if (awarded.size() != times.size())
             throw new IllegalStateException("Awarded honors and times should always be the same size!");
 
