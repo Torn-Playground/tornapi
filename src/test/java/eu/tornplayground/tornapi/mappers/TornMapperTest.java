@@ -302,13 +302,13 @@ class TornMapperTest {
 
         List<ShopLiftingSecurity> sallysSweetShop = result.get("sallys_sweet_shop");
         softly.assertThat(sallysSweetShop).hasSize(1);
-        softly.assertThat(sallysSweetShop.get(0).getTitle()).isEqualTo(ONE_CAMERA);
-        softly.assertThat(sallysSweetShop.get(0).isDisabled()).isFalse();
+        softly.assertThat(sallysSweetShop.getFirst().getTitle()).isEqualTo(ONE_CAMERA);
+        softly.assertThat(sallysSweetShop.getFirst().isDisabled()).isFalse();
 
         List<ShopLiftingSecurity> bitsNBobs = result.get("Bits_n_bobs");
         softly.assertThat(bitsNBobs).hasSize(1);
-        softly.assertThat(bitsNBobs.get(0).getTitle()).isEqualTo(TWO_CAMERAS);
-        softly.assertThat(bitsNBobs.get(0).isDisabled()).isFalse();
+        softly.assertThat(bitsNBobs.getFirst().getTitle()).isEqualTo(TWO_CAMERAS);
+        softly.assertThat(bitsNBobs.getFirst().isDisabled()).isFalse();
 
         softly.assertAll();
     }

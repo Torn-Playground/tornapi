@@ -1,6 +1,5 @@
 package eu.tornplayground.tornapi.requestbuilder;
 
-import tools.jackson.databind.JsonNode;
 import eu.tornplayground.tornapi.RequestData;
 import eu.tornplayground.tornapi.TornApi;
 import eu.tornplayground.tornapi.TornErrorException;
@@ -10,6 +9,7 @@ import eu.tornplayground.tornapi.limiter.RequestLimiter;
 import eu.tornplayground.tornapi.mappers.ModelMapper;
 import eu.tornplayground.tornapi.selections.Selection;
 import net.moznion.uribuildertiny.URIBuilderTiny;
+import tools.jackson.databind.JsonNode;
 
 import java.io.IOException;
 import java.net.URI;
@@ -19,7 +19,6 @@ import java.util.concurrent.CompletionException;
 import java.util.function.BiConsumer;
 import java.util.function.Consumer;
 import java.util.function.Function;
-import java.util.stream.Collectors;
 
 public abstract class RequestBuilder<SELF extends RequestBuilder<SELF, T>, T extends Selection> {
 
@@ -73,7 +72,7 @@ public abstract class RequestBuilder<SELF extends RequestBuilder<SELF, T>, T ext
     public final SELF withSelections(T... selections) {
         this.selections.addAll(Arrays.stream(selections)
                 .map(Selection::getSelection)
-                .collect(Collectors.toList()));
+                .toList());
         return instance;
     }
 

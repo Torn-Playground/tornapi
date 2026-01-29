@@ -17,19 +17,12 @@ public class RelativeConverter extends StdConverter<String, Duration> {
             int number = Integer.parseInt(matcher.group(1));  // Extract the number
             String unit = matcher.group(2);  // Extract the time unit
 
-            switch (unit.toLowerCase()) {
-                case "minute":
-                case "minutes":
-                    return Duration.ofMinutes(number);
-                case "hour":
-                case "hours":
-                    return Duration.ofHours(number);
-                case "day":
-                case "days":
-                    return Duration.ofDays(number);
-                default:
-                    throw new IllegalArgumentException("Unsupported time unit: " + unit);
-            }
+            return switch (unit.toLowerCase()) {
+                case "minute", "minutes" -> Duration.ofMinutes(number);
+                case "hour", "hours" -> Duration.ofHours(number);
+                case "day", "days" -> Duration.ofDays(number);
+                default -> throw new IllegalArgumentException("Unsupported time unit: " + unit);
+            };
         }
 
         throw new IllegalArgumentException("Invalid time format: " + relativeString);

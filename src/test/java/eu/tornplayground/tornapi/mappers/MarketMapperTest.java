@@ -21,7 +21,7 @@ class MarketMapperTest {
 
         SoftAssertions softly = new SoftAssertions();
 
-        MarketItem marketItem = result.get(0);
+        MarketItem marketItem = result.getFirst();
         softly.assertThat(marketItem.getId()).isEqualTo(53010894);
         softly.assertThat(marketItem.getCost()).isEqualTo(50);
         softly.assertThat(marketItem.getQuantity()).isEqualTo(1);
@@ -38,7 +38,7 @@ class MarketMapperTest {
 
         SoftAssertions softly = new SoftAssertions();
 
-        MarketItem marketItem = result.get(0);
+        MarketItem marketItem = result.getFirst();
         softly.assertThat(marketItem.getId()).isEqualTo(139901185);
         softly.assertThat(marketItem.getCost()).isEqualTo(200);
         softly.assertThat(marketItem.getQuantity()).isEqualTo(1);
