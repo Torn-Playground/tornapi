@@ -6,7 +6,7 @@
 
     <groupId>eu.tornplayground</groupId>
     <artifactId>tornapi</artifactId>
-    <version>0.10.0</version>
+    <version>0.11.0</version>
 
     <name>TornAPI Wrapper</name>
     <description>Wrapper for the Torn API.</description>
@@ -40,8 +40,7 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 
         <!-- Dependencies -->
-        <jackson.version>2.21.0</jackson.version>
-        <jackson-jsr310.version>2.21.0</jackson-jsr310.version>
+        <jackson.version>3.0.4</jackson.version>
         <junit-jupiter.version>6.0.2</junit-jupiter.version>
         <mockito.version>5.21.0</mockito.version>
         <assertj.version>3.27.7</assertj.version>
@@ -66,14 +65,9 @@
         </dependency>
 
         <dependency>
-            <groupId>com.fasterxml.jackson.core</groupId>
+            <groupId>tools.jackson.core</groupId>
             <artifactId>jackson-databind</artifactId>
             <version>${jackson.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>com.fasterxml.jackson.datatype</groupId>
-            <artifactId>jackson-datatype-jsr310</artifactId>
-            <version>${jackson-jsr310.version}</version>
         </dependency>
 
         <dependency>

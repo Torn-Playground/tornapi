@@ -1,6 +1,5 @@
 package eu.tornplayground.tornapi.mappers;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 
@@ -10,43 +9,43 @@ class CompanyMapperTest {
 
     @Test
     @Disabled("Not a director, unable to implement.")
-    void ofApplications() throws JsonProcessingException {
+    void ofApplications() {
     }
 
     @Disabled("Not yet implemented.")
     @Test
-    void ofCompanies() throws JsonProcessingException {
+    void ofCompanies() {
         fail("Not yet implemented");
     }
 
     @Test
     @Disabled("Not a director, unable to implement.")
-    void ofDetailed() throws JsonProcessingException {
+    void ofDetailed() {
     }
 
     @Disabled("Not yet implemented.")
     @Test
-    void ofEmployees() throws JsonProcessingException {
+    void ofEmployees() {
     }
 
     @Test
     @Disabled("Not a director, unable to implement.")
-    void ofNewsFull() throws JsonProcessingException {
+    void ofNewsFull() {
     }
 
     @Test
     @Disabled("Not a director, unable to implement.")
-    void ofNews() throws JsonProcessingException {
+    void ofNews() {
     }
 
     @Disabled("Not yet implemented.")
     @Test
-    void ofProfile() throws JsonProcessingException {
+    void ofProfile() {
     }
 
     @Test
     @Disabled("Not a director, unable to implement.")
-    void ofStocks() throws JsonProcessingException {
+    void ofStocks() {
     }
 
 }

@@ -1,8 +1,8 @@
 package eu.tornplayground.tornapi.mappers;
 
 import eu.tornplayground.tornapi.models.companies.Company;
-import com.fasterxml.jackson.core.type.TypeReference;
-import com.fasterxml.jackson.databind.JsonNode;
+import tools.jackson.core.type.TypeReference;
+import tools.jackson.databind.JsonNode;
 
 import java.util.Collection;
 import java.util.Map;

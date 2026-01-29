@@ -2,8 +2,8 @@ package eu.tornplayground.tornapi.mappers;
 
 import eu.tornplayground.tornapi.models.market.MarketItem;
 import eu.tornplayground.tornapi.models.market.PointOrder;
-import com.fasterxml.jackson.core.type.TypeReference;
-import com.fasterxml.jackson.databind.JsonNode;
+import tools.jackson.core.type.TypeReference;
+import tools.jackson.databind.JsonNode;
 
 import java.util.List;
 import java.util.Map;

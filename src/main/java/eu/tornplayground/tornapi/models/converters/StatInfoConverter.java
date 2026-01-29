@@ -1,9 +1,9 @@
 package eu.tornplayground.tornapi.models.converters;
 
-import com.fasterxml.jackson.databind.util.StdConverter;
 import eu.tornplayground.tornapi.models.user.battlestats.StatInfoType;
 import eu.tornplayground.tornapi.models.user.battlestats.statinfo.BattleStat;
 import eu.tornplayground.tornapi.models.user.battlestats.statinfo.StatInfo;
+import tools.jackson.databind.util.StdConverter;
 
 public class StatInfoConverter extends StdConverter<String, StatInfo> {
 
@@ -23,5 +23,5 @@ public class StatInfoConverter extends StdConverter<String, StatInfo> {
                 .stat(BattleStat.fromName(stat))
                 .build();
     }
-    
+
 }

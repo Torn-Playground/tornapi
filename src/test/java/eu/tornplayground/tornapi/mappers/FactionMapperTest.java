@@ -1,14 +1,13 @@
 package eu.tornplayground.tornapi.mappers;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.JsonNode;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import eu.tornplayground.tornapi.models.faction.*;
 import eu.tornplayground.tornapi.models.common.AttackResult;
+import eu.tornplayground.tornapi.models.faction.*;
 import eu.tornplayground.tornapi.models.faction.basic.rank.Rank;
 import org.assertj.core.api.SoftAssertions;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
+import tools.jackson.databind.JsonNode;
+import tools.jackson.databind.ObjectMapper;
 
 import java.time.Duration;
 import java.time.Instant;
@@ -19,26 +18,26 @@ class FactionMapperTest {
 
     @Test
     @Disabled("No faction API Access, unable to implement.")
-    void ofApplications() throws JsonProcessingException {
+    void ofApplications() {
     }
 
     @Test
     @Disabled("No faction API Access, unable to implement.")
-    void ofArmor() throws JsonProcessingException {
+    void ofArmor() {
     }
 
     @Test
     @Disabled("No faction API Access, unable to implement.")
-    void ofArmoryNews() throws JsonProcessingException {
+    void ofArmoryNews() {
     }
 
     @Test
     @Disabled("No faction API Access, unable to implement.")
-    void ofAttackNews() throws JsonProcessingException {
+    void ofAttackNews() {
     }
 
     @Test
-    void ofAttacks() throws JsonProcessingException {
+    void ofAttacks() {
         ObjectMapper objectMapper = new ObjectMapper();
         JsonNode jsonNode = objectMapper.readTree("{\"attacks\": {\"1\": {\"code\": \"abc122\",\"timestamp_started\": 1729886519,\"timestamp_ended\": 1729886521,\"attacker_id\": 1,\"attacker_name\": \"Player One\",\"attacker_faction\": 1,\"attacker_factionname\": \"Faction One\",\"defender_id\": 2,\"defender_name\": \"Player Two\",\"defender_faction\": 2,\"defender_factionname\": \"Faction Two\",\"result\": \"Attacked\",\"stealthed\": 1,\"respect\": 4.68,\"chain\": 1340,\"raid\": 0,\"ranked_war\": 0,\"respect_gain\": 4.68,\"respect_loss\": 1.17,\"modifiers\": {\"fair_fight\": 3,\"war\": 1,\"retaliation\": 1,\"group_attack\": 1,\"overseas\": 1,\"chain_bonus\": 1.53}},\"2\": {\"code\": \"abc123\",\"timestamp_started\": 1729886531,\"timestamp_ended\": 1729886534,\"attacker_id\": 2,\"attacker_name\": \"Player Two\",\"attacker_faction\": 2,\"attacker_factionname\": \"Faction Two\",\"defender_id\": 1,\"defender_name\": \"Player One\",\"defender_faction\": 1,\"defender_factionname\": \"Faction One\",\"result\": \"Attacked\",\"stealthed\": 1,\"respect\": 3.76,\"chain\": 1341,\"raid\": 0,\"ranked_war\": 0,\"respect_gain\": 3.76,\"respect_loss\": 0.94,\"modifiers\": {\"fair_fight\": 2.08,\"war\": 1,\"retaliation\": 1,\"group_attack\": 1,\"overseas\": 1,\"chain_bonus\": 1.53}}}}");
 
@@ -109,7 +108,7 @@ class FactionMapperTest {
     }
 
     @Test
-    void ofAttacksFull() throws JsonProcessingException {
+    void ofAttacksFull() {
         ObjectMapper objectMapper = new ObjectMapper();
         JsonNode jsonNode = objectMapper.readTree("{\"attacks\": {\"1\": {\"code\": \"abc122\",\"timestamp_started\": 1729886519,\"timestamp_ended\": 1729886521,\"attacker_id\": 1,\"attacker_faction\": 1,\"defender_id\": 2,\"defender_faction\": 2,\"result\": \"Attacked\",\"stealthed\": 1,\"respect\": 4.68},\"2\": {\"code\": \"abc123\",\"timestamp_started\": 1729886531,\"timestamp_ended\": 1729886534,\"attacker_id\": 2,\"attacker_faction\": 2,\"defender_id\": 1,\"defender_faction\": 1,\"result\": \"Attacked\",\"stealthed\": 1,\"respect\": 3.76}}}");
 
@@ -144,7 +143,7 @@ class FactionMapperTest {
     }
 
     @Test
-    void ofBasic() throws JsonProcessingException {
+    void ofBasic() {
         ObjectMapper objectMapper = new ObjectMapper();
         JsonNode jsonNode = objectMapper.readTree("{\"ID\":1,\"name\":\"Faction\",\"tag\":\"\",\"tag_image\":\"image.png\",\"leader\":1,\"co-leader\":2,\"respect\":981495,\"age\":1337,\"capacity\":80,\"best_chain\":50000,\"ranked_wars\":{\"18888\":{\"factions\":{\"20465\":{\"name\":\"SMTH - Phoenix Nirvana\",\"score\":37748,\"chain\":4577},\"36134\":{\"name\":\"SMTH - Silver Hand\",\"score\":34459,\"chain\":4580}},\"war\":{\"start\":1729778400,\"end\":0,\"target\":10974,\"winner\":0}}},\"territory_wars\":[{\"territory_war_id\":42201,\"territory\":\"EJE\",\"assaulting_faction\":9055,\"defending_faction\":11581,\"score\":0,\"required_score\":1250000,\"start_time\":1729869786,\"end_time\":1730128986,\"assaulters\":[463993,784387,902856,2527957,2593444],\"defenders\":[583823,1893037,1980155,2016943,2027195,2090022,2094400,2235735,2251781,2318684,2323769,2351099,2460991]},{\"territory_war_id\":42202,\"territory\":\"RFF\",\"assaulting_faction\":11581,\"defending_faction\":8803,\"score\":0,\"required_score\":1500000,\"start_time\":1729869904,\"end_time\":1730129104,\"assaulters\":[2454892],\"defenders\":[1577462,1874922,1875013,2711369,2794893,3133789]}],\"raid_wars\":[{\"raiding_faction\":51606,\"defending_faction\":51260,\"raider_score\":\"4168.87\",\"defender_score\":0,\"start_time\":1723608429}],\"peace\":{\"123456\":1729886758,\"123457\":1729900538},\"rank\":{\"level\":0,\"name\":\"Unranked\",\"division\":0,\"position\":0,\"wins\":1337},\"members\":{\"1\":{\"name\":\"PlayerOne\",\"level\":59,\"days_in_faction\":310,\"last_action\":{\"status\":\"Offline\",\"timestamp\":1729886758,\"relative\":\"12 minutes ago\"},\"status\":{\"description\":\"Traveling to Canada\",\"details\":\"\",\"state\":\"Traveling\",\"color\":\"blue\",\"until\":0},\"position\":\"Leader\"},\"2\":{\"name\":\"PlayerTwo\",\"level\":46,\"days_in_faction\":127,\"last_action\":{\"status\":\"Online\",\"timestamp\":1729885788,\"relative\":\"1 hour ago\"},\"status\":{\"description\":\"In hospital for 5 hrs 23 mins \",\"details\":\"Hospitalized by someone\",\"state\":\"Hospital\",\"color\":\"red\",\"until\":1729906255},\"position\":\"CoLeader\"}}}");
 
@@ -203,21 +202,21 @@ class FactionMapperTest {
 
     @Test
     @Disabled("No faction API Access, unable to implement.")
-    void ofBoosters() throws JsonProcessingException {
+    void ofBoosters() {
     }
 
     @Test
     @Disabled("No faction API Access, unable to implement.")
-    void ofCesium() throws JsonProcessingException {
+    void ofCesium() {
     }
 
     @Test
     @Disabled("No faction API Access, unable to implement.")
-    void ofChainReport() throws JsonProcessingException {
+    void ofChainReport() {
     }
 
     @Test
-    void ofChains() throws JsonProcessingException {
+    void ofChains() {
         ObjectMapper objectMapper = new ObjectMapper();
         JsonNode jsonNode = objectMapper.readTree("{\"chain\":{\"current\":1417,\"max\":2500,\"timeout\":180,\"modifier\":1.54,\"cooldown\":0,\"start\":1729863272,\"end\":1729889147}}");
 
@@ -238,69 +237,69 @@ class FactionMapperTest {
 
     @Disabled("Not yet implemented.")
     @Test
-    void ofChain() throws JsonProcessingException {
+    void ofChain() {
     }
 
     @Test
     @Disabled("No faction API Access, unable to implement.")
-    void ofContributors() throws JsonProcessingException {
+    void ofContributors() {
     }
 
     @Test
     @Disabled("No faction API Access, unable to implement.")
-    void ofCrimeNews() throws JsonProcessingException {
+    void ofCrimeNews() {
     }
 
     @Test
     @Disabled("No faction API Access, unable to implement.")
-    void ofCrimes() throws JsonProcessingException {
+    void ofCrimes() {
     }
 
     @Test
     @Disabled("No faction API Access, unable to implement.")
-    void ofCurrency() throws JsonProcessingException {
+    void ofCurrency() {
     }
 
     @Test
     @Disabled("No faction API Access, unable to implement.")
-    void ofDonations() throws JsonProcessingException {
+    void ofDonations() {
     }
 
     @Test
     @Disabled("No faction API Access, unable to implement.")
-    void ofDrugs() throws JsonProcessingException {
+    void ofDrugs() {
     }
 
     @Test
     @Disabled("No faction API Access, unable to implement.")
-    void ofFundsNews() throws JsonProcessingException {
+    void ofFundsNews() {
     }
 
     @Test
     @Disabled("No faction API Access, unable to implement.")
-    void ofMainNews() throws JsonProcessingException {
+    void ofMainNews() {
     }
 
     @Test
     @Disabled("No faction API Access, unable to implement.")
-    void ofMedical() throws JsonProcessingException {
+    void ofMedical() {
     }
 
     @Test
     @Disabled("No faction API Access, unable to implement.")
-    void ofMembershipNews() throws JsonProcessingException {
+    void ofMembershipNews() {
     }
 
     @Test
     @Disabled("No faction API Access, unable to implement.")
-    void ofPositions() throws JsonProcessingException {
+    void ofPositions() {
     }
-    
+
     @Test
-    void ofRankedWar() throws JsonProcessingException {
+    void ofRankedWar() {
         ObjectMapper objectMapper = new ObjectMapper();
         JsonNode jsonNode = objectMapper.readTree("{\"rankedwars\": {\"1337\": {\"factions\": {\"1\": {\"name\": \"Faction One\",\"score\": 7781,\"chain\": 744},\"2\": {\"name\": \"Faction Two\",\"score\": 2385,\"chain\": 1384}},\"war\": {\"start\": 1647730800,\"end\": 1647822076,\"target\": 5390,\"winner\": 45835}}}}");
-        
+
         List<RankedWar> rankedWar = FactionMapper.ofRankedWar(jsonNode);
 
         SoftAssertions softly = new SoftAssertions();
@@ -322,47 +321,47 @@ class FactionMapperTest {
 
     @Test
     @Disabled("No faction API Access, unable to implement.")
-    void ofReports() throws JsonProcessingException {
+    void ofReports() {
     }
 
     @Test
     @Disabled("No faction API Access, unable to implement.")
-    void ofRevivesFull() throws JsonProcessingException {
+    void ofRevivesFull() {
     }
 
     @Test
     @Disabled("No faction API Access, unable to implement.")
-    void ofRevives() throws JsonProcessingException {
+    void ofRevives() {
     }
 
     @Test
     @Disabled("No faction API Access, unable to implement.")
-    void ofStats() throws JsonProcessingException {
+    void ofStats() {
     }
 
     @Test
     @Disabled("No faction API Access, unable to implement.")
-    void ofTemporary() throws JsonProcessingException {
+    void ofTemporary() {
     }
 
     @Test
     @Disabled("No faction API Access, unable to implement.")
-    void ofTerritoryNews() throws JsonProcessingException {
+    void ofTerritoryNews() {
     }
 
     @Disabled("Not yet implemented.")
     @Test
-    void ofTerritory() throws JsonProcessingException {
+    void ofTerritory() {
     }
 
     @Test
     @Disabled("No faction API Access, unable to implement.")
-    void ofUpgrades() throws JsonProcessingException {
+    void ofUpgrades() {
     }
 
     @Test
     @Disabled("No faction API Access, unable to implement.")
-    void ofWeapons() throws JsonProcessingException {
+    void ofWeapons() {
     }
 
 }

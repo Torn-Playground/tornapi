@@ -1,6 +1,6 @@
 package eu.tornplayground.tornapi.models.converters;
 
-import com.fasterxml.jackson.databind.util.StdConverter;
+import tools.jackson.databind.util.StdConverter;
 
 import java.time.Duration;
 
