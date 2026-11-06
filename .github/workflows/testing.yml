@@ -18,20 +18,26 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        # test all supported LTS versions
+        java: [ '21', '25' ]
 
     steps:
       - uses: actions/checkout@v7
 
-      - name: Set up JDK 21
+      - name: Set up JDK ${{ matrix.java }}
         uses: actions/setup-java@v6
         with:
-          java-version: '21.0.13+9.0.LTS'
+          java-version: ${{ matrix.java }}
           distribution: 'temurin'
 
       - name: Restore Maven cache
         uses: skjolber/maven-cache-github-action@v3.1.2
         with:
           step: restore
+          cache-key-prefix: maven-${{ matrix.java }}
 
       - name: Build with Maven
         run: mvn -B verify --file pom.xml
@@ -40,3 +46,4 @@ jobs:
         uses: skjolber/maven-cache-github-action@v3.1.2
         with:
           step: save
+          cache-key-prefix: maven-${{ matrix.java }}

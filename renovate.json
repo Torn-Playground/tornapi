@@ -4,5 +4,13 @@
     "config:recommended",
     ":disableDependencyDashboard",
     ":automergeMinor"
+  ],
+  "packageRules": [
+    {
+      "description": "CI JDK lines are pinned by hand: 21 is the release target, 25 is the forward-compat test. Never bump the major (nor rewrite the bare versions).",
+      "matchManagers": ["github-actions"],
+      "matchDepNames": ["java-jdk"],
+      "enabled": false
+    }
   ]
 }
